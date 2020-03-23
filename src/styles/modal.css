@@ -1,0 +1,9 @@
+.modall {
+text-align: center;
+padding: 0!important;
+content: '';
+display: inline-block;
+height: 100%;
+vertical-align: middle;
+display: inline-block;
+}
