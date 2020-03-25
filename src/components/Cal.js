@@ -13,7 +13,6 @@ const Cal =(props)=>{
 
   const handleSelect = (event) => {
     setModalShow(true)
-    console.log("hi")
     console.log(event)
     setEvent(event)
 
@@ -23,6 +22,24 @@ const Cal =(props)=>{
     //setRedirect(true)
     props.history.push({
       pathname: '/updatecourse',
+      state: {
+        course: course
+      }
+    })
+  }
+  function add (course) {
+    //setRedirect(true)
+    props.history.push({
+      pathname: '/addtrainer',
+      state: {
+        course: course
+      }
+    })
+  }
+  function remove (course) {
+    //setRedirect(true)
+    props.history.push({
+      pathname: '/removetrainer',
       state: {
         course: course
       }
@@ -96,24 +113,32 @@ const Cal =(props)=>{
           aria-labelledby="contained-modal-title-vcenter"
           centered
         >
-          <Modal.Header>
-            <Modal.Title id="contained-modal-title-vcenter">
-              Course Information
-            </Modal.Title>
-          </Modal.Header>
           <Modal.Body>
-            <h4>{course.title}</h4>
-            <p>description {course.description}</p>
-            <p>start time {course.startDate + " " + course.startTime}</p>
-            <p>end time {course.endDate + " " + course.endTime}</p>
-            <p>frequency {course.frequency}</p>  
-            <p>author {course.author}</p>
-            
+            <div className="card">
+                <div className="card-content">
+                    <span className="card-title">Title: {course.title}</span>
+                    <p>Description: {course.description}</p>
+                    <p>Frequency: {course.frequency}</p><br/>
+                    <p>Start: {course.startDate+" "+course.startTime}</p>
+                    <p>End: {course.endDate+" "+course.endTime}</p><br/>
+                    <p>Assigned Trainers: </p>
+                    {/* {currentTrainers && currentTrainers.map(trainer => {
+                        return(
+                            <p>{trainer.firstName + " " + trainer.lastName}</p>
+                        )
+                    })}<br/> */}
+                    <p>Created by: {course.author}</p><br/>
+                </div>  
+            </div>
           </Modal.Body>
-          <Modal.Footer>
-            <Button onClick={(event)=>update(course)}>Update Course</Button><br/>
+          
+          <div className="footer">
+            <Button onClick={(event)=>remove(course)}>Remove Trainer</Button>
+            <Button onClick={(event)=>add(course)}>Add Trainer</Button>
+            <Button onClick={(event)=>update(course)}>Update Course</Button>
             <Button onClick={props.onHide}>Close</Button>
-          </Modal.Footer>
+          </div>
+          
         </Modal>
       );   
     }

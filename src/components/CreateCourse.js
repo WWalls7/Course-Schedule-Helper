@@ -12,8 +12,8 @@ class CreateCourse extends Component {
         endDate: '',
         endTime: '',
         frequency: 0,
-        trainers: [],
-        skills: [],
+        trainers: '',
+        skills: '',
         selected: false,
         trainer: false
     }
@@ -32,6 +32,11 @@ class CreateCourse extends Component {
             })
         }
     }
+    handleSubmit = (e) => {
+        e.preventDefault();
+        this.props.createCourse(this.state)
+        this.props.history.push('/')
+    }
     getDate = () => {
         var date = new Date();
 
@@ -44,11 +49,6 @@ class CreateCourse extends Component {
 
         var today = year + "-" + month + "-" + day;       
         return today;
-    }
-    handleSubmit = (e) => {
-        e.preventDefault();
-        this.props.createCourse(this.state)
-        this.props.history.push('/')
     }
     getTrainers = (users) =>{
         var trainers = []
@@ -84,16 +84,17 @@ class CreateCourse extends Component {
     getBlockedTimes = (trainer, courses) => {
         var times =[]
         courses && courses.forEach(course => {
-            if(course.trainers === trainer){
+            if(course.trainers.includes(trainer)){
                 times.push(course.startDate + " at " + course.startTime + " to " +
                 course.endDate + " at " + course.endTime)
             }
         });
         return times
     }
-
     render() {
         const {auth, users, courses} = this.props;
+        const trainers = this.getTrainers(users)
+        const skills = this.skills(trainers)  
         if (!auth.uid) return <Redirect to='/signin' />
         return (
             <div className="container">
@@ -118,7 +119,7 @@ class CreateCourse extends Component {
                         <label>Choose a Skill</label><br/><br/>
                         <select id="skills" className="browser-default" onChange={this.handleChange} required>
                             <option value='' disabled selected></option>
-                            {this.skills(this.getTrainers(users)).map(skill => {
+                            {skills.map(skill => {
                                 return (
                                     <option value={skill}>{skill}</option>
                                 )

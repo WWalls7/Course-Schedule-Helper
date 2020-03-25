@@ -10,7 +10,7 @@ import TrainerDashboard from './components/TrainerDashboard'
 import Updates from './components/Updates'
 import UpdateCourse from './components/UpdateCourse'
 import AddTrainer from './components/AddTrainer';
-import removeTrainer from './components/removeTrainer';
+import RemoveTrainer from './components/RemoveTrainer';
 
 function App() {
   return (
@@ -26,7 +26,7 @@ function App() {
           <Route path='/updates' component={Updates}/>
           <Route path='/updatecourse' component={UpdateCourse}/>
           <Route path='/addtrainer' component={AddTrainer}/>
-          <Route path='/removetrainer' component={removeTrainer}/>
+          <Route path='/removetrainer' component={RemoveTrainer}/>
         </Switch>
       </div>
     </Router>

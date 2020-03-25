@@ -8,13 +8,14 @@ class AddTrainer extends Component {
         id: this.props.location.state.course.id,
         title: this.props.location.state.course.title,
         description: this.props.location.state.course.description,
-        startDate: this.props.location.state.startDate,
-        startTime: this.props.location.state.startTime,
-        endDate: this.props.location.state.endDate,
-        endTime: this.props.location.state.endTime,
+        startDate: this.props.location.state.course.startDate,
+        startTime: this.props.location.state.course.startTime,
+        endDate: this.props.location.state.course.endDate,
+        endTime: this.props.location.state.course.endTime,
         frequency: this.props.location.state.course.frequency,
-        skills: this.props.location.state.course.skills,
+        skills: '',
         trainers: this.props.location.state.course.trainers,
+        newTrainer: '',
         selected: false,
         trainer: false
     }
@@ -27,7 +28,7 @@ class AddTrainer extends Component {
                 selected: true
             })
         }
-        if(e.target.id === "trainers"){
+        if(e.target.id === "newTrainer"){
             this.setState({
                 trainer: true
             })
@@ -35,6 +36,7 @@ class AddTrainer extends Component {
     }
     handleSubmit = (e) => {
         e.preventDefault();
+        console.log(this.state)
         this.props.addTrainer(this.state)
         this.props.history.push('/')
     }
@@ -54,11 +56,36 @@ class AddTrainer extends Component {
     getTrainers = (users) =>{
         var trainers = []
         users && users.forEach(user => {
-            if(user.userType === "trainer" && !this.state.trainers.includes(user)){
+            if(user.userType === "trainer"){
                 trainers.push(user)
             }
         })
         return trainers
+    }
+    getAssignedTrainers(trainers, currentTrainers){
+        var assigned = []
+        currentTrainers.forEach(id => {
+            for(var i=0; i< trainers.length; i++){
+                if (trainers[i].id === id){assigned.push(trainers[i])}
+            }
+        });
+        return assigned
+    }
+    getNotAssignedTrainers(trainers, currentTrainers){
+        var not = []
+        var notFound
+        trainers.forEach(trainer => {
+            notFound = true
+            currentTrainers.forEach(ctrainer => {
+                if(trainer.id === ctrainer.id){
+                    notFound = false
+                }
+            });
+            if(notFound){
+                not.push(trainer)
+            }
+        });
+        return not 
     }
     skills = (trainers) => {
         var skills =[]
@@ -85,56 +112,62 @@ class AddTrainer extends Component {
     getBlockedTimes = (trainer, courses) => {
         var times =[]
         courses && courses.forEach(course => {
-            if(course.trainers === trainer){
+            if(course.trainers.includes(trainer)){
                 times.push(course.startDate + " at " + course.startTime + " to " +
                 course.endDate + " at " + course.endTime)
             }
         });
         return times
     }
-
     render() {
-        console.log(this.props)
         const {auth, users, courses} = this.props;
+        const trainers = this.getTrainers(users) 
         const course = this.props.location.state.course
-        console.log(users)
+        const currentTrainers = this.getAssignedTrainers(trainers, this.state.trainers) 
+        const notAssignedTrainers = this.getNotAssignedTrainers(trainers, currentTrainers)
         
-
         if (!auth.uid) return <Redirect to='/signin' />
         return (
             <div className="container">
             <div className="card">
+                
                 <div className="card-content">
                     <span className="card-title">Title: {this.state.title}</span>
                     <p>Description: {this.state.description}</p>
                     <p>Frequency: {this.state.frequency}</p><br/>
-                    <p>Start Date: {course.startDate+" "+course.startTime}</p>
-                    <p>End Date: {course.endDate+" "+course.endTime}</p><br/>
+                    <p>Start: {this.state.startDate+" "+this.state.startTime}</p>
+                    <p>End: {this.state.endDate+" "+this.state.endTime}</p><br/>
                     <p>Assigned Trainers: </p>
+                    {currentTrainers && currentTrainers.map(trainer => {
+                        return(
+                            <p>{trainer.firstName + " " + trainer.lastName}</p>
+                        )
+                    })}<br/>
                     <p>Created by: {course.author}</p><br/>
                 </div>
+                
             </div>
                 <form onSubmit={this.handleSubmit} className="white">
                     <h5 className="grey-text text-darken-3">Add Trainer</h5>
-                    
+
                     <div className="input-field">
                         <label>Choose a Skill</label><br/><br/>
                         <select id="skills" className="browser-default" onChange={this.handleChange} required>
                             <option value='' disabled selected></option>
-                            {this.skills(this.getTrainers(users)).map(skill => {
+                            {this.skills(notAssignedTrainers).map(skill => {
                                 return (
                                     <option value={skill}>{skill}</option>
                                 )
                             })}
                         </select>
                     </div>
-
+                    
                     {this.state.selected &&
                         <div className="input-field">
                             <label>Choose a Trainer</label><br/><br/>
-                            <select id="trainers" className="browser-default" onChange={this.handleChange} required>
-                                <option value='' disabled selected></option>
-                                {this.trainersWithSkill(this.state.skills, this.getTrainers(users)).map(trainer => {
+                            <select id="newTrainer" className="browser-default" onChange={this.handleChange} required>
+                                <option value='' selected></option>
+                                {this.trainersWithSkill(this.state.skills, notAssignedTrainers).map(trainer => {
                                     return (
                                         <option value={trainer.id}>{trainer.firstName + " " + trainer.lastName}</option>
                                     )
@@ -149,10 +182,20 @@ class AddTrainer extends Component {
                             <h5 className="grey-text text-darken-3">Choose a Time</h5>
                             <p>This trainer is unavailable during these times:</p>
                             <ul>
-                                {this.getBlockedTimes(this.state.trainers, courses).map(time => {
+                                {this.getBlockedTimes(this.state.newTrainer, courses).map(time => {
                                     return (
                                         <li>{time}</li>
                                     )
+                                })}
+                            </ul>
+                            <p>The other trainers are not available during these times:</p>
+                            <ul>
+                                {currentTrainers && currentTrainers.map(trainer => {
+                                    this.getBlockedTimes(trainer, courses).map(time => {
+                                        return (
+                                            <li>{time}</li>
+                                        )
+                                    })
                                 })}
                             </ul>
                         </div>
@@ -160,29 +203,29 @@ class AddTrainer extends Component {
                         <div className="input-field">
                         <label htmlFor="startDate">Start date</label><br/><br/>
                         <input type="date" id="startDate" min={this.getDate()}
-                            onChange={this.handleChange} required></input> 
+                            onChange={this.handleChange} ></input> 
                         </div>
 
                         <div className="input-field">
                             <label htmlFor="startTime">Start Time (ex: 14:30)</label>
-                            <input type="text" id="startTime" onChange={this.handleChange} required></input>
+                            <input type="text" id="startTime" onChange={this.handleChange} ></input>
                         </div>
 
                         <div className="input-field">
                             <label htmlFor="endDate">End date</label><br/><br/>
                             <input type="date" id="endDate" min={this.getDate()}
-                                onChange={this.handleChange} required></input>
+                                onChange={this.handleChange} ></input>
                         </div>
 
                         <div className="input-field">
                             <label htmlFor="endTime">End Time (ex: 15:30)</label>
-                            <input type="text" id="endTime" onChange={this.handleChange} required></input>
+                            <input type="text" id="endTime" onChange={this.handleChange} ></input>
                         </div></>
 
                     }
 
                     <div className="input-field">
-                        <button className="btn blue lighten-1">Update</button>
+                        <button className="btn blue lighten-1">Add Trainer</button>
                     </div>
 
                 </form>
