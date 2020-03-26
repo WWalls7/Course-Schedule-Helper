@@ -6,8 +6,9 @@ import { signOut } from '../store/authActions';
 const TrainerLinks = (props) => {
     return(
         <ul className="right">
+            <li><NavLink to='/contact'>Contact Information</NavLink></li>
             <li><a onClick={props.signOut}>Log Out</a></li>
-            <li><NavLink to='/' className='btn btn-floating blue lighten-1'>
+            <li><NavLink to='/profile' className='btn btn-floating blue lighten-1'>
             {props.profile.initials}
             </NavLink></li>
         </ul>

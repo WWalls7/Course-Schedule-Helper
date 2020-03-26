@@ -27,6 +27,12 @@ const courseReducer = (state = initState, action) => {
         case 'REMOVE_TRAINER_ERROR':
             console.log('error removing trainer', action.err);
             return state;
+        case 'DELETE_COURSE':
+            console.log('deleted course', action.course);
+            return state;
+        case 'DELETE_COURSE_ERROR':
+            console.log('error deleting course', action.err);
+            return state;
         default:
             return state;
     }

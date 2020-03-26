@@ -16,16 +16,25 @@ class RemoveTrainer extends Component {
         skills: this.props.location.state.course.skills,
         trainers: this.props.location.state.course.trainers,
         trainer: ''
+       // removable: false
     }
     handleChange = (e) => {
         this.setState({
-          [e.target.id]: e.target.value  
+          [e.target.id]: e.target.value, 
+          removable: true
         })
     }
     handleSubmit = (e) => {
         e.preventDefault();
-        this.props.removeTrainer(this.state)
-        this.props.history.push('/')
+       // if(this.state.removable){
+            this.props.removeTrainer(this.state)
+            this.props.history.push('/')
+       // }
+        // else{
+        //     console.log("buster")
+        //     this.props.history.push('/addtrainer')
+        //     // this.props.history.push({pathname: '/addtrainer', state: {course: this.state}})
+        // }
     }
     getTrainers = (users) =>{
         var trainers = []
@@ -45,13 +54,29 @@ class RemoveTrainer extends Component {
         });
         return assigned
     }
+    getRemovable(currentTrainers){
+        console.log(currentTrainers.length)
+        if(currentTrainers.length === 1 || currentTrainers.length === 0){
+            return 'You must have at least two trainers to remove'
+        }
+        else{
+            return ''
+        }
+    }
+    redirect(e, course){
+        // const course = this.state
+        return(<Redirect to={{
+            pathname: '/addtrainer',
+            state: { course: course}
+            }}
+        />)
+    }
     render() {
         const {auth, users, courses} = this.props;
         const course = this.props.location.state.course
         const trainers = this.getTrainers(users) 
         const currentTrainers = this.getAssignedTrainers(trainers, this.state.trainers)
-        
-
+        const removable = this.getRemovable(currentTrainers)
         if (!auth.uid) return <Redirect to='/signin' />
         return (
             <div className="container">
@@ -74,21 +99,32 @@ class RemoveTrainer extends Component {
                 <form onSubmit={this.handleSubmit} className="white">
                     <h5 className="grey-text text-darken-3">Remove Trainer</h5>
                     <div className="input-field">
+                        {removable === 'You must have at least two trainers to remove' &&
+                        <p>{removable}</p>}
+                    </div>
+                    {removable === '' &&
+                    <div className="input-field">
                         <label>Choose a Trainer</label><br/><br/>
                         <select id="trainer" className="browser-default" onChange={this.handleChange} required>
-                            <option value='' disabled selected></option>
+                            <option value="" disabled selected>{removable}</option>
                             {currentTrainers.map(trainer => {
                                 return (
                                     <option value={trainer.id}>{trainer.firstName + " " + trainer.lastName}</option>
                                 )
                             })}
-                        </select>
-                    </div>
+                        </select> 
+                    </div>}
 
-                    <div className="input-field">
-                        <button className="btn blue lighten-1">Remove Trainer</button>
-                    </div>
-
+                    {/* {removable === 'You must have at least two trainers to remove' &&
+                        <div className="input-field">
+                            <button className="btn blue lighten-1">Add Trainer</button>
+                        </div>
+                    } */}
+                    {removable === '' &&
+                        <div className="input-field">
+                            <button className="btn blue lighten-1">Remove Trainer</button>
+                        </div>
+                    }
                 </form>
             </div>
         )

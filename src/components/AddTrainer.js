@@ -2,6 +2,7 @@ import React, { Component } from 'react'
 import {connect} from 'react-redux'
 import {addTrainer} from '../store/courseActions'
 import {Redirect} from 'react-router-dom'
+import '../styles/form.css'
 
 class AddTrainer extends Component {
     state = {
@@ -208,7 +209,7 @@ class AddTrainer extends Component {
 
                         <div className="input-field">
                             <label htmlFor="startTime">Start Time (ex: 14:30)</label>
-                            <input type="text" id="startTime" onChange={this.handleChange} ></input>
+                            <input type="text" id="startTime" pattern="([01]?[0-9]|2[0-3]):[0-5][0-9]" onChange={this.handleChange} ></input>
                         </div>
 
                         <div className="input-field">
@@ -219,7 +220,7 @@ class AddTrainer extends Component {
 
                         <div className="input-field">
                             <label htmlFor="endTime">End Time (ex: 15:30)</label>
-                            <input type="text" id="endTime" onChange={this.handleChange} ></input>
+                            <input type="text" id="endTime" pattern="([01]?[0-9]|2[0-3]):[0-5][0-9]" onChange={this.handleChange} ></input>
                         </div></>
 
                     }

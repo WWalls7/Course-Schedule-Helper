@@ -11,6 +11,11 @@ import Updates from './components/Updates'
 import UpdateCourse from './components/UpdateCourse'
 import AddTrainer from './components/AddTrainer';
 import RemoveTrainer from './components/RemoveTrainer';
+import Contact from './components/Contact'
+import Delete from './components/Delete';
+import Profile from './components/Profile';
+import UpdateAccount from './components/UpdateAccount';
+
 
 function App() {
   return (
@@ -27,6 +32,10 @@ function App() {
           <Route path='/updatecourse' component={UpdateCourse}/>
           <Route path='/addtrainer' component={AddTrainer}/>
           <Route path='/removetrainer' component={RemoveTrainer}/>
+          <Route path='/contact' component={Contact}/>
+          <Route path='/deletecourse' component={Delete}/>
+          <Route path='/profile' component={Profile}/>
+          <Route path='/updateaccount' component={UpdateAccount}/>
         </Switch>
       </div>
     </Router>

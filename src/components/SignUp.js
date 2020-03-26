@@ -13,6 +13,7 @@ class SignUp extends Component {
         skills: [],
         skill: '',
         skillLvl: 0,
+        phoneNo: '',
         isTrainer: false
     }
     handleChange = (e) => {
@@ -24,7 +25,7 @@ class SignUp extends Component {
                 isTrainer: true
             })
         }
-        if(e.target.id === "userType" && e.target.value !== "trainer"){
+        else if(e.target.id === "userType" && e.target.value !== "trainer"){
             this.setState({
                 isTrainer: false
             })
@@ -53,7 +54,8 @@ class SignUp extends Component {
                 firstName: this.state.firstName,
                 lastName: this.state.lastName,
                 userType: this.state.userType,
-                skills: this.state.skills
+                skills: this.state.skills,
+                phoneNo: this.state.phoneNo
             }
             this.props.signUp(trainerState)
         }
@@ -63,11 +65,12 @@ class SignUp extends Component {
                 password: this.state.password,
                 firstName: this.state.firstName,
                 lastName: this.state.lastName,
-                userType: this.state.userType
+                userType: this.state.userType,
+                phoneNo: this.state.phoneNo
             }
             this.props.signUp(schedulerState)
         }
-        //this.props.history.push('/')
+        this.props.history.push('/')
     }
     render() {
         const {auth, authError} = this.props;
@@ -79,23 +82,27 @@ class SignUp extends Component {
                     <h5 className="grey-text text-darken-3">Sign Up</h5>
                     <div className="input-field">
                         <label htmlFor="firstName">First Name</label>
-                        <input type="text" id="firstName" onChange={this.handleChange}/>
+                        <input type="text" id="firstName" onChange={this.handleChange} required/>
                     </div>
                     <div className="input-field">
                         <label htmlFor="lastName">Last Name</label>
-                        <input type="text" id="lastName" onChange={this.handleChange}/>
+                        <input type="text" id="lastName" onChange={this.handleChange} required/>
+                    </div>
+                    <div className="input-field">
+                        <label htmlFor="phoneNo">Phone Number (ex: 12345 123456)</label>
+                        <input type="text" id="phoneNo" pattern="[0-9]{5} [0-9]{6}" onChange={this.handleChange} required/>
                     </div>
                     <div className="input-field">
                         <label htmlFor="email">Email</label>
-                        <input type="email" id="email" onChange={this.handleChange}/>
+                        <input type="email" id="email" onChange={this.handleChange} required/>
                     </div>
                     <div className="input-field">
                         <label htmlFor="password">Password</label>
-                        <input type="password" id="password" onChange={this.handleChange}/>
+                        <input type="password" id="password" onChange={this.handleChange} required/>
                     </div>
                     <div className="input-field">
                         <label>User Type</label><br/><br/>
-                        <select id="userType" className="browser-default" onChange={this.handleChange}>
+                        <select id="userType" className="browser-default" onChange={this.handleChange} required>
                             <option value="" disabled selected>Choose your user type</option>
                             <option value="scheduler">Scheduler</option>
                             <option value="trainer">Trainer</option>
@@ -133,7 +140,6 @@ class SignUp extends Component {
                         </div>
                     }
                     
-
                     <div className="input-field">
                         <button className="btn blue lighten-1">Sign Up</button>
                         <div className="center">

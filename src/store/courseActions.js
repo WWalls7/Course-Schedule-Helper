@@ -78,3 +78,15 @@ export const removeTrainer = (course) => {
         })
     }
 };
+
+export const deleteCourse = (course) => {
+    return (dispatch, getState, {getFirebase, getFirestore}) => {
+        //make async call to DB
+        const firestore = getFirestore();
+        firestore.collection('courses').doc(course.id).delete().then(() => {
+            dispatch({ type: 'DELETE_COURSE', course });
+        }).catch((err) => {
+            dispatch({ type: 'DELETE_COURSE_ERROR', err}); 
+        })
+    }
+};

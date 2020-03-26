@@ -2,6 +2,7 @@ import React, { Component } from 'react'
 import {connect} from 'react-redux'
 import {createCourse} from '../store/courseActions'
 import {Redirect} from 'react-router-dom'
+import '../styles/form.css'
 
 class CreateCourse extends Component {
     state = {
@@ -21,6 +22,7 @@ class CreateCourse extends Component {
         this.setState({
           [e.target.id]: e.target.value  
         })
+        console.log(e.target.value)
         if(e.target.id === "skills"){
             this.setState({
                 selected: true
@@ -163,7 +165,7 @@ class CreateCourse extends Component {
 
                         <div className="input-field">
                             <label htmlFor="startTime">Start Time (ex: 14:30)</label>
-                            <input type="text" id="startTime" onChange={this.handleChange} required></input>
+                            <input type="text" pattern="([01]?[0-9]|2[0-3]):[0-5][0-9]" id="startTime" onChange={this.handleChange} required></input>
                         </div>
 
                         <div className="input-field">
@@ -174,7 +176,7 @@ class CreateCourse extends Component {
 
                         <div className="input-field">
                             <label htmlFor="endTime">End Time (ex: 15:30)</label>
-                            <input type="text" id="endTime" onChange={this.handleChange} required></input>
+                            <input type="text" pattern="([01]?[0-9]|2[0-3]):[0-5][0-9]" id="endTime" onChange={this.handleChange} required></input>
                         </div></>
 
                     }

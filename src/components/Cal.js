@@ -15,7 +15,17 @@ const Cal =(props)=>{
     setModalShow(true)
     console.log(event)
     setEvent(event)
+  }
 
+  const getAssignedTrainers = (currentTrainers) => {
+    var assigned = []
+    var trainers = props.trainers
+    currentTrainers && currentTrainers.forEach(id => {
+        for(var i=0; i< trainers.length; i++){
+            if (trainers[i].id === id){assigned.push(trainers[i])}
+        }
+    });
+    return assigned
   }
 
   function update (course) {
@@ -40,6 +50,15 @@ const Cal =(props)=>{
     //setRedirect(true)
     props.history.push({
       pathname: '/removetrainer',
+      state: {
+        course: course
+      }
+    })
+  }
+  function deleteCourse (course) {
+    //setRedirect(true)
+    props.history.push({
+      pathname: '/deleteCourse',
       state: {
         course: course
       }
@@ -105,14 +124,17 @@ const Cal =(props)=>{
 
     function MyVerticallyCenteredModal (props) {
       var course = props.course
+      var trainers = getAssignedTrainers(course.trainers)
+
       return (
         <Modal
-          className="modall"
+          className="modal"
           {...props}
           size="lg"
           aria-labelledby="contained-modal-title-vcenter"
           centered
         >
+          <Button className="close" onClick={props.onHide}>x</Button>
           <Modal.Body>
             <div className="card">
                 <div className="card-content">
@@ -122,26 +144,27 @@ const Cal =(props)=>{
                     <p>Start: {course.startDate+" "+course.startTime}</p>
                     <p>End: {course.endDate+" "+course.endTime}</p><br/>
                     <p>Assigned Trainers: </p>
-                    {/* {currentTrainers && currentTrainers.map(trainer => {
-                        return(
-                            <p>{trainer.firstName + " " + trainer.lastName}</p>
-                        )
-                    })}<br/> */}
+                    <ul>
+                      {trainers && trainers.map(trainer => {
+                        return <li>{trainer.firstName+" "+trainer.lastName}</li>
+                      })}
+                    </ul>
                     <p>Created by: {course.author}</p><br/>
                 </div>  
             </div>
           </Modal.Body>
           
           <div className="footer">
-            <Button onClick={(event)=>remove(course)}>Remove Trainer</Button>
-            <Button onClick={(event)=>add(course)}>Add Trainer</Button>
-            <Button onClick={(event)=>update(course)}>Update Course</Button>
-            <Button onClick={props.onHide}>Close</Button>
+            <Button className="button" onClick={(event)=>remove(course)}>Remove Trainer</Button>
+            <Button className="button" onClick={(event)=>add(course)}>Add Trainer</Button>
+            <Button className="button" onClick={(event)=>update(course)}>Update Course</Button>
+            <Button className="button" onClick={(event)=>deleteCourse(course)}>Delete Course</Button>
           </div>
           
         </Modal>
       );   
     }
 }
+
 
 export default Cal

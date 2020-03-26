@@ -37,7 +37,9 @@ export const signUp = (newUser) => {
                     lastName: newUser.lastName,
                     initials: newUser.firstName[0] + newUser.lastName[0],
                     userType: newUser.userType,
-                    skills: newUser.skills
+                    skills: newUser.skills,
+                    email: newUser.email,
+                    phoneNo: newUser.phoneNo
                 })
             }
             else {
@@ -45,13 +47,41 @@ export const signUp = (newUser) => {
                     firstName: newUser.firstName,
                     lastName: newUser.lastName,
                     initials: newUser.firstName[0] + newUser.lastName[0],
-                    userType: newUser.userType
+                    userType: newUser.userType,
+                    email: newUser.email,
+                    phoneNo: newUser.phoneNo
                 })
             }
         }).then(() => {
             dispatch({type: 'SIGNUP_SUCCESS'})
         }).catch(err => {
             dispatch({type: 'SIGNUP_ERROR', err})
+        })
+    }
+}
+
+export const updateProfile = (user) => {
+    return (dispatch, getState, {getFirebase, getFirestore}) => {
+        const firebase = getFirebase();
+        const firestore = getFirestore();
+        const userInfo = ''
+        if (user.userType === "trainer"){
+            userInfo = {firstName: user.firstName,
+            lastName: user.lastName,
+            skills: user.skills,
+            phoneNo: user.phoneNo}
+        }
+        else {
+            userInfo= {firstName: user.firstName,
+            lastName: user.lastName,
+            phoneNo: user.phoneNo}
+        }
+        firestore.collection('users').doc(user.id).update({
+            userInfo
+        }).then(() => {
+            dispatch({ type: 'UPDATE_PROFILE'});
+        }).catch((err) => {
+            dispatch({ type: 'UPDATE_PROFILE_ERROR', err}); 
         })
     }
 }

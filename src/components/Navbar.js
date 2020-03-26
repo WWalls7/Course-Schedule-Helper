@@ -20,6 +20,8 @@ class Navbar extends Component {
     render(){
         const {auth, profile} = this.props;
         const links = this.checkUser(auth, profile)
+        console.log(profile)
+        console.log(auth)
         return(
             <nav>
                 <div className="nav-wrapper grey darken-3">
