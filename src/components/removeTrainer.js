@@ -117,7 +117,7 @@ class RemoveTrainer extends Component {
 
                     {/* {removable === 'You must have at least two trainers to remove' &&
                         <div className="input-field">
-                            <button className="btn blue lighten-1">Add Trainer</button>
+                            <button type="button" onClick={} className="btn blue lighten-1">Add Trainer</button>
                         </div>
                     } */}
                     {removable === '' &&
