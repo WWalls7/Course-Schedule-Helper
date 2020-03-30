@@ -1,6 +1,6 @@
 import React, { Component } from 'react'
 import {connect} from 'react-redux'
-import {removeTrainer} from './courseActions'
+import {removeTrainer} from '../store/courseActions'
 import {Redirect} from 'react-router-dom'
 
 class RemoveTrainer extends Component {
