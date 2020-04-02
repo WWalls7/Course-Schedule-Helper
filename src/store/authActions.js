@@ -64,24 +64,28 @@ export const updateProfile = (user) => {
     return (dispatch, getState, {getFirebase, getFirestore}) => {
         const firebase = getFirebase();
         const firestore = getFirestore();
-        const userInfo = ''
         if (user.userType === "trainer"){
-            userInfo = {firstName: user.firstName,
-            lastName: user.lastName,
-            skills: user.skills,
-            phoneNo: user.phoneNo}
+            firestore.collection('users').doc(user.id).update({
+                firstName: user.firstName,
+                lastname: user.lastName,
+                phoneNo:user.phoneNo,
+                skills: user.skills
+            }).then(() => {
+                dispatch({ type: 'UPDATE_PROFILE'});
+            }).catch((err) => {
+                dispatch({ type: 'UPDATE_PROFILE_ERROR', err}); 
+            })
         }
-        else {
-            userInfo= {firstName: user.firstName,
-            lastName: user.lastName,
-            phoneNo: user.phoneNo}
+        else{
+            firestore.collection('users').doc(user.id).update({
+                firstName: user.firstName,
+                lastname: user.lastName,
+                phoneNo:user.phoneNo
+            }).then(() => {
+                dispatch({ type: 'UPDATE_PROFILE'});
+            }).catch((err) => {
+                dispatch({ type: 'UPDATE_PROFILE_ERROR', err}); 
+            })
         }
-        firestore.collection('users').doc(user.id).update({
-            userInfo
-        }).then(() => {
-            dispatch({ type: 'UPDATE_PROFILE'});
-        }).catch((err) => {
-            dispatch({ type: 'UPDATE_PROFILE_ERROR', err}); 
-        })
     }
 }

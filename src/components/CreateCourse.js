@@ -93,6 +93,15 @@ class CreateCourse extends Component {
         });
         return times
     }
+    minEndTime = () => {
+        if(this.state.startTime.match(/([01]?[0-9]|2[0-3]):[0-5][0-9]/) === null){return}
+        var hour = this.state.startTime.split(":")[0]
+        var minute = this.state.startTime.split(":")[1]
+        if(hour.charAt(1) === null){
+            return "["+hour.charAt(0)+"-9]:["+minute.charAt(0)+"-5]["+minute.charAt(1)+"-9]"
+        }
+        return "["+hour.charAt(0)+"-9]["+hour.charAt(1)+"-3]:["+minute.charAt(0)+"-5]["+minute.charAt(1)+"-9]"
+    }
     render() {
         const {auth, users, courses} = this.props;
         const trainers = this.getTrainers(users)
@@ -170,13 +179,13 @@ class CreateCourse extends Component {
 
                         <div className="input-field">
                             <label htmlFor="endDate">End date</label><br/><br/>
-                            <input type="date" id="endDate" min={this.getDate()}
+                            <input type="date" id="endDate" min={this.state.startDate}
                                 onChange={this.handleChange} required></input>
                         </div>
 
                         <div className="input-field">
-                            <label htmlFor="endTime">End Time (ex: 15:30)</label>
-                            <input type="text" pattern="([01]?[0-9]|2[0-3]):[0-5][0-9]" id="endTime" onChange={this.handleChange} required></input>
+                            <label htmlFor="endTime">End Time (after start time)</label>
+                            <input type="text" pattern={this.minEndTime()} id="endTime" onChange={this.handleChange} required></input>
                         </div></>
 
                     }

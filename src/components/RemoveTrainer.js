@@ -63,13 +63,14 @@ class RemoveTrainer extends Component {
             return ''
         }
     }
-    redirect(e, course){
-        // const course = this.state
-        return(<Redirect to={{
+    redirect = () =>{
+        console.log(this.props)
+        this.props.history.push({
             pathname: '/addtrainer',
-            state: { course: course}
-            }}
-        />)
+            state: {
+              course: this.state
+            }
+          })
     }
     render() {
         const {auth, users, courses} = this.props;
@@ -115,11 +116,11 @@ class RemoveTrainer extends Component {
                         </select> 
                     </div>}
 
-                    {/* {removable === 'You must have at least two trainers to remove' &&
+                    {removable === 'You must have at least two trainers to remove' &&
                         <div className="input-field">
-                            <button type="button" onClick={} className="btn blue lighten-1">Add Trainer</button>
+                            <button type="button" onClick={this.redirect} className="btn blue lighten-1">Add Trainer</button>
                         </div>
-                    } */}
+                    }
                     {removable === '' &&
                         <div className="input-field">
                             <button className="btn blue lighten-1">Remove Trainer</button>

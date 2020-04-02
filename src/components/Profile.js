@@ -17,7 +17,7 @@ class Profile extends Component {
                     <div className="card-content">
                         <h4 className="card-title">Your Profile</h4>
                         <span className="card-title">Name: {profile.firstName+" "+profile.lastName}</span>
-                        <p>Email: {profile.email}</p>
+                        <p>Email: {auth.email}</p>
                         <p>Phone Number: {profile.phoneNo}</p>
                         <p>Account Type: {profile.userType}</p>
                         {profile.userType === "trainer" &&

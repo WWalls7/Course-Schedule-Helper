@@ -25,7 +25,7 @@ class Navbar extends Component {
         return(
             <nav>
                 <div className="nav-wrapper grey darken-3">
-                    <Link to='/' className="brand-logo">App</Link>
+                    <Link to='/' className="brand-logo">Course Schedule Helper</Link>
                     {auth.isLoaded && links}
                 </div>
             </nav>

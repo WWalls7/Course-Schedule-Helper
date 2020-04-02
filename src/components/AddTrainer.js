@@ -16,9 +16,7 @@ class AddTrainer extends Component {
         frequency: this.props.location.state.course.frequency,
         skills: '',
         trainers: this.props.location.state.course.trainers,
-        newTrainer: '',
-        selected: false,
-        trainer: false
+        selected: false
     }
     handleChange = (e) => {
         this.setState({
@@ -29,30 +27,12 @@ class AddTrainer extends Component {
                 selected: true
             })
         }
-        if(e.target.id === "newTrainer"){
-            this.setState({
-                trainer: true
-            })
-        }
     }
     handleSubmit = (e) => {
         e.preventDefault();
         console.log(this.state)
         this.props.addTrainer(this.state)
         this.props.history.push('/')
-    }
-    getDate = () => {
-        var date = new Date();
-
-        var day = date.getDate();
-        var month = date.getMonth() + 1;
-        var year = date.getFullYear();
-
-        if (month < 10) month = "0" + month;
-        if (day < 10) day = "0" + day;
-
-        var today = year + "-" + month + "-" + day;       
-        return today;
     }
     getTrainers = (users) =>{
         var trainers = []
@@ -110,16 +90,6 @@ class AddTrainer extends Component {
         });
         return trainersWithSkill
     }
-    getBlockedTimes = (trainer, courses) => {
-        var times =[]
-        courses && courses.forEach(course => {
-            if(course.trainers.includes(trainer)){
-                times.push(course.startDate + " at " + course.startTime + " to " +
-                course.endDate + " at " + course.endTime)
-            }
-        });
-        return times
-    }
     render() {
         const {auth, users, courses} = this.props;
         const trainers = this.getTrainers(users) 
@@ -176,55 +146,7 @@ class AddTrainer extends Component {
                             </select>
                         </div>
                     }
-
-                    {this.state.trainer &&
-                        <>
-                        <div className="input-field">
-                            <h5 className="grey-text text-darken-3">Choose a Time</h5>
-                            <p>This trainer is unavailable during these times:</p>
-                            <ul>
-                                {this.getBlockedTimes(this.state.newTrainer, courses).map(time => {
-                                    return (
-                                        <li>{time}</li>
-                                    )
-                                })}
-                            </ul>
-                            <p>The other trainers are not available during these times:</p>
-                            <ul>
-                                {currentTrainers && currentTrainers.map(trainer => {
-                                    this.getBlockedTimes(trainer, courses).map(time => {
-                                        return (
-                                            <li>{time}</li>
-                                        )
-                                    })
-                                })}
-                            </ul>
-                        </div>
-
-                        <div className="input-field">
-                        <label htmlFor="startDate">Start date</label><br/><br/>
-                        <input type="date" id="startDate" min={this.getDate()}
-                            onChange={this.handleChange} ></input> 
-                        </div>
-
-                        <div className="input-field">
-                            <label htmlFor="startTime">Start Time (ex: 14:30)</label>
-                            <input type="text" id="startTime" pattern="([01]?[0-9]|2[0-3]):[0-5][0-9]" onChange={this.handleChange} ></input>
-                        </div>
-
-                        <div className="input-field">
-                            <label htmlFor="endDate">End date</label><br/><br/>
-                            <input type="date" id="endDate" min={this.getDate()}
-                                onChange={this.handleChange} ></input>
-                        </div>
-
-                        <div className="input-field">
-                            <label htmlFor="endTime">End Time (ex: 15:30)</label>
-                            <input type="text" id="endTime" pattern="([01]?[0-9]|2[0-3]):[0-5][0-9]" onChange={this.handleChange} ></input>
-                        </div></>
-
-                    }
-
+                       
                     <div className="input-field">
                         <button className="btn blue lighten-1">Add Trainer</button>
                     </div>

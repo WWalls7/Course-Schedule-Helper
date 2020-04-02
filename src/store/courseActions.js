@@ -32,7 +32,11 @@ export const updateCourse = (course) => {
         firestore.collection('courses').doc(course.id).update({
             title: course.title,
             description: course.description,
-            frequency: course.frequency
+            frequency: course.frequency,
+            startDate: course.startDate,
+            startTime: course.startTime,
+            endDate: course.endDate,
+            endTime: course.endTime
         }).then(() => {
             dispatch({ type: 'UPDATE_COURSE', course });
         }).catch((err) => {
@@ -47,11 +51,7 @@ export const addTrainer = (course) => {
         const firestore = getFirestore();
         //console.log(course.startDate)
         firestore.collection('courses').doc(course.id).update({
-            trainers: [...course.trainers, course.newTrainer],
-            startDate: course.startDate,
-            startTime: course.startTime,
-            endDate: course.endDate,
-            endTime: course.endTime
+            trainers: [...course.trainers, course.newTrainer]
         }).then(() => {
             dispatch({ type: 'ADD_TRAINER', course });
         }).catch((err) => {

@@ -44,13 +44,46 @@ class UpdateCourse extends Component {
         });
         return assigned
     }
+    getBlockedTimes = (trainer, courses) => {
+        var times =[]
+        courses && courses.forEach(course => {
+            if(course.trainers.includes(trainer.id)){
+                times.push(course.startDate + " at " + course.startTime + " to " +
+                course.endDate + " at " + course.endTime)
+            }
+        });
+        return times
+    }
+    getDate = () => {
+        var date = new Date();
+
+        var day = date.getDate();
+        var month = date.getMonth() + 1;
+        var year = date.getFullYear();
+
+        if (month < 10) month = "0" + month;
+        if (day < 10) day = "0" + day;
+
+        var today = year + "-" + month + "-" + day;       
+        return today;
+    }
+    minEndTime = () => {
+        if(this.state.startTime.match(/([01]?[0-9]|2[0-3]):[0-5][0-9]/) === null){return}
+        var hour = this.state.startTime.split(":")[0]
+        var minute = this.state.startTime.split(":")[1]
+        if(hour.charAt(1) === null){
+            return "["+hour.charAt(0)+"-9]:["+minute.charAt(0)+"-5]["+minute.charAt(1)+"-9]"
+        }
+        return "["+hour.charAt(0)+"-9]["+hour.charAt(1)+"-3]:["+minute.charAt(0)+"-5]["+minute.charAt(1)+"-9]"
+    }
     render() {
         console.log(this.props.location.state.course)
         const {auth, users, courses} = this.props;
         const course = this.props.location.state.course
-        console.log(course)
+        console.log(courses)
         const trainers = this.getTrainers(users) 
         const currentTrainers = this.getAssignedTrainers(trainers, this.state.trainers)
+        console.log(currentTrainers)
         
 
         if (!auth.uid) return <Redirect to='/signin' />
@@ -87,6 +120,48 @@ class UpdateCourse extends Component {
                     <div className="input-field">
                         <label htmlFor="frequency">Frequency: {course.frequency}</label>
                         <input type="number" id="frequency" name="quantity" min="1" onChange={this.handleChange}></input>
+                    </div>
+                
+                    <div className="input-field">
+                        <h5 className="grey-text text-darken-3">Choose a Time</h5>
+                        <p>The assigned trainers are not available during these times:</p>
+                        <ul>
+                            {currentTrainers && currentTrainers.map(trainer => {
+                                return(
+                                    <div>
+                                        <strong>{trainer.firstName+" "+trainer.lastName}</strong>
+                                        {this.getBlockedTimes(trainer, courses).map(time => {
+                                            //console.log(time)
+                                            return (
+                                                <li>{time}</li>
+                                            )
+                                        })}
+                                    </div>
+                                )
+                            })}
+                        </ul>
+                    </div>
+
+                    <div className="input-field">
+                    <label htmlFor="startDate">Start date</label><br/><br/>
+                    <input type="date" id="startDate" min={this.getDate()}
+                        onChange={this.handleChange} ></input> 
+                    </div>
+
+                    <div className="input-field">
+                        <label htmlFor="startTime">Start Time (ex: 14:30)</label>
+                        <input type="text" id="startTime" pattern="([01]?[0-9]|2[0-3]):[0-5][0-9]" onChange={this.handleChange} ></input>
+                    </div>
+
+                    <div className="input-field">
+                        <label htmlFor="endDate">End date</label><br/><br/>
+                        <input type="date" id="endDate" min={this.state.startDate}
+                            onChange={this.handleChange} ></input>
+                    </div>
+
+                    <div className="input-field">
+                        <label htmlFor="endTime">End Time (after start time)</label>
+                        <input type="text" id="endTime" pattern={this.minEndTime()} onChange={this.handleChange} ></input>
                     </div>
 
                     <div className="input-field">

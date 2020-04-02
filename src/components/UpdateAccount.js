@@ -39,10 +39,8 @@ class UpdateAccount extends Component {
         var skills = [...this.props.profile.skills]
         var index = -1
         for(var i=0; i< skills.length; i++){
-            console.log(skills.skill)
-            if(skills.skill === skill){
+            if(skills[i].skill === skill){
                 index = i
-                
             }
         }
         if (index !== -1) {
@@ -57,6 +55,8 @@ class UpdateAccount extends Component {
         e.preventDefault();
         if(this.state.userType === "trainer"){
             var trainerState = {
+                userType: this.state.userType,
+                id: this.props.auth.uid,
                 firstName: this.state.firstName,
                 lastName: this.state.lastName,
                 skills: this.state.skills,
@@ -66,27 +66,30 @@ class UpdateAccount extends Component {
         }
         else{
             var schedulerState = {
+                userType: this.state.userType,
+                id: this.props.auth.uid,
                 firstName: this.state.firstName,
                 lastName: this.state.lastName,
                 phoneNo: this.state.phoneNo
             }
             this.props.updateProfile(schedulerState)
         }
-        // this.props.history.push('/profile')
+        this.props.history.push('/profile')
     }
 
     render() {
         const {auth, profile} = this.props;
         const skills = this.state.skills
+        console.log(this.state.skills)
         if (!auth.uid) return <Redirect to='/signin' />
         return (
             <div className="container">
                  <div className="card">
                     <div className="card-content">
                         <h4 className="card-title">Your Profile</h4>
-                        <span className="card-title">Name: {profile.firstName+" "+profile.lastName}</span>
-                        <p>Email: {profile.email}</p>
-                        <p>Phone Number: {profile.phoneNo}</p>
+                        <span className="card-title">Name: {this.state.firstName+" "+this.state.lastName}</span>
+                        <p>Email: {auth.email}</p>
+                        <p>Phone Number: {this.state.phoneNo}</p>
                         <p>Account Type: {profile.userType}</p>
                         {profile.userType === "trainer" &&
                             <div><p>Skills: </p>
@@ -134,7 +137,7 @@ class UpdateAccount extends Component {
                         
                             <h5 className="grey-text text-darken-3">Remove a Skill</h5>
                             <div className="input-field">
-                                <label>Skill Name</label>
+                                <label>Skill Name</label><br/>
                                 <select id="removedSkill" className="browser-default" onChange={this.handleChange} required>
                                     <option value='' disabled selected></option>
                                     {skills.map(skill => {
