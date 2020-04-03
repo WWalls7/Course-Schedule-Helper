@@ -3,6 +3,7 @@ import {connect} from 'react-redux'
 import {createCourse} from '../store/courseActions'
 import {Redirect} from 'react-router-dom'
 import '../styles/form.css'
+import Cal from './Cal'
 
 class CreateCourse extends Component {
     state = {
@@ -22,7 +23,6 @@ class CreateCourse extends Component {
         this.setState({
           [e.target.id]: e.target.value  
         })
-        console.log(e.target.value)
         if(e.target.id === "skills"){
             this.setState({
                 selected: true
@@ -102,6 +102,16 @@ class CreateCourse extends Component {
         }
         return "["+hour.charAt(0)+"-9]["+hour.charAt(1)+"-3]:["+minute.charAt(0)+"-5]["+minute.charAt(1)+"-9]"
     }
+    getCourses = (trainer, courses) =>{
+        var trainerCourses = []
+        courses && courses.forEach(course => {
+            if(course.trainers.includes(trainer)){
+                trainerCourses.push(course)
+            }
+        })
+        
+        return trainerCourses
+    }
     render() {
         const {auth, users, courses} = this.props;
         const trainers = this.getTrainers(users)
@@ -157,13 +167,18 @@ class CreateCourse extends Component {
                         <div className="input-field">
                             <h5 className="grey-text text-darken-3">Choose a Time</h5>
                             <p>This trainer is unavailable during these times:</p>
-                            <ul>
+                            {/* <ul>
                                 {this.getBlockedTimes(this.state.trainers, courses).map(time => {
                                     return (
                                         <li>{time}</li>
                                     )
                                 })}
-                            </ul>
+                            </ul> */}
+                            <div className="card">
+                                <div className="card-content">
+                                    <Cal courses={this.getCourses(this.state.trainers, courses)} trainers={trainers} history={this.props.history}/>
+                                </div>
+                            </div>
                         </div>
 
                         <div className="input-field">

@@ -33,6 +33,12 @@ const courseReducer = (state = initState, action) => {
         case 'DELETE_COURSE_ERROR':
             console.log('error deleting course', action.err);
             return state;
+        case 'CREATE_REQUEST':
+            console.log('created request');
+            return state;
+        case 'CREATE_REQUEST_ERROR':
+            console.log('error creating request', action.err);
+            return state;
         default:
             return state;
     }

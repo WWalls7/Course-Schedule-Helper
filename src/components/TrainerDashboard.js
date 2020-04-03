@@ -9,19 +9,29 @@ class TrainerDashboard extends Component {
     getCourses = (courses, auth) =>{
         var trainerCourses = []
         courses && courses.forEach(course => {
-            if(course.trainers === auth.uid){
+            if(course.trainers.includes(auth.uid)){
                 trainerCourses.push(course)
             }
         })
         return trainerCourses
     }
+    getTrainers = (users) =>{
+        var trainers = []
+        users && users.forEach(user => {
+            if(user.userType === "trainer"){
+                trainers.push(user)
+            }
+        })
+        return trainers
+    }
     render() {
-        const {courses, auth} = this.props;
+        const {courses, auth, users} = this.props;
         var trainerCourses = this.getCourses(courses, auth)
+        const trainers = this.getTrainers(users) 
         if (!auth.uid) return <Redirect to='/signin' />
         return (
             <div className="dashboard container">
-                <Cal courses={trainerCourses} />
+                <Cal courses={trainerCourses} trainers={trainers} type={"trainer"} history={this.props.history} />
             </div>
         )
     }
@@ -30,7 +40,8 @@ class TrainerDashboard extends Component {
 const mapStateToProps = (state) => {
     return{
         courses: state.firestore.ordered.courses,
-        auth: state.firebase.auth
+        auth: state.firebase.auth,
+        users: state.firestore.ordered.users,
     }
 }
 

@@ -15,6 +15,7 @@ import Contact from './components/Contact'
 import Delete from './components/Delete';
 import Profile from './components/Profile';
 import UpdateAccount from './components/UpdateAccount';
+import Request from './components/Request';
 
 
 function App() {
@@ -35,7 +36,8 @@ function App() {
           <Route path='/contact' component={Contact}/>
           <Route path='/deletecourse' component={Delete}/>
           <Route path='/profile' component={Profile}/>
-          <Route path='/updateaccount' component={UpdateAccount}/>
+          <Route path='/updateaccount' component={UpdateAccount}/>\
+          <Route path='/request' component={Request}/>
         </Switch>
       </div>
     </Router>

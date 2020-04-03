@@ -3,7 +3,7 @@ const admin = require('firebase-admin');
 admin.initializeApp(functions.config().firebase);
 
 exports.helloWorld = functions.https.onRequest((request, response) => {
- response.send("Sup Bro");
+ response.send("Hello");
 });
 
 const createNotification = (notification => {
@@ -19,7 +19,8 @@ exports.courseCreated = functions.firestore
         const notification = {
             content: 'Added a new course',
             user: `${course.authorFirstName} ${course.authorLastName}`,
-            time: admin.firestore.FieldValue.serverTimestamp()
+            time: admin.firestore.FieldValue.serverTimestamp(),
+            type: 'course'
         }
         return createNotification(notification)
 })

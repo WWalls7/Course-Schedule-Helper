@@ -2,6 +2,7 @@ import React, { Component } from 'react'
 import {connect} from 'react-redux'
 import {updateCourse} from '../store/courseActions'
 import {Redirect} from 'react-router-dom'
+import Cal from './Cal'
 
 class UpdateCourse extends Component {
     state = {
@@ -76,6 +77,20 @@ class UpdateCourse extends Component {
         }
         return "["+hour.charAt(0)+"-9]["+hour.charAt(1)+"-3]:["+minute.charAt(0)+"-5]["+minute.charAt(1)+"-9]"
     }
+    checkTime = () => {
+        
+    }
+    getCourses = (trainers, courses) =>{
+        var trainerCourses = []
+        trainers.forEach(trainer => {
+            courses && courses.forEach(course => {
+                if(course.trainers.includes(trainer.id)){
+                    trainerCourses.push(course)
+                }
+            })
+        });
+        return trainerCourses
+    }
     render() {
         console.log(this.props.location.state.course)
         const {auth, users, courses} = this.props;
@@ -84,13 +99,14 @@ class UpdateCourse extends Component {
         const trainers = this.getTrainers(users) 
         const currentTrainers = this.getAssignedTrainers(trainers, this.state.trainers)
         console.log(currentTrainers)
+        var trainerCourses = this.getCourses(currentTrainers, courses)
         
 
         if (!auth.uid) return <Redirect to='/signin' />
         return (
             <div className="container">
             <div className="card">
-            <div className="card-content">
+                <div className="card-content">
                     <span className="card-title">Title: {this.state.title}</span>
                     <p>Description: {this.state.description}</p>
                     <p>Frequency: {this.state.frequency}</p><br/>
@@ -125,13 +141,12 @@ class UpdateCourse extends Component {
                     <div className="input-field">
                         <h5 className="grey-text text-darken-3">Choose a Time</h5>
                         <p>The assigned trainers are not available during these times:</p>
-                        <ul>
+                        {/* <ul>
                             {currentTrainers && currentTrainers.map(trainer => {
                                 return(
                                     <div>
                                         <strong>{trainer.firstName+" "+trainer.lastName}</strong>
                                         {this.getBlockedTimes(trainer, courses).map(time => {
-                                            //console.log(time)
                                             return (
                                                 <li>{time}</li>
                                             )
@@ -139,7 +154,12 @@ class UpdateCourse extends Component {
                                     </div>
                                 )
                             })}
-                        </ul>
+                        </ul> */}
+                        <div className="card">
+                            <div className="card-content">
+                                <Cal courses={trainerCourses} trainers={trainers} history={this.props.history}/>
+                            </div>
+                        </div>
                     </div>
 
                     <div className="input-field">
@@ -165,7 +185,7 @@ class UpdateCourse extends Component {
                     </div>
 
                     <div className="input-field">
-                        <button className="btn blue lighten-1">Update</button>
+                        <button className="btn blue lighten-1"  onClick={this.checkTime}>Update</button>
                     </div>
 
                 </form>

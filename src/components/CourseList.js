@@ -3,13 +3,17 @@ import CourseSummary from './CourseSummary'
 
 const CourseList = ({courses}) => {
     return (
-        <div className="course-list section">
-            {courses && courses.map(course => {
-                return (
-                    <CourseSummary course={course} key={course.id}/>
-                )
-            })}
+        <div className="card">
+            <div className="card-content">
+                <span className="card-title">Courses</span>
+                {courses && courses.map(course => {
+                    return (
+                        <CourseSummary course={course} key={course.id}/>
+                    )
+                })}
+            </div>
         </div>
+        
     )
 }
 

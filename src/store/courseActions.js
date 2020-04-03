@@ -90,3 +90,20 @@ export const deleteCourse = (course) => {
         })
     }
 };
+
+export const addRequest = (request) => {
+    return (dispatch, getState, {getFirebase, getFirestore}) => {
+        //make async call to DB
+        const firestore = getFirestore();
+        firestore.collection('notifications').add({
+            content: "Requested a schedule change",
+            type: "request",
+            request: request,
+            createdAt: new Date()
+        }).then(() => {
+            dispatch({ type: 'CREATE_REQUEST' });
+        }).catch((err) => {
+            dispatch({ type: 'CREATE_REQUEST_ERROR', err}); 
+        })
+    }
+};

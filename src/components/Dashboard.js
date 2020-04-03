@@ -30,7 +30,7 @@ class Dashboard extends Component {
         if (profile && this.checkUser(profile) === 'trainer') return <Redirect to='/trainer' />
         return (
             <div className="dashboard container">
-                <Cal courses={courses} trainers={trainers} history={this.props.history} />
+                <Cal courses={courses} trainers={trainers} type={"scheduler"} history={this.props.history} />
             </div>
         )
     }

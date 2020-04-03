@@ -29,7 +29,6 @@ const Cal =(props)=>{
   }
 
   function update (course) {
-    //setRedirect(true)
     props.history.push({
       pathname: '/updatecourse',
       state: {
@@ -38,7 +37,6 @@ const Cal =(props)=>{
     })
   }
   function add (course) {
-    //setRedirect(true)
     props.history.push({
       pathname: '/addtrainer',
       state: {
@@ -47,7 +45,6 @@ const Cal =(props)=>{
     })
   }
   function remove (course) {
-    //setRedirect(true)
     props.history.push({
       pathname: '/removetrainer',
       state: {
@@ -56,9 +53,16 @@ const Cal =(props)=>{
     })
   }
   function deleteCourse (course) {
-    //setRedirect(true)
     props.history.push({
       pathname: '/deleteCourse',
+      state: {
+        course: course
+      }
+    })
+  }
+  function request (course) {
+    props.history.push({
+      pathname: '/request',
       state: {
         course: course
       }
@@ -115,6 +119,7 @@ const Cal =(props)=>{
       <MyVerticallyCenteredModal
         show={modalShow}
         course={event}
+        type={props.type}
         onHide={() => setModalShow(false)}
       />
       </div>
@@ -153,13 +158,20 @@ const Cal =(props)=>{
                 </div>  
             </div>
           </Modal.Body>
+          {props.type === "trainer" &&
+            <div className="footer">
+              <Button className="button" onClick={(event)=>request(course)}>Request Change</Button>
+            </div>
+          }
+          {props.type === "scheduler" &&
+            <div className="footer">
+              <Button className="button" onClick={(event)=>remove(course)}>Remove Trainer</Button>
+              <Button className="button" onClick={(event)=>add(course)}>Add Trainer</Button>
+              <Button className="button" onClick={(event)=>update(course)}>Update Course</Button>
+              <Button className="button" onClick={(event)=>deleteCourse(course)}>Delete Course</Button>
+            </div>
+          }
           
-          <div className="footer">
-            <Button className="button" onClick={(event)=>remove(course)}>Remove Trainer</Button>
-            <Button className="button" onClick={(event)=>add(course)}>Add Trainer</Button>
-            <Button className="button" onClick={(event)=>update(course)}>Update Course</Button>
-            <Button className="button" onClick={(event)=>deleteCourse(course)}>Delete Course</Button>
-          </div>
           
         </Modal>
       );   
