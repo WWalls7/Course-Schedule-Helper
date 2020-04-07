@@ -45,6 +45,12 @@ const courseReducer = (state = initState, action) => {
         case 'UPDATE_REQUEST_ERROR':
             console.log('error updating request', action.err);
             return state;
+        case 'CREATE_NOTIFICATION':
+            console.log('created notification');
+            return state;
+        case 'CREATE_NOTIFICATION_ERROR':
+            console.log('error creating notification', action.err);
+            return state;
         default:
             return state;
     }

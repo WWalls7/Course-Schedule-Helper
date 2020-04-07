@@ -1,6 +1,6 @@
 import React, { Component } from 'react'
 import {connect} from 'react-redux'
-import {deleteCourse} from '../store/courseActions'
+import {deleteCourse,addNotification} from '../store/courseActions'
 import {Redirect} from 'react-router-dom'
 import '../styles/form.css'
 
@@ -20,6 +20,7 @@ class Delete extends Component {
     handleSubmit = (e) => {
         e.preventDefault();
         console.log(this.state)
+        this.props.addNotification("A course you were assigned to has been deleted", this.state)
         this.props.deleteCourse(this.state)
         this.props.history.push('/')
     }
@@ -92,7 +93,8 @@ const mapStateToProps = (state) => {
 
 const mapDispatchToProps = (dispatch) => {
     return {
-        deleteCourse: (course) => dispatch(deleteCourse(course))
+        deleteCourse: (course) => dispatch(deleteCourse(course)),
+        addNotification: (notification, course) => dispatch(addNotification(notification, course))
     }
 }
 

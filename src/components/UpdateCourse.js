@@ -1,6 +1,6 @@
 import React, { Component } from 'react'
 import {connect} from 'react-redux'
-import {updateCourse} from '../store/courseActions'
+import {updateCourse, addNotification} from '../store/courseActions'
 import {Redirect} from 'react-router-dom'
 import Cal from './Cal'
 
@@ -14,7 +14,7 @@ class UpdateCourse extends Component {
         endDate: this.props.location.state.course.endDate,
         endTime: this.props.location.state.course.endTime,
         frequency: this.props.location.state.course.frequency,
-        skills: this.props.location.state.course.skills,
+        skills: "",
         trainers: this.props.location.state.course.trainers,
         message: false
     }
@@ -42,6 +42,8 @@ class UpdateCourse extends Component {
             }
         })
         if(!set){
+            console.log(this.state)
+            this.props.addNotification("A course you are assigned to has been updated", this.state)
             this.props.updateCourse(this.state)
             this.props.history.push('/')
         }
@@ -96,14 +98,12 @@ class UpdateCourse extends Component {
         }
         return "["+hour.charAt(0)+"-9]["+hour.charAt(1)+"-3]:["+minute.charAt(0)+"-5]["+minute.charAt(1)+"-9]"
     }
-    checkTime = () => {
-        
-    }
     getCourses = (trainers, courses) =>{
         var trainerCourses = []
+        console.log(courses)
         trainers.forEach(trainer => {
             courses && courses.forEach(course => {
-                if(course.trainers.includes(trainer.id)){
+                if(course.trainers.includes(trainer.id) && !trainerCourses.includes(course) && course.id !== this.state.id){
                     trainerCourses.push(course)
                 }
             })
@@ -228,7 +228,8 @@ const mapStateToProps = (state) => {
 
 const mapDispatchToProps = (dispatch) => {
     return {
-        updateCourse: (course) => dispatch(updateCourse(course))
+        updateCourse: (course) => dispatch(updateCourse(course)),
+        addNotification: (notification, course) => dispatch(addNotification(notification, course))
     }
 }
 

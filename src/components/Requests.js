@@ -3,21 +3,24 @@ import React, { Component } from 'react'
 import {connect} from 'react-redux'
 import {Redirect} from 'react-router-dom'
 import {withRouter} from 'react-router-dom';
-import {updateRequest, removeTrainer} from '../store/courseActions'
+import {updateRequest, removeTrainer, addNotification} from '../store/courseActions'
 
 class Requests extends Component {
     remove = (notification) => {
         this.props.updateRequest("approved", notification.id)
         var course = this.getCourse(notification.request.id)
-        course = {
+        var newCourse = {
             id: course.id,
             trainers: course.trainers,
             trainer: notification.request.trainerId
         }
         console.log(course)
-        this.props.removeTrainer(course)
+        this.props.addNotification("You have been removed from a course after requesting a change", course)
+        this.props.removeTrainer(newCourse)
     }
     reject = (notification) => {
+        var course = this.getCourse(notification.request.id)
+        this.props.addNotification("Your change request has been rejected", course)
         this.props.updateRequest("rejected", notification.id)
     }
     add = (notification) => {
@@ -143,7 +146,8 @@ const mapStateToProps = (state) => {
 const mapDispatchToProps = (dispatch) => {
     return {
         removeTrainer: (course) => dispatch(removeTrainer(course)),
-        updateRequest: (status, id) => dispatch(updateRequest(status, id))
+        updateRequest: (status, id) => dispatch(updateRequest(status, id)),
+        addNotification: (notification, course) => dispatch(addNotification(notification, course))
     }
 }
 

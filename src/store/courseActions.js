@@ -123,3 +123,21 @@ export const updateRequest = (newStatus, notification) => {
         })
     }
 };
+
+export const addNotification = (content, newCourse) => {
+    return (dispatch, getState, {getFirebase, getFirestore}) => {
+        //make async call to DB
+        console.log(newCourse, content)
+        const firestore = getFirestore();
+        firestore.collection('notifications').add({
+            content: content,
+            type: "trainer",
+            course: newCourse,
+            createdAt: new Date()
+        }).then(() => {
+            dispatch({ type: 'CREATE_NOTIFICATION' });
+        }).catch((err) => {
+            dispatch({ type: 'CREATE_NOTIFICATION_ERROR', err}); 
+        })
+    }
+};

@@ -1,6 +1,6 @@
 import React, { Component } from 'react'
 import {connect} from 'react-redux'
-import {createCourse} from '../store/courseActions'
+import {createCourse, addNotification} from '../store/courseActions'
 import {Redirect} from 'react-router-dom'
 import '../styles/form.css'
 import Cal from './Cal'
@@ -52,6 +52,7 @@ class CreateCourse extends Component {
             }
         })
         if(!set){
+            this.props.addNotification("You have been added to a new course", this.state)
             this.props.createCourse(this.state)
             this.props.history.push('/')
         }
@@ -242,7 +243,8 @@ const mapStateToProps = (state) => {
 
 const mapDispatchToProps = (dispatch) => {
     return {
-        createCourse: (course) => dispatch(createCourse(course))
+        createCourse: (course) => dispatch(createCourse(course)),
+        addNotification: (notification, course) => dispatch(addNotification(notification, course))
     }
 }
 

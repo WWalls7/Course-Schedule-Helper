@@ -17,6 +17,7 @@ import Profile from './components/Profile';
 import UpdateAccount from './components/UpdateAccount';
 import Request from './components/Request';
 import viewRequests from './components/viewRequests';
+import trainerNotifications from './components/trainerNotifications';
 
 
 function App() {
@@ -37,9 +38,10 @@ function App() {
           <Route path='/contact' component={Contact}/>
           <Route path='/deletecourse' component={Delete}/>
           <Route path='/profile' component={Profile}/>
-          <Route path='/updateaccount' component={UpdateAccount}/>\
+          <Route path='/updateaccount' component={UpdateAccount}/>
           <Route path='/request' component={Request}/>
           <Route path='/viewrequests' component={viewRequests}/>
+          <Route path='/trainernotifications' component={trainerNotifications}/>
         </Switch>
       </div>
     </Router>

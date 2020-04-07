@@ -1,6 +1,6 @@
 import React, { Component } from 'react'
 import {connect} from 'react-redux'
-import {removeTrainer} from '../store/courseActions'
+import {removeTrainer, addNotification} from '../store/courseActions'
 import {Redirect} from 'react-router-dom'
 
 class RemoveTrainer extends Component {
@@ -13,7 +13,7 @@ class RemoveTrainer extends Component {
         endDate: this.props.location.state.course.endDate,
         endTime: this.props.location.state.course.endTime,
         frequency: this.props.location.state.course.frequency,
-        skills: this.props.location.state.course.skills,
+        skills: '',
         trainers: this.props.location.state.course.trainers,
         trainer: '',
         author: this.props.location.state.course.authorFirstName+" "+this.props.location.state.course.authorLastName
@@ -26,6 +26,7 @@ class RemoveTrainer extends Component {
     }
     handleSubmit = (e) => {
         e.preventDefault();
+        this.props.addNotification("You have been removed from a course", this.state)
         this.props.removeTrainer(this.state)
         this.props.history.push('/')
     }
@@ -137,7 +138,8 @@ const mapStateToProps = (state) => {
 
 const mapDispatchToProps = (dispatch) => {
     return {
-        removeTrainer: (course) => dispatch(removeTrainer(course))
+        removeTrainer: (course) => dispatch(removeTrainer(course)),
+        addNotification: (notification, course) => dispatch(addNotification(notification, course))
     }
 }
 

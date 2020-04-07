@@ -1,6 +1,6 @@
 import React, { Component } from 'react'
 import {connect} from 'react-redux'
-import {addTrainer} from '../store/courseActions'
+import {addTrainer, addNotification} from '../store/courseActions'
 import {Redirect} from 'react-router-dom'
 import '../styles/form.css'
 
@@ -48,6 +48,7 @@ class AddTrainer extends Component {
             }
         })
         if(!set){
+            this.props.addNotification("You have been added to an existing course", this.state)
             this.props.addTrainer(this.state)
             this.props.history.push('/')
         }
@@ -202,7 +203,8 @@ const mapStateToProps = (state) => {
 
 const mapDispatchToProps = (dispatch) => {
     return {
-        addTrainer: (course) => dispatch(addTrainer(course))
+        addTrainer: (course) => dispatch(addTrainer(course)),
+        addNotification: (notification, course) => dispatch(addNotification(notification, course))
     }
 }
 
