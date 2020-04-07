@@ -39,6 +39,12 @@ const courseReducer = (state = initState, action) => {
         case 'CREATE_REQUEST_ERROR':
             console.log('error creating request', action.err);
             return state;
+        case 'UPDATE_REQUEST':
+            console.log('updated request');
+            return state;
+        case 'UPDATE_REQUEST_ERROR':
+            console.log('error updating request', action.err);
+            return state;
         default:
             return state;
     }

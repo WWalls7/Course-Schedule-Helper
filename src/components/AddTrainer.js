@@ -14,9 +14,12 @@ class AddTrainer extends Component {
         endDate: this.props.location.state.course.endDate,
         endTime: this.props.location.state.course.endTime,
         frequency: this.props.location.state.course.frequency,
+        author: this.props.location.state.course.authorFirstName+" "+this.props.location.state.course.authorLastName,
+        newTrainer: "",
         skills: '',
         trainers: this.props.location.state.course.trainers,
-        selected: false
+        selected: false,
+        message: false
     }
     handleChange = (e) => {
         this.setState({
@@ -30,9 +33,34 @@ class AddTrainer extends Component {
     }
     handleSubmit = (e) => {
         e.preventDefault();
-        console.log(this.state)
-        this.props.addTrainer(this.state)
-        this.props.history.push('/')
+        var start = Date.parse(this.state.startDate+" "+this.state.startTime)
+        var end = Date.parse(this.state.endDate+" "+this.state.endTime)
+        var assignedCourses = this.getCourses(this.state.newTrainer, this.props.courses)
+        var set = false
+        assignedCourses.forEach(course => {
+            var blockedStart = Date.parse(course.startDate+" "+course.startTime)
+            var blockedEnd = Date.parse(course.endDate+" "+course.endTime)
+            if((start >= blockedStart && start <= blockedEnd)||(end >= blockedStart && end <= blockedEnd)){
+                this.setState({
+                    message: true
+                })
+                set = true
+            }
+        })
+        if(!set){
+            this.props.addTrainer(this.state)
+            this.props.history.push('/')
+        }
+    }
+    getCourses = (trainer, courses) =>{
+        var trainerCourses = []
+        courses && courses.forEach(course => {
+            if(course.trainers.includes(trainer)){
+                trainerCourses.push(course)
+            }
+        })
+        
+        return trainerCourses
     }
     getTrainers = (users) =>{
         var trainers = []
@@ -91,13 +119,14 @@ class AddTrainer extends Component {
         return trainersWithSkill
     }
     render() {
-        const {auth, users, courses} = this.props;
+        const {auth, users, courses, profile} = this.props;
         const trainers = this.getTrainers(users) 
         const course = this.props.location.state.course
         const currentTrainers = this.getAssignedTrainers(trainers, this.state.trainers) 
         const notAssignedTrainers = this.getNotAssignedTrainers(trainers, currentTrainers)
         
         if (!auth.uid) return <Redirect to='/signin' />
+        if (profile.userType === 'trainer') return <Redirect to='/trainer' />
         return (
             <div className="container">
             <div className="card">
@@ -114,7 +143,7 @@ class AddTrainer extends Component {
                             <p>{trainer.firstName + " " + trainer.lastName}</p>
                         )
                     })}<br/>
-                    <p>Created by: {course.author}</p><br/>
+                    <p>Created by: {this.state.author}</p><br/>
                 </div>
                 
             </div>
@@ -146,6 +175,10 @@ class AddTrainer extends Component {
                             </select>
                         </div>
                     }
+
+                    {this.state.message === true &&
+                        <strong className="red-text">The selected trainer is unavailable during this time. Try again.</strong>
+                    }
                        
                     <div className="input-field">
                         <button className="btn blue lighten-1">Add Trainer</button>
@@ -161,7 +194,8 @@ const mapStateToProps = (state) => {
     return{
         auth: state.firebase.auth,
         users: state.firestore.ordered.users, 
-        courses: state.firestore.ordered.courses
+        courses: state.firestore.ordered.courses,
+        profile: state.firebase.profile
     }
 }
 

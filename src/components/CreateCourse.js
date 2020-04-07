@@ -17,7 +17,8 @@ class CreateCourse extends Component {
         trainers: '',
         skills: '',
         selected: false,
-        trainer: false
+        trainer: false,
+        message: false
     }
     handleChange = (e) => {
         this.setState({
@@ -36,8 +37,24 @@ class CreateCourse extends Component {
     }
     handleSubmit = (e) => {
         e.preventDefault();
-        this.props.createCourse(this.state)
-        this.props.history.push('/')
+        var start = Date.parse(this.state.startDate+" "+this.state.startTime)
+        var end = Date.parse(this.state.endDate+" "+this.state.endTime)
+        var assignedCourses = this.getCourses(this.state.trainers, this.props.courses)
+        var set = false
+        assignedCourses.forEach(course => {
+            var blockedStart = Date.parse(course.startDate+" "+course.startTime)
+            var blockedEnd = Date.parse(course.endDate+" "+course.endTime)
+            if((start >= blockedStart && start <= blockedEnd)||(end >= blockedStart && end <= blockedEnd)){
+                this.setState({
+                    message: true
+                })
+                set = true
+            }
+        })
+        if(!set){
+            this.props.createCourse(this.state)
+            this.props.history.push('/')
+        }
     }
     getDate = () => {
         var date = new Date();
@@ -113,10 +130,11 @@ class CreateCourse extends Component {
         return trainerCourses
     }
     render() {
-        const {auth, users, courses} = this.props;
+        const {auth, users, courses, profile} = this.props;
         const trainers = this.getTrainers(users)
         const skills = this.skills(trainers)  
         if (!auth.uid) return <Redirect to='/signin' />
+        if (profile.userType === 'trainer') return <Redirect to='/trainer' />
         return (
             <div className="container">
                 <form onSubmit={this.handleSubmit} className="white">
@@ -167,13 +185,6 @@ class CreateCourse extends Component {
                         <div className="input-field">
                             <h5 className="grey-text text-darken-3">Choose a Time</h5>
                             <p>This trainer is unavailable during these times:</p>
-                            {/* <ul>
-                                {this.getBlockedTimes(this.state.trainers, courses).map(time => {
-                                    return (
-                                        <li>{time}</li>
-                                    )
-                                })}
-                            </ul> */}
                             <div className="card">
                                 <div className="card-content">
                                     <Cal courses={this.getCourses(this.state.trainers, courses)} trainers={trainers} history={this.props.history}/>
@@ -205,6 +216,10 @@ class CreateCourse extends Component {
 
                     }
 
+                    {this.state.message === true &&
+                        <strong className="red-text">The date you have entered is unavailable for the selected trainer. Try again.</strong>
+                    }
+
                     <div className="input-field">
                         <button className="btn blue lighten-1">Create</button>
                     </div>
@@ -219,7 +234,8 @@ const mapStateToProps = (state) => {
     return{
         auth: state.firebase.auth,
         users: state.firestore.ordered.users, 
-        courses: state.firestore.ordered.courses
+        courses: state.firestore.ordered.courses,
+        profile: state.firebase.profile
     }
 }
 

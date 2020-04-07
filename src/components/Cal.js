@@ -13,7 +13,6 @@ const Cal =(props)=>{
 
   const handleSelect = (event) => {
     setModalShow(true)
-    console.log(event)
     setEvent(event)
   }
 
@@ -71,7 +70,6 @@ const Cal =(props)=>{
 
   function courseFormat () {
     var courses = props.courses
-    console.log(courses)
     var formattedCourses = []
     var i = 0
     courses && courses.forEach(course => {

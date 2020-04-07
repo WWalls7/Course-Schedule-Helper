@@ -15,19 +15,11 @@ class Dashboard extends Component {
         })
         return trainers
     }
-    checkUser = (profile) => {
-        if(profile.userType === "trainer"){
-            return "trainer"
-        }
-        else{
-            return "scheduler"
-        }
-    }
     render() {
         const {courses, auth, users, profile} = this.props;
         const trainers = this.getTrainers(users) 
         if (!auth.uid) return <Redirect to='/signin' />
-        if (profile && this.checkUser(profile) === 'trainer') return <Redirect to='/trainer' />
+        if (profile.userType === 'trainer') return <Redirect to='/trainer' />
         return (
             <div className="dashboard container">
                 <Cal courses={courses} trainers={trainers} type={"scheduler"} history={this.props.history} />
@@ -37,12 +29,11 @@ class Dashboard extends Component {
 }
 
 const mapStateToProps = (state) => {
-    console.log(state.firestore)
     return{
         courses: state.firestore.ordered.courses,
         auth: state.firebase.auth,
         users: state.firestore.ordered.users,
-        profile: state.firebase.profile,
+        profile: state.firebase.profile
 
     }
 }

@@ -16,6 +16,7 @@ import Delete from './components/Delete';
 import Profile from './components/Profile';
 import UpdateAccount from './components/UpdateAccount';
 import Request from './components/Request';
+import viewRequests from './components/viewRequests';
 
 
 function App() {
@@ -38,6 +39,7 @@ function App() {
           <Route path='/profile' component={Profile}/>
           <Route path='/updateaccount' component={UpdateAccount}/>\
           <Route path='/request' component={Request}/>
+          <Route path='/viewrequests' component={viewRequests}/>
         </Switch>
       </div>
     </Router>

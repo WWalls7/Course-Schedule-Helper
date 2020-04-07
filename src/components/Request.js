@@ -2,7 +2,9 @@ import React, { Component } from 'react'
 import {connect} from 'react-redux'
 import {addRequest} from '../store/courseActions'
 import {Redirect} from 'react-router-dom'
+import {compose} from 'redux'
 import '../styles/form.css'
+import {firestoreConnect} from 'react-redux-firebase'
 
 class Request extends Component {
     state = {
@@ -15,18 +17,14 @@ class Request extends Component {
         endTime: this.props.location.state.course.endTime,
         frequency: this.props.location.state.course.frequency,
         trainers: this.props.location.state.course.trainers,
-        selected: false,
+        author: this.props.location.state.course.author,
         trainerRequesting: this.props.profile.firstName+" "+this.props.profile.lastName,
         trainerId: this.props.auth.uid
     }
     handleSubmit = (e) => {
         e.preventDefault();
-        this.setState({
-            selected: true
-        })
         console.log(this.state)
         this.props.addRequest(this.state)
-        this.props.history.push('/trainer')
     }
     getTrainers = (users) =>{
         var trainers = []
@@ -46,32 +44,53 @@ class Request extends Component {
         });
         return assigned
     }
+    getNotifications = (notifications, id) => {
+        var trainerNotifications = []
+        notifications && notifications.forEach(notification => {
+            if(notification.type === "request" && notification.request.trainerId === id){
+                trainerNotifications.push(notification)
+            }
+        });
+        return trainerNotifications
+    }
+    checkNotification = (id, notifications) =>{
+        console.log(id, notifications)
+        for(var i=0; i<notifications.length; i++){
+            if(notifications[i].request.id === id){
+                return notifications[i]
+            }
+        }
+    }
     render() {
-        const {auth, users} = this.props;
+        const {auth, users, profile, notifications} = this.props;
         const trainers = this.getTrainers(users) 
         const course = this.props.location.state.course
         const currentTrainers = this.getAssignedTrainers(trainers, this.state.trainers) 
+        console.log(notifications)
+        var trainerNotifications = this.getNotifications(notifications, auth.uid)
+        var notification = this.checkNotification(course.id, trainerNotifications)
+        console.log(notification)
         if (!auth.uid) return <Redirect to='/signin' />
+        if (profile.userType === 'scheduler') return <Redirect to='/' />
         return (
             <div className="container">
-            <div className="card">
-                
-                <div className="card-content">
-                    <span className="card-title">Title: {this.state.title}</span>
-                    <p>Description: {this.state.description}</p>
-                    <p>Frequency: {this.state.frequency}</p><br/>
-                    <p>Start: {this.state.startDate+" "+this.state.startTime}</p>
-                    <p>End: {this.state.endDate+" "+this.state.endTime}</p><br/>
-                    <p>Assigned Trainers: </p>
-                    {currentTrainers && currentTrainers.map(trainer => {
-                        return(
-                            <p>{trainer.firstName + " " + trainer.lastName}</p>
-                        )
-                    })}<br/>
-                    <p>Created by: {course.author}</p><br/>
+                <div className="card">
+                    <div className="card-content">
+                        <span className="card-title">Title: {this.state.title}</span>
+                        <p>Description: {this.state.description}</p>
+                        <p>Frequency: {this.state.frequency}</p><br/>
+                        <p>Start: {this.state.startDate+" "+this.state.startTime}</p>
+                        <p>End: {this.state.endDate+" "+this.state.endTime}</p><br/>
+                        <p>Assigned Trainers: </p>
+                        {currentTrainers && currentTrainers.map(trainer => {
+                            return(
+                                <p>{trainer.firstName + " " + trainer.lastName}</p>
+                            )
+                        })}<br/>
+                        <p>Created by: {course.author}</p><br/>
+                    </div>
                 </div>
                 
-            </div>
                 <form onSubmit={this.handleSubmit} className="white">
                     <h5 className="grey-text text-darken-3">Request Change</h5>
                     
@@ -81,13 +100,17 @@ class Request extends Component {
                             and any queries should be made to them directly. 
                             You are not guaranteed to be removed from this course.
                             <br/><strong>Would you like to continue?</strong></p>
-                        {this.state.selected === false &&
+                        
+                        {notification === undefined &&
                             <button className="btn blue lighten-1">Request Change</button>
                         }
                     </div>
                     <div>
-                        {this.state.selected === true &&
-                            <label>You have successfully submitted a change request</label>
+                        {notification !== undefined && notification.status === "requested" &&
+                            <label>You have successfully submitted a change request. The current status is: <strong className="black-text">{notification.status}</strong></label>
+                        }
+                        {notification !== undefined && notification.status === "rejected" &&
+                            <label>You have successfully submitted a change request. The current status is: <strong className="red-text">{notification.status}</strong></label>
                         }
                     </div>
 
@@ -98,18 +121,27 @@ class Request extends Component {
 }
 
 const mapStateToProps = (state) => {
+    console.log(state.firestore)
     return{
         auth: state.firebase.auth,
         users: state.firestore.ordered.users,
         profile: state.firebase.profile,
+        notifications: state.firestore.ordered.notifications
     }
 }
-
 
 const mapDispatchToProps = (dispatch) => {
     return {
-        addRequest: (course) => dispatch(addRequest(course))
+        addRequest: (notification) => dispatch(addRequest(notification))
     }
 }
 
-export default connect(mapStateToProps, mapDispatchToProps)(Request)
+
+export default compose(
+    connect(mapStateToProps, mapDispatchToProps),
+    firestoreConnect([
+        {collection: 'courses', orderBy: ['createdAt', 'desc']},
+        {collection: 'notifications'},
+        {collection: 'users'}
+    ])
+)(Request)
