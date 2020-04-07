@@ -42,11 +42,12 @@ class Delete extends Component {
         return assigned
     }
     render() {
-        const {auth, users} = this.props;
+        const {auth, users, profile} = this.props;
         const trainers = this.getTrainers(users)
         const currentTrainers = this.getAssignedTrainers(trainers, this.state.trainers)
         
         if (!auth.uid) return <Redirect to='/signin' />
+        if (profile.userType === 'trainer') return <Redirect to='/trainer' />
         return (
             <div className="container">
             <div className="card">
@@ -82,7 +83,9 @@ class Delete extends Component {
 const mapStateToProps = (state) => {
     return{
         auth: state.firebase.auth,
-        users: state.firestore.ordered.users
+        users: state.firestore.ordered.users,
+        profile: state.firebase.profile
+        
     }
 }
 

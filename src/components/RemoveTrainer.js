@@ -15,8 +15,8 @@ class RemoveTrainer extends Component {
         frequency: this.props.location.state.course.frequency,
         skills: this.props.location.state.course.skills,
         trainers: this.props.location.state.course.trainers,
-        trainer: ''
-       // removable: false
+        trainer: '',
+        author: this.props.location.state.course.authorFirstName+" "+this.props.location.state.course.authorLastName
     }
     handleChange = (e) => {
         this.setState({
@@ -26,15 +26,8 @@ class RemoveTrainer extends Component {
     }
     handleSubmit = (e) => {
         e.preventDefault();
-       // if(this.state.removable){
-            this.props.removeTrainer(this.state)
-            this.props.history.push('/')
-       // }
-        // else{
-        //     console.log("buster")
-        //     this.props.history.push('/addtrainer')
-        //     // this.props.history.push({pathname: '/addtrainer', state: {course: this.state}})
-        // }
+        this.props.removeTrainer(this.state)
+        this.props.history.push('/')
     }
     getTrainers = (users) =>{
         var trainers = []
@@ -73,12 +66,12 @@ class RemoveTrainer extends Component {
           })
     }
     render() {
-        const {auth, users, courses} = this.props;
-        const course = this.props.location.state.course
+        const {auth, users, courses, profile} = this.props;
         const trainers = this.getTrainers(users) 
         const currentTrainers = this.getAssignedTrainers(trainers, this.state.trainers)
         const removable = this.getRemovable(currentTrainers)
         if (!auth.uid) return <Redirect to='/signin' />
+        if (profile.userType === 'trainer') return <Redirect to='/trainer' />
         return (
             <div className="container">
                 <div className="card">
@@ -94,7 +87,7 @@ class RemoveTrainer extends Component {
                                 <p>{trainer.firstName + " " + trainer.lastName}</p>
                             )
                         })}<br/>
-                        <p>Created by: {course.author}</p><br/>
+                        <p>Created by: {this.state.author}</p><br/>
                     </div>
                 </div>
                 <form onSubmit={this.handleSubmit} className="white">
@@ -136,7 +129,8 @@ const mapStateToProps = (state) => {
     return{
         auth: state.firebase.auth,
         users: state.firestore.ordered.users, 
-        courses: state.firestore.ordered.courses
+        courses: state.firestore.ordered.courses,
+        profile: state.firebase.profile
     }
 }
 

@@ -58,6 +58,7 @@ class SignUp extends Component {
                 phoneNo: this.state.phoneNo
             }
             this.props.signUp(trainerState)
+            this.props.history.push('/trainer')
         }
         else{
             var schedulerState = {
@@ -69,8 +70,8 @@ class SignUp extends Component {
                 phoneNo: this.state.phoneNo
             }
             this.props.signUp(schedulerState)
+            this.props.history.push('/')
         }
-        this.props.history.push('/')
     }
     render() {
         const {auth, authError} = this.props;

@@ -16,6 +16,7 @@ class UpdateCourse extends Component {
         frequency: this.props.location.state.course.frequency,
         skills: this.props.location.state.course.skills,
         trainers: this.props.location.state.course.trainers,
+        message: false
     }
     handleChange = (e) => {
         this.setState({
@@ -23,9 +24,27 @@ class UpdateCourse extends Component {
         })
     }
     handleSubmit = (e) => {
-        e.preventDefault();
-        this.props.updateCourse(this.state)
-        this.props.history.push('/')
+        e.preventDefault()
+        var start = Date.parse(this.state.startDate+" "+this.state.startTime)
+        var end = Date.parse(this.state.endDate+" "+this.state.endTime)
+        const trainers = this.getTrainers(this.props.users) 
+        const currentTrainers = this.getAssignedTrainers(trainers, this.state.trainers)
+        var assignedCourses = this.getCourses(currentTrainers, this.props.courses)
+        var set = false
+        assignedCourses.forEach(course => {
+            var blockedStart = Date.parse(course.startDate+" "+course.startTime)
+            var blockedEnd = Date.parse(course.endDate+" "+course.endTime)
+            if((start >= blockedStart && start <= blockedEnd)||(end >= blockedStart && end <= blockedEnd)){
+                this.setState({
+                    message: true
+                })
+                set = true
+            }
+        })
+        if(!set){
+            this.props.updateCourse(this.state)
+            this.props.history.push('/')
+        }
     }
     getTrainers = (users) =>{
         var trainers = []
@@ -93,34 +112,33 @@ class UpdateCourse extends Component {
     }
     render() {
         console.log(this.props.location.state.course)
-        const {auth, users, courses} = this.props;
+        const {auth, users, courses, profile} = this.props;
         const course = this.props.location.state.course
-        console.log(courses)
         const trainers = this.getTrainers(users) 
         const currentTrainers = this.getAssignedTrainers(trainers, this.state.trainers)
-        console.log(currentTrainers)
         var trainerCourses = this.getCourses(currentTrainers, courses)
         
 
         if (!auth.uid) return <Redirect to='/signin' />
+        if (profile.userType === 'trainer') return <Redirect to='/trainer' />
         return (
             <div className="container">
-            <div className="card">
-                <div className="card-content">
-                    <span className="card-title">Title: {this.state.title}</span>
-                    <p>Description: {this.state.description}</p>
-                    <p>Frequency: {this.state.frequency}</p><br/>
-                    <p>Start: {this.state.startDate+" "+this.state.startTime}</p>
-                    <p>End: {this.state.endDate+" "+this.state.endTime}</p><br/>
-                    <p>Assigned Trainers: </p>
-                    {currentTrainers && currentTrainers.map(trainer => {
-                        return(
-                            <p>{trainer.firstName + " " + trainer.lastName}</p>
-                        )
-                    })}<br/>
-                    <p>Created by: {course.author}</p><br/>
+                <div className="card">
+                    <div className="card-content">
+                        <span className="card-title">Title: {this.state.title}</span>
+                        <p>Description: {this.state.description}</p>
+                        <p>Frequency: {this.state.frequency}</p><br/>
+                        <p>Start: {this.state.startDate+" "+this.state.startTime}</p>
+                        <p>End: {this.state.endDate+" "+this.state.endTime}</p><br/>
+                        <p>Assigned Trainers: </p>
+                        {currentTrainers && currentTrainers.map(trainer => {
+                            return(
+                                <p>{trainer.firstName + " " + trainer.lastName}</p>
+                            )
+                        })}<br/>
+                        <p>Created by: {course.author}</p><br/>
+                    </div>
                 </div>
-            </div>
                 <form onSubmit={this.handleSubmit} className="white">
                     <h5 className="grey-text text-darken-3">Update Course</h5>
                     <div className="input-field">
@@ -183,6 +201,10 @@ class UpdateCourse extends Component {
                         <label htmlFor="endTime">End Time (after start time)</label>
                         <input type="text" id="endTime" pattern={this.minEndTime()} onChange={this.handleChange} ></input>
                     </div>
+                    
+                    {this.state.message === true &&
+                        <strong className="red-text">The date you have entered is unavailable for the selected trainer. Try again.</strong>
+                    }
 
                     <div className="input-field">
                         <button className="btn blue lighten-1"  onClick={this.checkTime}>Update</button>
@@ -198,7 +220,8 @@ const mapStateToProps = (state) => {
     return{
         auth: state.firebase.auth,
         users: state.firestore.ordered.users, 
-        courses: state.firestore.ordered.courses
+        courses: state.firestore.ordered.courses,
+        profile: state.firebase.profile
     }
 }
 

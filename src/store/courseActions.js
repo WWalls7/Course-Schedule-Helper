@@ -72,9 +72,9 @@ export const removeTrainer = (course) => {
         firestore.collection('courses').doc(course.id).update({
             trainers: trainers
         }).then(() => {
-            dispatch({ type: 'UPDATE_COURSE', course });
+            dispatch({ type: 'REMOVE_TRAINER', course });
         }).catch((err) => {
-            dispatch({ type: 'UPDATE_COURSE_ERROR', err}); 
+            dispatch({ type: 'REMOVE_TRAINER_ERROR', err}); 
         })
     }
 };
@@ -99,11 +99,27 @@ export const addRequest = (request) => {
             content: "Requested a schedule change",
             type: "request",
             request: request,
-            createdAt: new Date()
+            createdAt: new Date(),
+            status: "requested"
         }).then(() => {
             dispatch({ type: 'CREATE_REQUEST' });
         }).catch((err) => {
             dispatch({ type: 'CREATE_REQUEST_ERROR', err}); 
+        })
+    }
+};
+
+export const updateRequest = (newStatus, notification) => {
+    return (dispatch, getState, {getFirebase, getFirestore}) => {
+        //make async call to DB
+        const firestore = getFirestore();
+        console.log(notification, newStatus)
+        firestore.collection('notifications').doc(notification).update({
+            status: newStatus
+        }).then(() => {
+            dispatch({ type: 'UPDATE_REQUEST' });
+        }).catch((err) => {
+            dispatch({ type: 'UPDATE_REQUEST_ERROR', err}); 
         })
     }
 };
