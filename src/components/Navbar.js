@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import {Link} from 'react-router-dom';
 import SchedulerLinks from './SchedulerLinks';
 import TrainerLinks from './TrainerLinks';
+import AdminLinks from './AdminLinks'
 import SignedOut from './SignedOut';
 import {connect} from 'react-redux'
 
@@ -12,6 +13,9 @@ class Navbar extends Component {
         }
         else if(auth.uid && profile.userType === "trainer") {
             return <TrainerLinks profile={profile}/>
+        }
+        else if(auth.uid && profile.userType === "admin") {
+            return <AdminLinks profile={profile}/>
         }
         else{
             return <SignedOut />
@@ -25,7 +29,7 @@ class Navbar extends Component {
         return(
             <nav>
                 <div className="nav-wrapper grey darken-3">
-                    <Link to='/' className="brand-logo">Course Schedule Helper</Link>
+                    <Link to='/' className="brand-logo left">Course Schedule Helper</Link>
                     {auth.isLoaded && links}
                 </div>
             </nav>

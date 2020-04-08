@@ -169,8 +169,11 @@ const Cal =(props)=>{
               <Button className="button" onClick={(event)=>deleteCourse(course)}>Delete Course</Button>
             </div>
           }
-          
-          
+          {props.type === "admin" &&
+            <div className="footer">
+              <Button className="button" onClick={(event)=>deleteCourse(course)}>Delete Course</Button>
+            </div>
+          }
         </Modal>
       );   
     }

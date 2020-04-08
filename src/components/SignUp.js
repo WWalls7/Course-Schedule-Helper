@@ -74,13 +74,13 @@ class SignUp extends Component {
         }
     }
     render() {
-        const {auth, authError} = this.props;
-        if (auth.uid && this.state.userType === "scheduler") return <Redirect to='/' />
-        if (auth.uid && this.state.userType === "trainer") return <Redirect to='/trainer' />
+        const {auth, authError, profile} = this.props;
+        if (profile.userType === 'trainer') return <Redirect to='/trainer' />
+        if (profile.userType === 'scheduler') return <Redirect to='/' />
         return (
             <div className="container">
                 <form onSubmit={this.handleSubmit} className="white">
-                    <h5 className="grey-text text-darken-3">Sign Up</h5>
+                    <h5 className="grey-text text-darken-3">New User Details</h5>
                     <div className="input-field">
                         <label htmlFor="firstName">First Name</label>
                         <input type="text" id="firstName" onChange={this.handleChange} required/>
@@ -107,7 +107,7 @@ class SignUp extends Component {
                             <option value="" disabled selected>Choose your user type</option>
                             <option value="scheduler">Scheduler</option>
                             <option value="trainer">Trainer</option>
-                            {/* <option value="admin">Administrator</option> */}
+                            <option value="admin">Administrator</option>
                         </select>
                     </div>
 
@@ -156,7 +156,8 @@ class SignUp extends Component {
 const mapStateToProps = (state) => {
     return{
         auth: state.firebase.auth,
-        authError: state.auth.authError
+        authError: state.auth.authError,
+        profile: state.firebase.profile
     }
 }
 

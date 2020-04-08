@@ -22,6 +22,7 @@ class SignIn extends Component {
         console.log(profile)
         if (auth.uid && profile.userType === "scheduler") return <Redirect to='/'/>
         if (auth.uid && profile.userType === "trainer") return <Redirect to='/trainer'/>
+        if (auth.uid && profile.userType === "admin") return <Redirect to='/'/>
         return (
             <div className="container">
                 <form onSubmit={this.handleSubmit} className="white">
@@ -38,6 +39,9 @@ class SignIn extends Component {
                         <button className="btn blue lighten-1">Login</button>
                         <div className="center">
                             {authError ? <p>{authError}</p> : null}
+                        </div>
+                        <div className="center">
+                            <label>If you do not have an account, contact your department's administrator.</label>
                         </div>
                     </div>
                 </form>
