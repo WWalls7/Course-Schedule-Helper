@@ -63,7 +63,9 @@ class viewRequests extends Component {
         var trainerNotifications = []
         notifications && notifications.forEach(notification => {
             if(notification.type === "request" && notification.request.trainerId === id){
-                trainerNotifications.push(notification)
+                if(this.getCourse(notification.request.id) !== undefined){
+                    trainerNotifications.push(notification)
+                }
             }
         });
         return trainerNotifications
@@ -71,6 +73,7 @@ class viewRequests extends Component {
     render() {
         const {notifications, auth, profile, users} = this.props;
         var trainerNotifications = this.getNotifications(notifications, auth.uid)
+        console.log(trainerNotifications)
         var openRequests = this.openRequests(trainerNotifications)
         var approvedRequests = this.approvedRequests(trainerNotifications)
         var rejectedRequests = this.rejectedRequests(trainerNotifications)

@@ -35,7 +35,9 @@ class Requests extends Component {
         var openRequests = []
         notifications && notifications.forEach(notification => {
             if(notification.status === this.props.type){
-                openRequests.push(notification)
+                if(this.getCourse(notification.request.id) !== undefined){
+                    openRequests.push(notification)
+                }
             }
         })
         return openRequests
