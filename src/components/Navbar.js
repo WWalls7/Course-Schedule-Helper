@@ -28,8 +28,8 @@ class Navbar extends Component {
         console.log(auth)
         return(
             <nav>
-                <div className="nav-wrapper grey darken-3">
-                    <Link to='/' className="brand-logo left">Course Schedule Helper</Link>
+                <div className="nav-wrapper grey darken-4">
+                    <Link to='/' className="brand-logo left ">Course Schedule Helper</Link>
                     {auth.isLoaded && links}
                 </div>
             </nav>

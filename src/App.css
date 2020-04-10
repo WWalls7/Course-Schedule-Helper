@@ -1,0 +1,12 @@
+body{
+    background-color: #1c6785;
+    background-image: url(pastel.png);
+    background-repeat: no-repeat;
+    background-size: inherit;
+}
+
+*{
+    margin: 0;
+    padding: 0;
+}
+

@@ -1,23 +1,32 @@
 .modal {
-text-align: center;
-vertical-align: middle;
-position: absolute;
-z-index: 100;
-top: 10%
-}
-.footer{
-    width: 100%
-}
-.button{
-    margin-right: 0.5em;
-    margin-left: 0.5em
-}
-.card{
-    margin-top: 2em
-}
-.close{
-    margin-bottom: .5em;
+    text-align: center;
+    vertical-align: middle;
     position: absolute;
-    right: 2em;
-    top: .75em;
-}
+    z-index: 100;
+    top: 10%
+    }
+    .footer{
+        width: 100%
+    }
+    .button{
+        margin-right: 0.5em;
+        margin-left: 0.5em
+    }
+    .card{
+        margin-top: 2em
+    }
+    .close{
+        margin-bottom: .5em;
+        position: absolute;
+        right: 2em;
+        top: .75em;
+    }
+    .Cal{
+        color: white;
+        background-color: rgb(255, 255, 255);
+    }
+    div.Cal{
+        color: black;
+    }
+    
+    
