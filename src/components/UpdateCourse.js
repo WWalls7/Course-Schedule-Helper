@@ -3,6 +3,7 @@ import {connect} from 'react-redux'
 import {updateCourse, addNotification} from '../store/courseActions'
 import {Redirect} from 'react-router-dom'
 import Cal from './Cal'
+import moment from 'moment';
 
 class UpdateCourse extends Component {
     state = {
@@ -16,7 +17,7 @@ class UpdateCourse extends Component {
         frequency: this.props.location.state.course.frequency,
         skills: "",
         trainers: this.props.location.state.course.trainers,
-        message: false
+        message: ''
     }
     handleChange = (e) => {
         this.setState({
@@ -31,12 +32,19 @@ class UpdateCourse extends Component {
         const currentTrainers = this.getAssignedTrainers(trainers, this.state.trainers)
         var assignedCourses = this.getCourses(currentTrainers, this.props.courses)
         var set = false
+        if(!moment(this.state.endDate+" "+this.state.endTime).isAfter(this.state.startDate+" "+this.state.startTime)){
+            this.setState({
+                message: "The end time must be after the start time"
+            })
+            set = true
+            return
+        }
         assignedCourses.forEach(course => {
             var blockedStart = Date.parse(course.startDate+" "+course.startTime)
             var blockedEnd = Date.parse(course.endDate+" "+course.endTime)
             if((start >= blockedStart && start <= blockedEnd)||(end >= blockedStart && end <= blockedEnd)){
                 this.setState({
-                    message: true
+                    message: "The date you have entered is unavailable for the selected trainer. Try again."
                 })
                 set = true
             }
@@ -77,15 +85,6 @@ class UpdateCourse extends Component {
 
         var today = year + "-" + month + "-" + day;       
         return today;
-    }
-    minEndTime = () => {
-        if(this.state.startTime.match(/([01]?[0-9]|2[0-3]):[0-5][0-9]/) === null){return}
-        var hour = this.state.startTime.split(":")[0]
-        var minute = this.state.startTime.split(":")[1]
-        if(hour.charAt(1) === null){
-            return "["+hour.charAt(0)+"-9]:["+minute.charAt(0)+"-5]["+minute.charAt(1)+"-9]"
-        }
-        return "["+hour.charAt(0)+"-9]["+hour.charAt(1)+"-3]:["+minute.charAt(0)+"-5]["+minute.charAt(1)+"-9]"
     }
     getCourses = (trainers, courses) =>{
         var trainerCourses = []
@@ -172,11 +171,11 @@ class UpdateCourse extends Component {
 
                     <div className="input-field">
                         <label htmlFor="endTime">End Time (after start time)</label>
-                        <input type="text" id="endTime" pattern={this.minEndTime()} onChange={this.handleChange} ></input>
+                        <input type="text" id="endTime" pattern="([01]?[0-9]|2[0-3]):[0-5][0-9]" onChange={this.handleChange} ></input>
                     </div>
                     
-                    {this.state.message === true &&
-                        <strong className="red-text">The date you have entered is unavailable for the selected trainer. Try again.</strong>
+                    {this.state.message !== '' &&
+                        <strong className="red-text">{this.state.message}</strong>
                     }
 
                     <div className="input-field">
