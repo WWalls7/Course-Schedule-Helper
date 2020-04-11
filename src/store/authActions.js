@@ -62,7 +62,6 @@ export const signUp = (newUser) => {
 
 export const updateProfile = (user) => {
     return (dispatch, getState, {getFirebase, getFirestore}) => {
-        const firebase = getFirebase();
         const firestore = getFirestore();
         if (user.userType === "trainer"){
             firestore.collection('users').doc(user.id).update({

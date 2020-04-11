@@ -1,4 +1,4 @@
-import React, { Component } from 'react'
+import React from 'react'
 import CourseSummary from './CourseSummary'
 
 const CourseList = ({courses}) => {

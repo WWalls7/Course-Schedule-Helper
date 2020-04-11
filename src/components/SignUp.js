@@ -74,7 +74,7 @@ class SignUp extends Component {
         }
     }
     render() {
-        const {auth, authError, profile} = this.props;
+        const {authError, profile} = this.props;
         if (profile.userType === 'trainer') return <Redirect to='/trainer' />
         if (profile.userType === 'scheduler') return <Redirect to='/' />
         return (
@@ -155,7 +155,6 @@ class SignUp extends Component {
 
 const mapStateToProps = (state) => {
     return{
-        auth: state.firebase.auth,
         authError: state.auth.authError,
         profile: state.firebase.profile
     }

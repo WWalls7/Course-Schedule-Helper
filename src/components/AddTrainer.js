@@ -120,9 +120,8 @@ class AddTrainer extends Component {
         return trainersWithSkill
     }
     render() {
-        const {auth, users, courses, profile} = this.props;
-        const trainers = this.getTrainers(users) 
-        const course = this.props.location.state.course
+        const {auth, users, profile} = this.props;
+        const trainers = this.getTrainers(users)
         const currentTrainers = this.getAssignedTrainers(trainers, this.state.trainers) 
         const notAssignedTrainers = this.getNotAssignedTrainers(trainers, currentTrainers)
         
@@ -194,8 +193,7 @@ class AddTrainer extends Component {
 const mapStateToProps = (state) => {
     return{
         auth: state.firebase.auth,
-        users: state.firestore.ordered.users, 
-        courses: state.firestore.ordered.courses,
+        users: state.firestore.ordered.users,
         profile: state.firebase.profile
     }
 }

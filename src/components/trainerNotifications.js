@@ -59,7 +59,7 @@ class trainerNotifications extends Component {
         return assigned
     }
     render() {
-        const {courses, auth, notifications, profile, users} = this.props;
+        const {auth, notifications, profile, users} = this.props;
         var trainerNotifications = this.trainerNotifications(notifications, auth)
         const trainers = this.getTrainers(users)
         if (!auth.uid) return <Redirect to='/signin' />
@@ -108,7 +108,6 @@ class trainerNotifications extends Component {
 
 const mapStateToProps = (state) => {
     return{
-        courses: state.firestore.ordered.courses,
         auth: state.firebase.auth,
         notifications: state.firestore.ordered.notifications,
         profile: state.firebase.profile,

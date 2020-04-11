@@ -65,7 +65,7 @@ class RemoveTrainer extends Component {
           })
     }
     render() {
-        const {auth, users, courses, profile} = this.props;
+        const {auth, users, profile} = this.props;
         const trainers = this.getTrainers(users) 
         const currentTrainers = this.getAssignedTrainers(trainers, this.state.trainers)
         const removable = this.getRemovable(currentTrainers)
@@ -127,8 +127,7 @@ class RemoveTrainer extends Component {
 const mapStateToProps = (state) => {
     return{
         auth: state.firebase.auth,
-        users: state.firestore.ordered.users, 
-        courses: state.firestore.ordered.courses,
+        users: state.firestore.ordered.users,
         profile: state.firebase.profile
     }
 }
