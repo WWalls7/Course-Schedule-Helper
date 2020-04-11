@@ -15,7 +15,7 @@ class Requests extends Component {
             trainer: notification.request.trainerId
         }
         console.log(course)
-        this.props.addNotification("You have been removed from a course after requesting a change", course)
+        this.props.addNotification("You have been removed from a course after requesting a change", {...course, trainerRequesting: notification.request.trainerId})
         this.props.removeTrainer(newCourse)
     }
     reject = (notification) => {

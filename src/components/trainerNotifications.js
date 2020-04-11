@@ -8,9 +8,13 @@ import {Redirect} from 'react-router-dom'
 class trainerNotifications extends Component {
     trainerNotifications = (notifications, auth) => {
         var courseNotifs = []
+
         notifications && notifications.forEach(notif => {
             if(notif.type === "trainer"){
-                if(!Array.isArray(notif.course.trainers)){
+                if(notif.content === "You have been removed from a course after requesting a change" && notif.course.trainerRequesting === auth.uid){
+                    courseNotifs.push(notif)
+                }
+                else if(!Array.isArray(notif.course.trainers)){
                     if (notif.course.trainers === auth.uid){
                         courseNotifs.push(notif)
                     }

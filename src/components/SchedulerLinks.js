@@ -7,7 +7,7 @@ const SchedulerLinks = (props) => {
     return(
         <ul className="right">
             <li><NavLink to='/create'>Create Course</NavLink></li>
-            <li><NavLink to='/updates'>View Updates</NavLink></li>
+            <li><NavLink to='/updates'>View Requests</NavLink></li>
             <li><NavLink to='/contact'>Contact Information</NavLink></li>
             <li><a onClick={props.signOut}>Log Out</a></li>
             <li><NavLink to='/profile' className='btn btn-floating blue lighten-1'>
