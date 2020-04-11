@@ -23,10 +23,8 @@ class Contact extends Component {
     }
     render() {
         const {auth, users} = this.props;
-        const trainers = this.getTrainers(users) 
-        console.log(trainers)
-        const schedulers = this.getSchedulers(users) 
-        console.log(schedulers)
+        const trainers = this.getTrainers(users)
+        const schedulers = this.getSchedulers(users)
         if (!auth.uid) return <Redirect to='/signin' />
         return (
             <div className="container">

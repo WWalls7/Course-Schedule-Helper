@@ -9,7 +9,6 @@ class Profile extends Component {
     }
     render() {
         const {auth, profile} = this.props; 
-        console.log(profile)
         if (!auth.uid) return <Redirect to='/signin' />
         return (
             <div className="container">

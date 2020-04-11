@@ -49,7 +49,6 @@ class RemoveTrainer extends Component {
         return assigned
     }
     getRemovable(currentTrainers){
-        console.log(currentTrainers.length)
         if(currentTrainers.length === 1 || currentTrainers.length === 0){
             return 'You must have at least two trainers to remove'
         }
@@ -58,7 +57,6 @@ class RemoveTrainer extends Component {
         }
     }
     redirect = () =>{
-        console.log(this.props)
         this.props.history.push({
             pathname: '/addtrainer',
             state: {

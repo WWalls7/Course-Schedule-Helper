@@ -19,7 +19,6 @@ class SignIn extends Component {
     }
     render() {
         const {authError, auth, profile} = this.props;
-        console.log(profile)
         if (auth.uid && profile.userType === "scheduler") return <Redirect to='/'/>
         if (auth.uid && profile.userType === "trainer") return <Redirect to='/trainer'/>
         if (auth.uid && profile.userType === "admin") return <Redirect to='/'/>
@@ -51,7 +50,6 @@ class SignIn extends Component {
 }
 
 const mapStateToProps = (state) => {
-    console.log(state)
     return{
         authError: state.auth.authError,
         auth: state.firebase.auth,

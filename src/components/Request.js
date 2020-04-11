@@ -23,7 +23,6 @@ class Request extends Component {
     }
     handleSubmit = (e) => {
         e.preventDefault();
-        console.log(this.state)
         this.props.addRequest(this.state)
     }
     getTrainers = (users) =>{
@@ -54,7 +53,6 @@ class Request extends Component {
         return trainerNotifications
     }
     checkNotification = (id, notifications) =>{
-        console.log(id, notifications)
         for(var i=0; i<notifications.length; i++){
             if(notifications[i].request.id === id){
                 return notifications[i]
@@ -66,10 +64,8 @@ class Request extends Component {
         const trainers = this.getTrainers(users) 
         const course = this.props.location.state.course
         const currentTrainers = this.getAssignedTrainers(trainers, this.state.trainers) 
-        console.log(notifications)
         var trainerNotifications = this.getNotifications(notifications, auth.uid)
         var notification = this.checkNotification(course.id, trainerNotifications)
-        console.log(notification)
         if (!auth.uid) return <Redirect to='/signin' />
         if (profile.userType === 'scheduler') return <Redirect to='/' />
         return (
@@ -121,7 +117,6 @@ class Request extends Component {
 }
 
 const mapStateToProps = (state) => {
-    console.log(state.firestore)
     return{
         auth: state.firebase.auth,
         users: state.firestore.ordered.users,

@@ -42,7 +42,6 @@ class UpdateCourse extends Component {
             }
         })
         if(!set){
-            console.log(this.state)
             this.props.addNotification("A course you are assigned to has been updated", this.state)
             this.props.updateCourse(this.state)
             this.props.history.push('/')
@@ -100,7 +99,6 @@ class UpdateCourse extends Component {
     }
     getCourses = (trainers, courses) =>{
         var trainerCourses = []
-        console.log(courses)
         trainers.forEach(trainer => {
             courses && courses.forEach(course => {
                 if(course.trainers.includes(trainer.id) && !trainerCourses.includes(course) && course.id !== this.state.id){
@@ -111,7 +109,6 @@ class UpdateCourse extends Component {
         return trainerCourses
     }
     render() {
-        console.log(this.props.location.state.course)
         const {auth, users, courses, profile} = this.props;
         const course = this.props.location.state.course
         const trainers = this.getTrainers(users) 

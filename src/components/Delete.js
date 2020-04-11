@@ -19,7 +19,6 @@ class Delete extends Component {
     }
     handleSubmit = (e) => {
         e.preventDefault();
-        console.log(this.state)
         this.props.addNotification("A course you were assigned to has been deleted", this.state)
         this.props.deleteCourse(this.state)
         this.props.history.push('/')

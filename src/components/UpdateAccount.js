@@ -49,7 +49,6 @@ class UpdateAccount extends Component {
         this.setState({
             skills: skills
         })
-        console.log(this.state.skills)
     }
     handleSubmit = (e) => {
         e.preventDefault();
@@ -80,7 +79,6 @@ class UpdateAccount extends Component {
     render() {
         const {auth, profile} = this.props;
         const skills = this.state.skills
-        console.log(this.state.skills)
         if (!auth.uid) return <Redirect to='/signin' />
         return (
             <div className="container">

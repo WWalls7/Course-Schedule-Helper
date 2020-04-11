@@ -73,11 +73,9 @@ class viewRequests extends Component {
     render() {
         const {notifications, auth, profile, users} = this.props;
         var trainerNotifications = this.getNotifications(notifications, auth.uid)
-        console.log(trainerNotifications)
         var openRequests = this.openRequests(trainerNotifications)
         var approvedRequests = this.approvedRequests(trainerNotifications)
         var rejectedRequests = this.rejectedRequests(trainerNotifications)
-        console.log(openRequests, approvedRequests, rejectedRequests)
         const trainers = this.getTrainers(users)
         if (!auth.uid) return <Redirect to='/signin' />
         if (profile.userType === 'scheduler') return <Redirect to='/' />
