@@ -21,6 +21,31 @@ class UpdateAccount extends Component {
           [e.target.id]: e.target.value  
         })
     }
+    handleSubmit = (e) => {
+        e.preventDefault();
+        if(this.state.userType === "trainer"){
+            var trainerState = {
+                userType: this.state.userType,
+                id: this.props.auth.uid,
+                firstName: this.state.firstName,
+                lastName: this.state.lastName,
+                skills: this.state.skills,
+                phoneNo: this.state.phoneNo
+            }
+            this.props.updateProfile(trainerState)
+        }
+        else{
+            var schedulerState = {
+                userType: this.state.userType,
+                id: this.props.auth.uid,
+                firstName: this.state.firstName,
+                lastName: this.state.lastName,
+                phoneNo: this.state.phoneNo
+            }
+            this.props.updateProfile(schedulerState)
+        }
+        this.props.history.push('/profile')
+    }
     addSkill = (e) => {
         var skill = {skill: this.state.skill, skillLvl: this.state.skillLvl}
         if(this.state.skills.length === 0){
@@ -50,32 +75,6 @@ class UpdateAccount extends Component {
             skills: skills
         })
     }
-    handleSubmit = (e) => {
-        e.preventDefault();
-        if(this.state.userType === "trainer"){
-            var trainerState = {
-                userType: this.state.userType,
-                id: this.props.auth.uid,
-                firstName: this.state.firstName,
-                lastName: this.state.lastName,
-                skills: this.state.skills,
-                phoneNo: this.state.phoneNo
-            }
-            this.props.updateProfile(trainerState)
-        }
-        else{
-            var schedulerState = {
-                userType: this.state.userType,
-                id: this.props.auth.uid,
-                firstName: this.state.firstName,
-                lastName: this.state.lastName,
-                phoneNo: this.state.phoneNo
-            }
-            this.props.updateProfile(schedulerState)
-        }
-        this.props.history.push('/profile')
-    }
-
     render() {
         const {auth, profile} = this.props;
         const skills = this.state.skills

@@ -1,6 +1,5 @@
 import React, { Component } from 'react'
 import Notifications from './Notifications'
-import CourseList from './CourseList'
 import Requests from './Requests'
 import {connect} from 'react-redux'
 import {firestoreConnect} from 'react-redux-firebase'
@@ -18,7 +17,7 @@ class Updates extends Component {
         return courseNotifs
     }
     render() {
-        const {courses, auth, notifications, profile} = this.props;
+        const {auth, notifications, profile} = this.props;
         var courseNotifications = this.courseNotifications(notifications)
         if (!auth.uid) return <Redirect to='/signin' />
         if (profile.userType === 'trainer') return <Redirect to='/trainer' />
@@ -32,7 +31,6 @@ class Updates extends Component {
                     </div>
                     <div className="col s12 m5 offset-m1">
                         <Notifications notifications={courseNotifications}/>
-                        <CourseList courses={courses} />
                     </div>
                 </div>
             </div>
@@ -42,7 +40,6 @@ class Updates extends Component {
 
 const mapStateToProps = (state) => {
     return{
-        courses: state.firestore.ordered.courses,
         auth: state.firebase.auth,
         notifications: state.firestore.ordered.notifications,
         profile: state.firebase.profile
@@ -52,7 +49,6 @@ const mapStateToProps = (state) => {
 export default compose(
     connect(mapStateToProps),
     firestoreConnect([
-        {collection: 'courses', orderBy: ['createdAt', 'desc']},
         {collection: 'notifications'},
         {collection: 'users'}
     ])

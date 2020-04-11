@@ -101,16 +101,6 @@ class CreateCourse extends Component {
         });
         return trainersWithSkill
     }
-    getBlockedTimes = (trainer, courses) => {
-        var times =[]
-        courses && courses.forEach(course => {
-            if(course.trainers.includes(trainer)){
-                times.push(course.startDate + " at " + course.startTime + " to " +
-                course.endDate + " at " + course.endTime)
-            }
-        });
-        return times
-    }
     minEndTime = () => {
         if(this.state.startTime.match(/([01]?[0-9]|2[0-3]):[0-5][0-9]/) === null){return}
         var hour = this.state.startTime.split(":")[0]

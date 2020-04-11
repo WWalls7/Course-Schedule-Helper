@@ -31,19 +31,6 @@ class SignUp extends Component {
             })
         }
     }
-    addSkill = (e) => {
-        var skill = {skill: this.state.skill, skillLvl: this.state.skillLvl}
-        if(this.state.skills.length === 0){
-            this.setState({
-                skills: [skill]
-            })
-        }
-        else{
-            this.setState({
-                skills: [...this.state.skills, skill]
-            })
-        }
-    }
     handleSubmit = (e) => {
         e.preventDefault();
         if(this.state.userType === "trainer"){
@@ -71,6 +58,19 @@ class SignUp extends Component {
             }
             this.props.signUp(schedulerState)
             this.props.history.push('/')
+        }
+    }
+    addSkill = (e) => {
+        var skill = {skill: this.state.skill, skillLvl: this.state.skillLvl}
+        if(this.state.skills.length === 0){
+            this.setState({
+                skills: [skill]
+            })
+        }
+        else{
+            this.setState({
+                skills: [...this.state.skills, skill]
+            })
         }
     }
     render() {

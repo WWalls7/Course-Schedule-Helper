@@ -65,16 +65,6 @@ class UpdateCourse extends Component {
         });
         return assigned
     }
-    getBlockedTimes = (trainer, courses) => {
-        var times =[]
-        courses && courses.forEach(course => {
-            if(course.trainers.includes(trainer.id)){
-                times.push(course.startDate + " at " + course.startTime + " to " +
-                course.endDate + " at " + course.endTime)
-            }
-        });
-        return times
-    }
     getDate = () => {
         var date = new Date();
 
@@ -156,20 +146,6 @@ class UpdateCourse extends Component {
                     <div className="input-field">
                         <h5 className="grey-text text-darken-3">Choose a Time</h5>
                         <p>The assigned trainers are not available during these times:</p>
-                        {/* <ul>
-                            {currentTrainers && currentTrainers.map(trainer => {
-                                return(
-                                    <div>
-                                        <strong>{trainer.firstName+" "+trainer.lastName}</strong>
-                                        {this.getBlockedTimes(trainer, courses).map(time => {
-                                            return (
-                                                <li>{time}</li>
-                                            )
-                                        })}
-                                    </div>
-                                )
-                            })}
-                        </ul> */}
                         <div className="card">
                             <div className="card-content">
                                 <Cal courses={trainerCourses} trainers={trainers} history={this.props.history}/>
