@@ -66,7 +66,7 @@ export const updateProfile = (user) => {
         if (user.userType === "trainer"){
             firestore.collection('users').doc(user.id).update({
                 firstName: user.firstName,
-                lastname: user.lastName,
+                lastName: user.lastName,
                 phoneNo:user.phoneNo,
                 skills: user.skills
             }).then(() => {
@@ -78,7 +78,7 @@ export const updateProfile = (user) => {
         else{
             firestore.collection('users').doc(user.id).update({
                 firstName: user.firstName,
-                lastname: user.lastName,
+                lastName: user.lastName,
                 phoneNo:user.phoneNo
             }).then(() => {
                 dispatch({ type: 'UPDATE_PROFILE'});

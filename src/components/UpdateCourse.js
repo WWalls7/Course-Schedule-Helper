@@ -44,7 +44,7 @@ class UpdateCourse extends Component {
             var blockedEnd = Date.parse(course.endDate+" "+course.endTime)
             if((start >= blockedStart && start <= blockedEnd)||(end >= blockedStart && end <= blockedEnd)){
                 this.setState({
-                    message: "The date you have entered is unavailable for the selected trainer. Try again."
+                    message: "The date you have entered is unavailable for one of the selected trainers. Try again."
                 })
                 set = true
             }

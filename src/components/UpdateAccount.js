@@ -14,7 +14,9 @@ class UpdateAccount extends Component {
         removedSkill: '',
         skillLvl: 0,
         phoneNo: this.props.profile.phoneNo,
-        isTrainer: false
+        isTrainer: false,
+        message: '',
+        removeMessage: '',
     }
     handleChange = (e) => {
         this.setState({
@@ -47,21 +49,43 @@ class UpdateAccount extends Component {
         this.props.history.push('/profile')
     }
     addSkill = (e) => {
+        if(this.state.skill === '' || this.state.skillLvl === 0 || this.state.skillLvl === ''){
+            this.setState({
+                message: "You must enter a skill type and skill level to add a skill"
+            })
+            return
+        }
+        else if(this.state.skillLvl < 1 || this.state.skillLvl > 4){
+            this.setState({
+                message: "You must enter a skill level from 1 to 4"
+            })
+            return
+        }
         var skill = {skill: this.state.skill, skillLvl: this.state.skillLvl}
         if(this.state.skills.length === 0){
             this.setState({
-                skills: [skill]
+                skills: [skill],
+                message: "Skill added successfully. Remember to press 'Update' to save changes.",
+                skill: ''
             })
         }
         else{
             this.setState({
-                skills: [...this.state.skills, skill]
+                skills: [...this.state.skills, skill],
+                message: "Skill added successfully. Remember to press 'Update' to save changes.",
+                skill: ''
             })
         }
     }
     removeSkill = (e) => {
+        if(this.state.removedSkill === ''){
+            this.setState({
+                removeMessage: "You must select a skill to remove."
+            })
+            return
+        }
         var skill = this.state.removedSkill
-        var skills = [...this.props.profile.skills]
+        var skills = [...this.state.skills]
         var index = -1
         for(var i=0; i< skills.length; i++){
             if(skills[i].skill === skill){
@@ -70,14 +94,20 @@ class UpdateAccount extends Component {
         }
         if (index !== -1) {
             skills.splice(index, 1);
+            this.setState({
+                skills: skills,
+                removeMessage: "Skill removed successfully. Remember to press 'Update' to save changes."
+            })
         }
-        this.setState({
-            skills: skills
-        })
+        else{
+            this.setState({
+                removeMessage: "Select another skill to remove."
+            })
+        }
+            
     }
     render() {
         const {auth, profile} = this.props;
-        const skills = this.state.skills
         if (!auth.uid) return <Redirect to='/signin' />
         return (
             <div className="container">
@@ -90,7 +120,7 @@ class UpdateAccount extends Component {
                         <p>Account Type: {profile.userType}</p>
                         {profile.userType === "trainer" &&
                             <div><p>Skills: </p>
-                                {profile.skills && profile.skills.map(skill => {
+                                {this.state.skills && this.state.skills.map(skill => {
                                     return (
                                         <p>Skill: {skill.skill} - Skill Level: {skill.skillLvl}</p>
                                     )
@@ -125,25 +155,29 @@ class UpdateAccount extends Component {
                             </div>
                             <div className="input-field">
                                 <label htmlFor="skillLvl">Skill Level</label>
-                                <input type="number" min="1" max ="4" id="skillLvl" onChange={this.handleChange}></input>
+                                <input type="number" id="skillLvl" onChange={this.handleChange}></input>
                             </div>
+                            {this.state.message !== '' &&
+                                <strong className="red-text">{this.state.message}</strong>
+                            }
                             <div className="input-field">
                                 <button type="button" className="btn green lighten-1" onClick={this.addSkill} >Add Skill</button>
                             </div>
-
-                        
                             <h5 className="grey-text text-darken-3">Remove a Skill</h5>
                             <div className="input-field">
                                 <label>Skill Name</label><br/>
-                                <select id="removedSkill" className="browser-default" onChange={this.handleChange} required>
+                                <select id="removedSkill" className="browser-default" onChange={this.handleChange}>
                                     <option value='' disabled selected></option>
-                                    {skills.map(skill => {
+                                    {this.state.skills.map(skill => {
                                         return (
                                             <option value={skill.skill}>{skill.skill}</option>
                                         )
                                     })}
                                 </select>
                             </div>
+                            {this.state.removeMessage !== '' &&
+                                <strong className="red-text">{this.state.removeMessage}</strong>
+                            }
                             <div className="input-field">
                                 <button type="button" className="btn green lighten-1" onClick={this.removeSkill} >Remove Skill</button>
                             </div>

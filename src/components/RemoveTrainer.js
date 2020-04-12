@@ -26,7 +26,7 @@ class RemoveTrainer extends Component {
     }
     handleSubmit = (e) => {
         e.preventDefault();
-        this.props.addNotification("You have been removed from a course", this.state)
+        this.props.addNotification("You have been removed from a course", {...this.state, trainerToNotify: this.state.trainer})
         this.props.removeTrainer(this.state)
         this.props.history.push('/')
     }

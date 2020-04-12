@@ -98,7 +98,7 @@ class Request extends Component {
                             <br/><strong>Would you like to continue?</strong></p>
                         
                         {notification === undefined &&
-                            <button className="btn blue lighten-1">Request Change</button>
+                            <button className="btn blue lighten-1">Confirm Request</button>
                         }
                     </div>
                     <div>
