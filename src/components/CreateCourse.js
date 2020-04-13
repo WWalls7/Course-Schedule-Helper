@@ -49,6 +49,18 @@ class CreateCourse extends Component {
             set = true
             return
         }
+        if(!this.state.title.replace(/\s/g, '').length){
+            this.setState({
+                message: "You must enter a valid title to create"
+            })
+            return
+        }
+        if(!this.state.description.replace(/\s/g, '').length){
+            this.setState({
+                message: "You must enter a valid description to create"
+            })
+            return
+        }
         assignedCourses.forEach(course => {
             var blockedStart = Date.parse(course.startDate+" "+course.startTime)
             var blockedEnd = Date.parse(course.endDate+" "+course.endTime)
@@ -131,17 +143,17 @@ class CreateCourse extends Component {
                     <h5 className="grey-text text-darken-3">Create Course</h5>
                     <div className="input-field">
                         <label htmlFor="title">Title</label>
-                        <input type="text" id="title" onChange={this.handleChange} required/>
+                        <input type="text" id="title" maxlength="50" onChange={this.handleChange} required/>
                     </div>
 
                     <div className="input-field">
                         <label htmlFor="description">Description</label>
-                        <textarea id="description" className="materialize-textarea" onChange={this.handleChange} required></textarea>
+                        <textarea id="description" className="materialize-textarea" maxlength="500" onChange={this.handleChange} required></textarea>
                     </div>
 
                     <div className="input-field">
                         <label htmlFor="frequency">Frequency</label>
-                        <input type="number" id="frequency" name="quantity" min="1" onChange={this.handleChange} required></input>
+                        <input type="number" id="frequency" name="quantity" min="1" max="10" onChange={this.handleChange} required></input>
                     </div>
 
                     <div className="input-field">

@@ -39,6 +39,36 @@ class UpdateCourse extends Component {
             set = true
             return
         }
+        if(this.state.title === '' || !this.state.title.replace(/\s/g, '').length){
+            this.setState({
+                message: "You must enter a valid title to update"
+            })
+            return
+        }
+        if(this.state.description === '' || !this.state.description.replace(/\s/g, '').length){
+            this.setState({
+                message: "You must enter a valid description to update"
+            })
+            return
+        }
+        if(this.state.frequency === ''){
+            this.setState({
+                message: "You must enter a valid frequency to update"
+            })
+            return
+        }
+        if(this.state.startTime === '' || !this.state.startTime.replace(/\s/g, '').length){
+            this.setState({
+                message: "You must enter a valid start time to update"
+            })
+            return
+        }
+        if(this.state.endTime === '' || !this.state.endTime.replace(/\s/g, '').length){
+            this.setState({
+                message: "You must enter a valid end time to update"
+            })
+            return
+        }
         assignedCourses.forEach(course => {
             var blockedStart = Date.parse(course.startDate+" "+course.startTime)
             var blockedEnd = Date.parse(course.endDate+" "+course.endTime)
@@ -128,18 +158,18 @@ class UpdateCourse extends Component {
                 <form onSubmit={this.handleSubmit} className="white">
                     <h5 className="grey-text text-darken-3">Update Course</h5>
                     <div className="input-field">
-                        <label htmlFor="title">Title: {course.title}</label>
-                        <input type="text" id="title"  onChange={this.handleChange}/>
+                        <label htmlFor="title">Title</label>
+                        <input type="text" id="title" maxlength="50" onChange={this.handleChange}/>
                     </div>
 
                     <div className="input-field">
-                        <label htmlFor="description">Description: {course.description}</label>
-                        <textarea id="description" className="materialize-textarea" onChange={this.handleChange}></textarea>
+                        <label htmlFor="description">Description</label>
+                        <textarea id="description" className="materialize-textarea" maxlength="500" onChange={this.handleChange}></textarea>
                     </div>
 
                     <div className="input-field">
-                        <label htmlFor="frequency">Frequency: {course.frequency}</label>
-                        <input type="number" id="frequency" name="quantity" min="1" onChange={this.handleChange}></input>
+                        <label htmlFor="frequency">Frequency</label>
+                        <input type="number" id="frequency" name="quantity" min="1" max="10" onChange={this.handleChange}></input>
                     </div>
                 
                     <div className="input-field">

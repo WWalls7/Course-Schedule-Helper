@@ -35,6 +35,18 @@ class SignUp extends Component {
     }
     handleSubmit = (e) => {
         e.preventDefault();
+        if(!this.state.firstName.replace(/\s/g, '').length || !this.state.lastName.replace(/\s/g, '').length){
+            this.setState({
+                successMessage: "You must enter a valid name to create a new user"
+            })
+            return
+        }
+        if(!this.state.password.replace(/\s/g, '').length || this.state.password.length < 6){
+            this.setState({
+                successMessage: "You must enter a valid password to create a new user"
+            })
+            return
+        }
         if(this.state.userType === "trainer"){
             if(this.state.skills.length === 0){
                 this.setState({
@@ -107,11 +119,11 @@ class SignUp extends Component {
                     <h5 className="grey-text text-darken-3">New User Details</h5>
                     <div className="input-field">
                         <label htmlFor="firstName">First Name</label>
-                        <input type="text" id="firstName" onChange={this.handleChange} required/>
+                        <input type="text" id="firstName" maxlength="50" onChange={this.handleChange} required/>
                     </div>
                     <div className="input-field">
                         <label htmlFor="lastName">Last Name</label>
-                        <input type="text" id="lastName" onChange={this.handleChange} required/>
+                        <input type="text" id="lastName" maxlength="50" onChange={this.handleChange} required/>
                     </div>
                     <div className="input-field">
                         <label htmlFor="phoneNo">Phone Number (ex: 12345 123456)</label>
@@ -119,11 +131,11 @@ class SignUp extends Component {
                     </div>
                     <div className="input-field">
                         <label htmlFor="email">Email</label>
-                        <input type="email" id="email" onChange={this.handleChange} required/>
+                        <input type="email" id="email" maxlength="50" onChange={this.handleChange} required/>
                     </div>
                     <div className="input-field">
                         <label htmlFor="password">Password</label>
-                        <input type="password" id="password" onChange={this.handleChange} required/>
+                        <input type="password" id="password" maxlength="50" onChange={this.handleChange} required/>
                     </div>
                     <div className="input-field">
                         <label>User Type</label><br/><br/>
@@ -153,7 +165,7 @@ class SignUp extends Component {
                     
                             <div className="input-field">
                                 <label htmlFor="skill">Skill Name</label>
-                                <input type="text" id="skill" onChange={this.handleChange} />
+                                <input type="text" id="skill" maxlength="50" onChange={this.handleChange} />
                             </div>
                     
                             <div className="input-field">

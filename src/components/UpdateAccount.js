@@ -17,6 +17,7 @@ class UpdateAccount extends Component {
         isTrainer: false,
         message: '',
         removeMessage: '',
+        submitMessage: ''
     }
     handleChange = (e) => {
         this.setState({
@@ -25,6 +26,15 @@ class UpdateAccount extends Component {
     }
     handleSubmit = (e) => {
         e.preventDefault();
+        if(this.state.phoneNo === ''){
+            this.state.phoneNo = this.props.profile.phoneNo
+        }
+        if(this.state.firstName === '' || this.state.lastName === '' || !this.state.firstName.replace(/\s/g, '').length || !this.state.lastName.replace(/\s/g, '').length){
+            this.setState({
+                submitMessage: "You must enter a valid name to update"
+            })
+            return
+        }
         if(this.state.userType === "trainer"){
             var trainerState = {
                 userType: this.state.userType,
@@ -49,9 +59,9 @@ class UpdateAccount extends Component {
         this.props.history.push('/profile')
     }
     addSkill = (e) => {
-        if(this.state.skill === '' || this.state.skillLvl === 0 || this.state.skillLvl === ''){
+        if(this.state.skill === '' || !this.state.skill.replace(/\s/g, '').length || this.state.skillLvl === 0 || this.state.skillLvl === ''){
             this.setState({
-                message: "You must enter a skill type and skill level to add a skill"
+                message: "You must enter a valid skill type and skill level to add a skill"
             })
             return
         }
@@ -134,11 +144,11 @@ class UpdateAccount extends Component {
                     <h5 className="grey-text text-darken-3">Update Account</h5>
                     <div className="input-field">
                         <label htmlFor="firstName">First Name</label>
-                        <input type="text" id="firstName" onChange={this.handleChange}/>
+                        <input type="text" id="firstName" maxlength="50" onChange={this.handleChange}/>
                     </div>
                     <div className="input-field">
                         <label htmlFor="lastName">Last Name</label>
-                        <input type="text" id="lastName" onChange={this.handleChange}/>
+                        <input type="text" id="lastName" maxlength="50" onChange={this.handleChange}/>
                     </div>
                     <div className="input-field">
                         <label htmlFor="phoneNo">Phone Number (ex: 12345 123456)</label>
@@ -151,7 +161,7 @@ class UpdateAccount extends Component {
                             <h5 className="grey-text text-darken-3">Add a Skill</h5>
                             <div className="input-field">
                                 <label htmlFor="skill">Skill Name</label>
-                                <input type="text" id="skill" onChange={this.handleChange}/>
+                                <input type="text" id="skill" maxlength="50" onChange={this.handleChange}/>
                             </div>
                             <div className="input-field">
                                 <label htmlFor="skillLvl">Skill Level</label>
@@ -163,6 +173,7 @@ class UpdateAccount extends Component {
                             <div className="input-field">
                                 <button type="button" className="btn green lighten-1" onClick={this.addSkill} >Add Skill</button>
                             </div>
+                            
                             <h5 className="grey-text text-darken-3">Remove a Skill</h5>
                             <div className="input-field">
                                 <label>Skill Name</label><br/>
@@ -183,7 +194,10 @@ class UpdateAccount extends Component {
                             </div>
                         </div>
                     }
-                    
+
+                    {this.state.submitMessage !== '' &&
+                        <strong className="red-text">{this.state.submitMessage}</strong>
+                    }
                     <div className="input-field">
                         <button className="btn blue lighten-1">Update</button>
                     </div>

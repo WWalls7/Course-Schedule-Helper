@@ -68,7 +68,8 @@ export const updateProfile = (user) => {
                 firstName: user.firstName,
                 lastName: user.lastName,
                 phoneNo:user.phoneNo,
-                skills: user.skills
+                skills: user.skills,
+                initials: user.firstName[0] + user.lastName[0]
             }).then(() => {
                 dispatch({ type: 'UPDATE_PROFILE'});
             }).catch((err) => {
@@ -79,7 +80,8 @@ export const updateProfile = (user) => {
             firestore.collection('users').doc(user.id).update({
                 firstName: user.firstName,
                 lastName: user.lastName,
-                phoneNo:user.phoneNo
+                phoneNo:user.phoneNo,
+                initials: user.firstName[0] + user.lastName[0]
             }).then(() => {
                 dispatch({ type: 'UPDATE_PROFILE'});
             }).catch((err) => {
