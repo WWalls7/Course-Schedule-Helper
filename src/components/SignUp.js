@@ -2,6 +2,7 @@ import React, { Component } from 'react'
 import {Redirect} from 'react-router-dom'
 import {connect} from 'react-redux'
 import {signUp} from '../store/authActions'
+import '../styles/form.css'
 
 class SignUp extends Component {
     state = {
@@ -116,7 +117,7 @@ class SignUp extends Component {
         if (!auth.uid) return <Redirect to='/signin'/>
         return (
             <div className="container">
-                <form onSubmit={this.handleSubmit} className="white">
+                <form onSubmit={this.handleSubmit} className="template white">
                     <h5 className="grey-text text-darken-3">New User Details</h5>
                     <div className="input-field">
                         <label htmlFor="firstName">First Name</label>
@@ -179,7 +180,7 @@ class SignUp extends Component {
                             }
                             
                             <div className="input-field">
-                                <button type="button" className="btn green lighten-1" onClick={this.addSkill} >Add Skill</button>
+                                <button type="button" className="btn grey darken-4" onClick={this.addSkill} >Add Skill</button>
                             </div>
                         </div>
                     }
@@ -187,7 +188,7 @@ class SignUp extends Component {
                         <strong className="red-text">{this.state.successMessage}</strong>
                     }
                     <div className="input-field">
-                        <button className="btn blue lighten-1">Create User</button>
+                        <button className="btn grey darken-4">Create User</button>
                         <div className="center">
                             {authError ? <p>{authError}</p> : null}
                         </div>

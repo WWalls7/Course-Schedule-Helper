@@ -10,7 +10,7 @@ const SchedulerLinks = (props) => {
             <li><NavLink to='/updates'>View Requests</NavLink></li>
             <li><NavLink to='/contact'>Contact Information</NavLink></li>
             <li><a onClick={props.signOut}>Log Out</a></li>
-            <li><NavLink to='/profile' className='btn btn-floating blue lighten-1'>
+            <li><NavLink to='/profile' className='btn btn-floating green lighten-1'>
             {props.profile.initials}
             </NavLink></li>
         </ul>

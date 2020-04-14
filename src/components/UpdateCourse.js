@@ -4,6 +4,7 @@ import {updateCourse, addNotification} from '../store/courseActions'
 import {Redirect} from 'react-router-dom'
 import Cal from './Cal'
 import moment from 'moment';
+import '../styles/form.css'
 
 class UpdateCourse extends Component {
     state = {
@@ -161,7 +162,7 @@ class UpdateCourse extends Component {
                         <p>Created by: {course.author}</p><br/>
                     </div>
                 </div>
-                <form onSubmit={this.handleSubmit} className="white">
+                <form onSubmit={this.handleSubmit} className="template white">
                     <h5 className="grey-text text-darken-3">Update Course</h5>
                     <div className="input-field">
                         <label htmlFor="title">Title</label>
@@ -181,10 +182,8 @@ class UpdateCourse extends Component {
                     <div className="input-field">
                         <h5 className="grey-text text-darken-3">Choose a Time</h5>
                         <p>The assigned trainers are not available during these times:</p>
-                        <div className="card">
-                            <div className="card-content">
-                                <Cal courses={trainerCourses} trainers={trainers} history={this.props.history}/>
-                            </div>
+                        <div className="unavailable">
+                            <Cal courses={trainerCourses} trainers={trainers} history={this.props.history}/>
                         </div>
                     </div>
 
@@ -215,7 +214,7 @@ class UpdateCourse extends Component {
                     }
 
                     <div className="input-field">
-                        <button className="btn blue lighten-1"  onClick={this.checkTime}>Update</button>
+                        <button className="btn grey darken-4"  onClick={this.checkTime}>Update</button>
                     </div>
 
                 </form>

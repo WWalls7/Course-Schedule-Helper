@@ -153,7 +153,7 @@ class AddTrainer extends Component {
                 </div>
                 
             </div>
-                <form onSubmit={this.handleSubmit} className="white">
+                <form onSubmit={this.handleSubmit} className="template white">
                     <h5 className="grey-text text-darken-3">Add Trainer</h5>
 
                     <div className="input-field">

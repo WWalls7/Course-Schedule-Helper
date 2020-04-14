@@ -87,7 +87,7 @@ class Request extends Component {
                     </div>
                 </div>
                 
-                <form onSubmit={this.handleSubmit} className="white">
+                <form onSubmit={this.handleSubmit} className="template white">
                     <h5 className="grey-text text-darken-3">Request Change</h5>
                     
                     <div className="input-field">
@@ -95,7 +95,7 @@ class Request extends Component {
                             by the scheduler responsible for creating this course 
                             and any queries should be made to them directly. 
                             You are not guaranteed to be removed from this course.
-                            <br/><strong>Would you like to continue?</strong></p>
+                            <br/><strong>Would you like to continue?</strong></p><br/>
                         
                         {notification === undefined &&
                             <button className="btn blue lighten-1">Confirm Request</button>

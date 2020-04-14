@@ -145,7 +145,7 @@ class CreateCourse extends Component {
         if (profile.userType === 'trainer') return <Redirect to='/trainer' />
         return (
             <div className="container">
-                <form onSubmit={this.handleSubmit} className="white">
+                <form onSubmit={this.handleSubmit} className="template white">
                     <h5 className="grey-text text-darken-3">Create Course</h5>
                     <div className="input-field">
                         <label htmlFor="title">Title</label>
@@ -193,10 +193,8 @@ class CreateCourse extends Component {
                         <div className="input-field">
                             <h5 className="grey-text text-darken-3">Choose a Time</h5>
                             <p>This trainer is unavailable during these times:</p>
-                            <div className="card">
-                                <div className="card-content">
-                                    <Cal courses={this.getCourses(this.state.trainers, courses)} trainers={trainers} history={this.props.history}/>
-                                </div>
+                            <div className="unavailable">
+                                <Cal courses={this.getCourses(this.state.trainers, courses)} trainers={trainers} history={this.props.history}/>
                             </div>
                         </div>
 
@@ -229,7 +227,7 @@ class CreateCourse extends Component {
                     }
 
                     <div className="input-field">
-                        <button className="btn blue lighten-1">Create</button>
+                        <button className="btn grey darken-4">Create</button>
                     </div>
 
                 </form>

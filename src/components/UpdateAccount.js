@@ -140,7 +140,7 @@ class UpdateAccount extends Component {
                     </div>
                 </div>
 
-                <form onSubmit={this.handleSubmit} className="white">
+                <form onSubmit={this.handleSubmit} className="template white">
                     <h5 className="grey-text text-darken-3">Update Account</h5>
                     <div className="input-field">
                         <label htmlFor="firstName">First Name</label>
@@ -171,7 +171,7 @@ class UpdateAccount extends Component {
                                 <strong className="red-text">{this.state.message}</strong>
                             }
                             <div className="input-field">
-                                <button type="button" className="btn green lighten-1" onClick={this.addSkill} >Add Skill</button>
+                                <button type="button" className="btn grey darken-4" onClick={this.addSkill} >Add Skill</button>
                             </div>
                             
                             <h5 className="grey-text text-darken-3">Remove a Skill</h5>
@@ -190,7 +190,7 @@ class UpdateAccount extends Component {
                                 <strong className="red-text">{this.state.removeMessage}</strong>
                             }
                             <div className="input-field">
-                                <button type="button" className="btn green lighten-1" onClick={this.removeSkill} >Remove Skill</button>
+                                <button type="button" className="btn grey darken-4" onClick={this.removeSkill} >Remove Skill</button>
                             </div>
                         </div>
                     }
@@ -199,7 +199,7 @@ class UpdateAccount extends Component {
                         <strong className="red-text">{this.state.submitMessage}</strong>
                     }
                     <div className="input-field">
-                        <button className="btn blue lighten-1">Update</button>
+                        <button className="btn grey darken-4">Update</button>
                     </div>
                 </form>
             </div>

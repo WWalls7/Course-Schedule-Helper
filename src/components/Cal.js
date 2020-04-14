@@ -100,7 +100,7 @@ const Cal =(props)=>{
     const [event, setEvent] = React.useState("");
     return(
       <React.Fragment>
-      <div>
+      <div className = "Cal">
       <Calendar                
         localizer={localizer}
         events={courseFormat(props)}
