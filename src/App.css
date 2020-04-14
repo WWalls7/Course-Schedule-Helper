@@ -9,6 +9,22 @@ body{
     margin-left: 5px;
 }
 
+.dashboard{
+    margin-top: 15px;
+}
+
+.signin{
+    margin-top: 30px;
+}
+
+.brand-logo{
+    margin-left: 10px;
+}
+
+.create{
+    margin-top: 29px;
+}
+
 *{
     margin: 0;
     padding: 0;

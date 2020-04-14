@@ -145,7 +145,7 @@ class CreateCourse extends Component {
         if (profile.userType === 'trainer') return <Redirect to='/trainer' />
         return (
             <div className="container">
-                <form onSubmit={this.handleSubmit} className="template white">
+                <form onSubmit={this.handleSubmit} className="template white create">
                     <h5 className="grey-text text-darken-3">Create Course</h5>
                     <div className="input-field">
                         <label htmlFor="title">Title</label>

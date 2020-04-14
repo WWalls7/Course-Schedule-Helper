@@ -117,7 +117,7 @@ class SignUp extends Component {
         if (!auth.uid) return <Redirect to='/signin'/>
         return (
             <div className="container">
-                <form onSubmit={this.handleSubmit} className="template white">
+                <form onSubmit={this.handleSubmit} className="template white create">
                     <h5 className="grey-text text-darken-3">New User Details</h5>
                     <div className="input-field">
                         <label htmlFor="firstName">First Name</label>
