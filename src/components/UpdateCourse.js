@@ -78,6 +78,12 @@ class UpdateCourse extends Component {
                 })
                 set = true
             }
+            else if((blockedStart >= start && blockedStart <= end)||(blockedEnd >= start && blockedEnd <= end)){
+                this.setState({
+                    message: "The date you have entered is unavailable for one of the selected trainers. Try again."
+                })
+                set = true
+            }
         })
         if(!set){
             this.props.addNotification("A course you are assigned to has been updated", this.state)

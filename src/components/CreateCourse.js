@@ -70,6 +70,12 @@ class CreateCourse extends Component {
                 })
                 set = true
             }
+            else if((blockedStart >= start && blockedStart <= end)||(blockedEnd >= start && blockedEnd <= end)){
+                this.setState({
+                    message: "The date you have entered is unavailable for the selected trainer. Try again."
+                })
+                set = true
+            }
         })
         if(!set){
             this.props.addNotification("You have been added to a new course", this.state)
@@ -172,7 +178,7 @@ class CreateCourse extends Component {
                         <div className="input-field">
                             <label>Choose a Trainer</label><br/><br/>
                             <select id="trainers" className="browser-default" onChange={this.handleChange} required>
-                                <option value='' disabled selected></option>
+                                <option value='' selected></option>
                                 {this.trainersWithSkill(this.state.skills, this.getTrainers(users)).map(trainer => {
                                     return (
                                         <option value={trainer.id}>{trainer.firstName + " " + trainer.lastName}</option>

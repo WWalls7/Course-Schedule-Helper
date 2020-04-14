@@ -46,6 +46,12 @@ class AddTrainer extends Component {
                 })
                 set = true
             }
+            else if((blockedStart >= start && blockedStart <= end)||(blockedEnd >= start && blockedEnd <= end)){
+                this.setState({
+                    message: "The trainer you have selected is unavailable at this time. Select a new trainer."
+                })
+                set = true
+            }
         })
         if(!set){
             this.props.addNotification("You have been added to an existing course", {...this.state, trainerToNotify: this.state.newTrainer})
