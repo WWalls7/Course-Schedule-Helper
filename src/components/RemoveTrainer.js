@@ -110,12 +110,12 @@ class RemoveTrainer extends Component {
 
                     {removable === 'You must have at least two trainers to remove' &&
                         <div className="input-field">
-                            <button type="button" onClick={this.redirect} className="btn blue lighten-1">Add Trainer</button>
+                            <button type="button" onClick={this.redirect} className="btn grey darken-4">Add Trainer</button>
                         </div>
                     }
                     {removable === '' &&
                         <div className="input-field">
-                            <button className="btn blue lighten-1">Remove Trainer</button>
+                            <button className="btn grey darken-4">Remove Trainer</button>
                         </div>
                     }
                 </form>

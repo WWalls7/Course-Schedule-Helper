@@ -71,7 +71,7 @@ class Delete extends Component {
                 <form onSubmit={this.handleSubmit} className="template white">
                     <h5 className="grey-text text-darken-3">Delete Course</h5>
                     <div className="input-field">
-                        <button className="btn blue lighten-1">Confirm Delete</button>
+                        <button className="btn grey darken-4">Confirm Delete</button>
                     </div>
 
                 </form>

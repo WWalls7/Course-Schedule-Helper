@@ -112,14 +112,14 @@ class Requests extends Component {
                                         </div>
                                         {this.props.type === "requested" && this.getAssignedTrainers(trainers, notification.request.id).length !== 1 &&     
                                             <div className="input-field">
-                                                <button type="button" onClick={() => this.remove(notification)} className="btn blue lighten-1">Approve</button>
-                                                <button type="button" onClick={() => this.reject(notification)} className="btn blue lighten-1">Reject</button>
+                                                <button type="button" onClick={() => this.remove(notification)} className="btn grey darken-4">Approve</button>
+                                                <button type="button" onClick={() => this.reject(notification)} className="btn grey darken-4 extra">Reject</button>
                                             </div>
                                         }
                                         {this.props.type === "requested" && this.getAssignedTrainers(trainers, notification.request.id).length === 1 &&      
                                             <div className="input-field">
-                                                <button type="button" onClick={() => this.add(notification)} className="btn blue lighten-1">Add</button>
-                                                <button type="button" onClick={() => this.reject(notification)} className="btn blue lighten-1">Reject</button>
+                                                <button type="button" onClick={() => this.add(notification)} className="btn grey darken-4">Add</button>
+                                                <button type="button" onClick={() => this.reject(notification)} className="btn grey darken-4 extra">Reject</button>
                                             </div>
                                         }
                                         

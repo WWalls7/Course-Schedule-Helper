@@ -187,7 +187,7 @@ class AddTrainer extends Component {
                     }
                        
                     <div className="input-field">
-                        <button className="btn blue lighten-1">Add Trainer</button>
+                        <button className="btn grey darken-4">Add Trainer</button>
                     </div>
 
                 </form>

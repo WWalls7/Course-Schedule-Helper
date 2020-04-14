@@ -5,6 +5,10 @@ body{
     background-size: inherit;
 }
 
+.extra{
+    margin-left: 5px;
+}
+
 *{
     margin: 0;
     padding: 0;
