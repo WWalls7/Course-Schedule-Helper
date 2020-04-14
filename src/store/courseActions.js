@@ -49,7 +49,6 @@ export const addTrainer = (course) => {
     return (dispatch, getState, {getFirebase, getFirestore}) => {
         //make async call to DB
         const firestore = getFirestore();
-        //console.log(course.startDate)
         firestore.collection('courses').doc(course.id).update({
             trainers: [...course.trainers, course.newTrainer]
         }).then(() => {
@@ -113,7 +112,6 @@ export const updateRequest = (newStatus, notification) => {
     return (dispatch, getState, {getFirebase, getFirestore}) => {
         //make async call to DB
         const firestore = getFirestore();
-        console.log(notification, newStatus)
         firestore.collection('notifications').doc(notification).update({
             status: newStatus
         }).then(() => {
@@ -127,7 +125,6 @@ export const updateRequest = (newStatus, notification) => {
 export const addNotification = (content, newCourse) => {
     return (dispatch, getState, {getFirebase, getFirestore}) => {
         //make async call to DB
-        console.log(newCourse, content)
         const firestore = getFirestore();
         firestore.collection('notifications').add({
             content: content,

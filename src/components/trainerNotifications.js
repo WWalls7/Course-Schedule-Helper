@@ -8,14 +8,22 @@ import {Redirect} from 'react-router-dom'
 class trainerNotifications extends Component {
     trainerNotifications = (notifications, auth) => {
         var courseNotifs = []
+
         notifications && notifications.forEach(notif => {
             if(notif.type === "trainer"){
-                if(!Array.isArray(notif.course.trainers)){
-                    if (notif.course.trainers === auth.uid){
-                        courseNotifs.push(notif)
-                    }
+                if(notif.content === "You have been removed from a course after requesting a change" && notif.course.trainerRequesting === auth.uid){
+                    courseNotifs.push(notif)
                 }
-                else{
+                else if(notif.content === "You have been added to an existing course" && notif.course.trainerToNotify === auth.uid){
+                    courseNotifs.push(notif)
+                }
+                else if(notif.content === "You have been removed from a course" && notif.course.trainerToNotify === auth.uid){
+                    courseNotifs.push(notif)
+                }
+                else if(notif.content === "You have been added to a new course" && notif.course.trainers === auth.uid){
+                    courseNotifs.push(notif)
+                }
+                else if(notif.content === "A course you are assigned to has been updated" || notif.content === "A course you were assigned to has been deleted"){
                     notif.course.trainers.forEach(id => {
                         if (auth.uid === id){
                             courseNotifs.push(notif)
@@ -55,7 +63,7 @@ class trainerNotifications extends Component {
         return assigned
     }
     render() {
-        const {courses, auth, notifications, profile, users} = this.props;
+        const {auth, notifications, profile, users} = this.props;
         var trainerNotifications = this.trainerNotifications(notifications, auth)
         const trainers = this.getTrainers(users)
         if (!auth.uid) return <Redirect to='/signin' />
@@ -104,7 +112,6 @@ class trainerNotifications extends Component {
 
 const mapStateToProps = (state) => {
     return{
-        courses: state.firestore.ordered.courses,
         auth: state.firebase.auth,
         notifications: state.firestore.ordered.notifications,
         profile: state.firebase.profile,

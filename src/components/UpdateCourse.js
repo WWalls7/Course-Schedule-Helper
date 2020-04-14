@@ -3,6 +3,8 @@ import {connect} from 'react-redux'
 import {updateCourse, addNotification} from '../store/courseActions'
 import {Redirect} from 'react-router-dom'
 import Cal from './Cal'
+import moment from 'moment';
+import '../styles/form.css'
 
 class UpdateCourse extends Component {
     state = {
@@ -16,7 +18,7 @@ class UpdateCourse extends Component {
         frequency: this.props.location.state.course.frequency,
         skills: "",
         trainers: this.props.location.state.course.trainers,
-        message: false
+        message: ''
     }
     handleChange = (e) => {
         this.setState({
@@ -31,18 +33,54 @@ class UpdateCourse extends Component {
         const currentTrainers = this.getAssignedTrainers(trainers, this.state.trainers)
         var assignedCourses = this.getCourses(currentTrainers, this.props.courses)
         var set = false
+        if(!moment(this.state.endDate+" "+this.state.endTime).isAfter(this.state.startDate+" "+this.state.startTime)){
+            this.setState({
+                message: "The end time must be after the start time"
+            })
+            set = true
+            return
+        }
+        if(this.state.title === '' || !this.state.title.replace(/\s/g, '').length){
+            this.setState({
+                message: "You must enter a valid title to update"
+            })
+            return
+        }
+        if(this.state.description === '' || !this.state.description.replace(/\s/g, '').length){
+            this.setState({
+                message: "You must enter a valid description to update"
+            })
+            return
+        }
+        if(this.state.frequency === ''){
+            this.setState({
+                message: "You must enter a valid frequency to update"
+            })
+            return
+        }
+        if(this.state.startTime === '' || !this.state.startTime.replace(/\s/g, '').length){
+            this.setState({
+                message: "You must enter a valid start time to update"
+            })
+            return
+        }
+        if(this.state.endTime === '' || !this.state.endTime.replace(/\s/g, '').length){
+            this.setState({
+                message: "You must enter a valid end time to update"
+            })
+            return
+        }
         assignedCourses.forEach(course => {
             var blockedStart = Date.parse(course.startDate+" "+course.startTime)
             var blockedEnd = Date.parse(course.endDate+" "+course.endTime)
             if((start >= blockedStart && start <= blockedEnd)||(end >= blockedStart && end <= blockedEnd)){
                 this.setState({
-                    message: true
+                    message: "The date you have entered is unavailable for one of the selected trainers. Try again."
                 })
                 set = true
             }
         })
         if(!set){
-            console.log(this.state)
             this.props.addNotification("A course you are assigned to has been updated", this.state)
             this.props.updateCourse(this.state)
             this.props.history.push('/')
@@ -66,16 +104,6 @@ class UpdateCourse extends Component {
         });
         return assigned
     }
-    getBlockedTimes = (trainer, courses) => {
-        var times =[]
-        courses && courses.forEach(course => {
-            if(course.trainers.includes(trainer.id)){
-                times.push(course.startDate + " at " + course.startTime + " to " +
-                course.endDate + " at " + course.endTime)
-            }
-        });
-        return times
-    }
     getDate = () => {
         var date = new Date();
 
@@ -89,18 +117,8 @@ class UpdateCourse extends Component {
         var today = year + "-" + month + "-" + day;       
         return today;
     }
-    minEndTime = () => {
-        if(this.state.startTime.match(/([01]?[0-9]|2[0-3]):[0-5][0-9]/) === null){return}
-        var hour = this.state.startTime.split(":")[0]
-        var minute = this.state.startTime.split(":")[1]
-        if(hour.charAt(1) === null){
-            return "["+hour.charAt(0)+"-9]:["+minute.charAt(0)+"-5]["+minute.charAt(1)+"-9]"
-        }
-        return "["+hour.charAt(0)+"-9]["+hour.charAt(1)+"-3]:["+minute.charAt(0)+"-5]["+minute.charAt(1)+"-9]"
-    }
     getCourses = (trainers, courses) =>{
         var trainerCourses = []
-        console.log(courses)
         trainers.forEach(trainer => {
             courses && courses.forEach(course => {
                 if(course.trainers.includes(trainer.id) && !trainerCourses.includes(course) && course.id !== this.state.id){
@@ -111,7 +129,6 @@ class UpdateCourse extends Component {
         return trainerCourses
     }
     render() {
-        console.log(this.props.location.state.course)
         const {auth, users, courses, profile} = this.props;
         const course = this.props.location.state.course
         const trainers = this.getTrainers(users) 
@@ -139,40 +156,26 @@ class UpdateCourse extends Component {
                         <p>Created by: {course.author}</p><br/>
                     </div>
                 </div>
-                <form onSubmit={this.handleSubmit} className="white">
+                <form onSubmit={this.handleSubmit} className="template white">
                     <h5 className="grey-text text-darken-3">Update Course</h5>
                     <div className="input-field">
-                        <label htmlFor="title">Title: {course.title}</label>
-                        <input type="text" id="title"  onChange={this.handleChange}/>
+                        <label htmlFor="title">Title</label>
+                        <input type="text" id="title" maxlength="50" onChange={this.handleChange}/>
                     </div>
 
                     <div className="input-field">
-                        <label htmlFor="description">Description: {course.description}</label>
-                        <textarea id="description" className="materialize-textarea" onChange={this.handleChange}></textarea>
+                        <label htmlFor="description">Description</label>
+                        <textarea id="description" className="materialize-textarea" maxlength="500" onChange={this.handleChange}></textarea>
                     </div>
 
                     <div className="input-field">
-                        <label htmlFor="frequency">Frequency: {course.frequency}</label>
-                        <input type="number" id="frequency" name="quantity" min="1" onChange={this.handleChange}></input>
+                        <label htmlFor="frequency">Frequency</label>
+                        <input type="number" id="frequency" name="quantity" min="1" max="10" onChange={this.handleChange}></input>
                     </div>
                 
                     <div className="input-field">
                         <h5 className="grey-text text-darken-3">Choose a Time</h5>
                         <p>The assigned trainers are not available during these times:</p>
-                        {/* <ul>
-                            {currentTrainers && currentTrainers.map(trainer => {
-                                return(
-                                    <div>
-                                        <strong>{trainer.firstName+" "+trainer.lastName}</strong>
-                                        {this.getBlockedTimes(trainer, courses).map(time => {
-                                            return (
-                                                <li>{time}</li>
-                                            )
-                                        })}
-                                    </div>
-                                )
-                            })}
-                        </ul> */}
                         <div className="card">
                             <div className="card-content">
                                 <Cal courses={trainerCourses} trainers={trainers} history={this.props.history}/>
@@ -199,15 +202,15 @@ class UpdateCourse extends Component {
 
                     <div className="input-field">
                         <label htmlFor="endTime">End Time (after start time)</label>
-                        <input type="text" id="endTime" pattern={this.minEndTime()} onChange={this.handleChange} ></input>
+                        <input type="text" id="endTime" pattern="([01]?[0-9]|2[0-3]):[0-5][0-9]" onChange={this.handleChange} ></input>
                     </div>
                     
-                    {this.state.message === true &&
-                        <strong className="red-text">The date you have entered is unavailable for the selected trainer. Try again.</strong>
+                    {this.state.message !== '' &&
+                        <strong className="red-text">{this.state.message}</strong>
                     }
 
                     <div className="input-field">
-                        <button className="btn blue lighten-1"  onClick={this.checkTime}>Update</button>
+                        <button className="btn grey darken-4"  onClick={this.checkTime}>Update</button>
                     </div>
 
                 </form>

@@ -1,4 +1,4 @@
-import React, {Component} from "react";
+import React from "react";
 import "react-big-calendar/lib/css/react-big-calendar.css";
 import {Calendar,momentLocalizer} from 'react-big-calendar';
 import moment from 'moment';
@@ -100,8 +100,8 @@ const Cal =(props)=>{
     const [event, setEvent] = React.useState("");
     return(
       <React.Fragment>
-      <div>
-      <Calendar className="Cal"              
+      <div className = "Cal">
+      <Calendar                
         localizer={localizer}
         events={courseFormat(props)}
         startAccessor="start"
@@ -112,9 +112,7 @@ const Cal =(props)=>{
         views={['month','week','day']}
         defaultDate={new Date()}
         onSelectEvent={(event)=>handleSelect(event)}
-        
       />
-
 
       <MyVerticallyCenteredModal
         show={modalShow}

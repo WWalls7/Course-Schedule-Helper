@@ -2,6 +2,7 @@ import React, { Component } from 'react'
 import {Redirect} from 'react-router-dom'
 import {connect} from 'react-redux'
 import {signUp} from '../store/authActions'
+import '../styles/form.css'
 
 class SignUp extends Component {
     state = {
@@ -14,7 +15,9 @@ class SignUp extends Component {
         skill: '',
         skillLvl: 0,
         phoneNo: '',
-        isTrainer: false
+        isTrainer: false,
+        message: '',
+        successMessage: ''
     }
     handleChange = (e) => {
         this.setState({
@@ -31,23 +34,27 @@ class SignUp extends Component {
             })
         }
     }
-    addSkill = (e) => {
-        var skill = {skill: this.state.skill, skillLvl: this.state.skillLvl}
-        if(this.state.skills.length === 0){
-            this.setState({
-                skills: [skill]
-            })
-        }
-        else{
-            this.setState({
-                skills: [...this.state.skills, skill]
-            })
-        }
-    }
     handleSubmit = (e) => {
         e.preventDefault();
+        if(!this.state.firstName.replace(/\s/g, '').length || !this.state.lastName.replace(/\s/g, '').length){
+            this.setState({
+                successMessage: "You must enter a valid name to create a new user"
+            })
+            return
+        }
+        if(!this.state.password.replace(/\s/g, '').length || this.state.password.length < 6){
+            this.setState({
+                successMessage: "You must enter a valid password to create a new user"
+            })
+            return
+        }
         if(this.state.userType === "trainer"){
-            
+            if(this.state.skills.length === 0){
+                this.setState({
+                    successMessage: "You must have at least 1 skill to create a new trainer."
+                })
+                return
+            }
             var trainerState = {
                 email: this.state.email,
                 password: this.state.password,
@@ -58,7 +65,6 @@ class SignUp extends Component {
                 phoneNo: this.state.phoneNo
             }
             this.props.signUp(trainerState)
-            this.props.history.push('/trainer')
         }
         else{
             var schedulerState = {
@@ -70,24 +76,56 @@ class SignUp extends Component {
                 phoneNo: this.state.phoneNo
             }
             this.props.signUp(schedulerState)
-            this.props.history.push('/')
+        }
+        this.setState({
+            successMessage: "You have successfully created a new user. Make sure to save the login details."
+        })
+    }
+    addSkill = (e) => {
+        if(this.state.skill === '' || this.state.skillLvl === 0 || this.state.skillLvl === ''){
+            this.setState({
+                message: "You must enter a skill type and skill level to add a skill"
+            })
+            return
+        }
+        else if(this.state.skillLvl < 1 || this.state.skillLvl > 4){
+            this.setState({
+                message: "You must enter a skill level from 1 to 4"
+            })
+            return
+        }
+        var skill = {skill: this.state.skill, skillLvl: this.state.skillLvl}
+        if(this.state.skills.length === 0){
+            this.setState({
+                skills: [skill],
+                message: "Skill added successfully.",
+                skill: ''
+            })
+        }
+        else{
+            this.setState({
+                skills: [...this.state.skills, skill],
+                message: "Skill added successfully.",
+                skill: ''
+            })
         }
     }
     render() {
         const {auth, authError, profile} = this.props;
         if (profile.userType === 'trainer') return <Redirect to='/trainer' />
         if (profile.userType === 'scheduler') return <Redirect to='/' />
+        if (!auth.uid) return <Redirect to='/signin'/>
         return (
             <div className="container">
-                <form onSubmit={this.handleSubmit} className="white">
+                <form onSubmit={this.handleSubmit} className="template white">
                     <h5 className="grey-text text-darken-3">New User Details</h5>
                     <div className="input-field">
                         <label htmlFor="firstName">First Name</label>
-                        <input type="text" id="firstName" onChange={this.handleChange} required/>
+                        <input type="text" id="firstName" maxlength="50" onChange={this.handleChange} required/>
                     </div>
                     <div className="input-field">
                         <label htmlFor="lastName">Last Name</label>
-                        <input type="text" id="lastName" onChange={this.handleChange} required/>
+                        <input type="text" id="lastName" maxlength="50" onChange={this.handleChange} required/>
                     </div>
                     <div className="input-field">
                         <label htmlFor="phoneNo">Phone Number (ex: 12345 123456)</label>
@@ -95,11 +133,11 @@ class SignUp extends Component {
                     </div>
                     <div className="input-field">
                         <label htmlFor="email">Email</label>
-                        <input type="email" id="email" onChange={this.handleChange} required/>
+                        <input type="email" id="email" maxlength="50" onChange={this.handleChange} required/>
                     </div>
                     <div className="input-field">
                         <label htmlFor="password">Password</label>
-                        <input type="password" id="password" onChange={this.handleChange} required/>
+                        <input type="password" id="password" maxlength="50" onChange={this.handleChange} required/>
                     </div>
                     <div className="input-field">
                         <label>User Type</label><br/><br/>
@@ -119,30 +157,38 @@ class SignUp extends Component {
                             <div className="card">
                                 <div className="card-content">
                                     <span className="card-title">Currently Registered Skills</span>
-                                    {this.state.skills && this.state.skills.forEach(skill => {
-                                        return(<p>{skill}</p>)
-                                    })}
+                                        {this.state.skills && this.state.skills.map(skill => {
+                                            return (
+                                                <p>Skill: {skill.skill} - Skill Level: {skill.skillLvl}</p>
+                                            )
+                                        })}
                                 </div>
                             </div>
                     
                             <div className="input-field">
                                 <label htmlFor="skill">Skill Name</label>
-                                <input type="text" id="skill" onChange={this.handleChange} required/>
+                                <input type="text" id="skill" maxlength="50" onChange={this.handleChange} />
                             </div>
                     
                             <div className="input-field">
                                 <label htmlFor="skillLvl">Skill Level</label>
-                                <input type="number" min="1" max ="4" id="skillLvl" onChange={this.handleChange} required></input>
+                                <input type="number" id="skillLvl" onChange={this.handleChange}></input>
                             </div>
                     
+                            {this.state.message !== '' &&
+                                <strong className="red-text">{this.state.message}</strong>
+                            }
+                            
                             <div className="input-field">
-                                <button type="button" className="btn green lighten-1" onClick={this.addSkill} >Add Skill</button>
+                                <button type="button" className="btn grey darken-4" onClick={this.addSkill} >Add Skill</button>
                             </div>
                         </div>
                     }
-                    
+                    {this.state.successMessage !== '' &&
+                        <strong className="red-text">{this.state.successMessage}</strong>
+                    }
                     <div className="input-field">
-                        <button className="btn blue lighten-1">Sign Up</button>
+                        <button className="btn grey darken-4">Create User</button>
                         <div className="center">
                             {authError ? <p>{authError}</p> : null}
                         </div>

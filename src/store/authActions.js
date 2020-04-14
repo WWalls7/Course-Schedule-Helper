@@ -62,14 +62,14 @@ export const signUp = (newUser) => {
 
 export const updateProfile = (user) => {
     return (dispatch, getState, {getFirebase, getFirestore}) => {
-        const firebase = getFirebase();
         const firestore = getFirestore();
         if (user.userType === "trainer"){
             firestore.collection('users').doc(user.id).update({
                 firstName: user.firstName,
-                lastname: user.lastName,
+                lastName: user.lastName,
                 phoneNo:user.phoneNo,
-                skills: user.skills
+                skills: user.skills,
+                initials: user.firstName[0] + user.lastName[0]
             }).then(() => {
                 dispatch({ type: 'UPDATE_PROFILE'});
             }).catch((err) => {
@@ -79,8 +79,9 @@ export const updateProfile = (user) => {
         else{
             firestore.collection('users').doc(user.id).update({
                 firstName: user.firstName,
-                lastname: user.lastName,
-                phoneNo:user.phoneNo
+                lastName: user.lastName,
+                phoneNo:user.phoneNo,
+                initials: user.firstName[0] + user.lastName[0]
             }).then(() => {
                 dispatch({ type: 'UPDATE_PROFILE'});
             }).catch((err) => {

@@ -5,6 +5,7 @@ import TrainerLinks from './TrainerLinks';
 import AdminLinks from './AdminLinks'
 import SignedOut from './SignedOut';
 import {connect} from 'react-redux'
+import '../styles/form.css'
 
 class Navbar extends Component {
     checkUser = (auth, profile) => {
@@ -24,12 +25,10 @@ class Navbar extends Component {
     render(){
         const {auth, profile} = this.props;
         const links = this.checkUser(auth, profile)
-        console.log(profile)
-        console.log(auth)
         return(
             <nav>
                 <div className="nav-wrapper grey darken-4">
-                    <Link to='/' className="brand-logo left ">Course Schedule Helper</Link>
+                    <Link to='/' className="brand-logo left">Course Schedule Helper</Link>
                     {auth.isLoaded && links}
                 </div>
             </nav>

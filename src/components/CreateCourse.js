@@ -4,6 +4,7 @@ import {createCourse, addNotification} from '../store/courseActions'
 import {Redirect} from 'react-router-dom'
 import '../styles/form.css'
 import Cal from './Cal'
+import moment from 'moment';
 
 class CreateCourse extends Component {
     state = {
@@ -18,7 +19,7 @@ class CreateCourse extends Component {
         skills: '',
         selected: false,
         trainer: false,
-        message: false
+        message: ''
     }
     handleChange = (e) => {
         this.setState({
@@ -41,12 +42,31 @@ class CreateCourse extends Component {
         var end = Date.parse(this.state.endDate+" "+this.state.endTime)
         var assignedCourses = this.getCourses(this.state.trainers, this.props.courses)
         var set = false
+        if(!moment(this.state.endDate+" "+this.state.endTime).isAfter(this.state.startDate+" "+this.state.startTime)){
+            this.setState({
+                message: "The end time must be after the start time"
+            })
+            set = true
+            return
+        }
+        if(!this.state.title.replace(/\s/g, '').length){
+            this.setState({
+                message: "You must enter a valid title to create"
+            })
+            return
+        }
+        if(!this.state.description.replace(/\s/g, '').length){
+            this.setState({
+                message: "You must enter a valid description to create"
+            })
+            return
+        }
         assignedCourses.forEach(course => {
             var blockedStart = Date.parse(course.startDate+" "+course.startTime)
             var blockedEnd = Date.parse(course.endDate+" "+course.endTime)
             if((start >= blockedStart && start <= blockedEnd)||(end >= blockedStart && end <= blockedEnd)){
                 this.setState({
-                    message: true
+                    message: "The date you have entered is unavailable for the selected trainer. Try again."
                 })
                 set = true
             }
@@ -101,25 +121,6 @@ class CreateCourse extends Component {
         });
         return trainersWithSkill
     }
-    getBlockedTimes = (trainer, courses) => {
-        var times =[]
-        courses && courses.forEach(course => {
-            if(course.trainers.includes(trainer)){
-                times.push(course.startDate + " at " + course.startTime + " to " +
-                course.endDate + " at " + course.endTime)
-            }
-        });
-        return times
-    }
-    minEndTime = () => {
-        if(this.state.startTime.match(/([01]?[0-9]|2[0-3]):[0-5][0-9]/) === null){return}
-        var hour = this.state.startTime.split(":")[0]
-        var minute = this.state.startTime.split(":")[1]
-        if(hour.charAt(1) === null){
-            return "["+hour.charAt(0)+"-9]:["+minute.charAt(0)+"-5]["+minute.charAt(1)+"-9]"
-        }
-        return "["+hour.charAt(0)+"-9]["+hour.charAt(1)+"-3]:["+minute.charAt(0)+"-5]["+minute.charAt(1)+"-9]"
-    }
     getCourses = (trainer, courses) =>{
         var trainerCourses = []
         courses && courses.forEach(course => {
@@ -138,21 +139,21 @@ class CreateCourse extends Component {
         if (profile.userType === 'trainer') return <Redirect to='/trainer' />
         return (
             <div className="container">
-                <form onSubmit={this.handleSubmit} className="white">
+                <form onSubmit={this.handleSubmit} className="template white">
                     <h5 className="grey-text text-darken-3">Create Course</h5>
                     <div className="input-field">
                         <label htmlFor="title">Title</label>
-                        <input type="text" id="title" onChange={this.handleChange} required/>
+                        <input type="text" id="title" maxlength="50" onChange={this.handleChange} required/>
                     </div>
 
                     <div className="input-field">
                         <label htmlFor="description">Description</label>
-                        <textarea id="description" className="materialize-textarea" onChange={this.handleChange} required></textarea>
+                        <textarea id="description" className="materialize-textarea" maxlength="500" onChange={this.handleChange} required></textarea>
                     </div>
 
                     <div className="input-field">
                         <label htmlFor="frequency">Frequency</label>
-                        <input type="number" id="frequency" name="quantity" min="1" onChange={this.handleChange} required></input>
+                        <input type="number" id="frequency" name="quantity" min="1" max="10" onChange={this.handleChange} required></input>
                     </div>
 
                     <div className="input-field">
@@ -212,17 +213,17 @@ class CreateCourse extends Component {
 
                         <div className="input-field">
                             <label htmlFor="endTime">End Time (after start time)</label>
-                            <input type="text" pattern={this.minEndTime()} id="endTime" onChange={this.handleChange} required></input>
+                            <input type="text" pattern="([01]?[0-9]|2[0-3]):[0-5][0-9]" id="endTime" onChange={this.handleChange} required></input>
                         </div></>
 
                     }
 
-                    {this.state.message === true &&
-                        <strong className="red-text">The date you have entered is unavailable for the selected trainer. Try again.</strong>
+                    {this.state.message !== '' &&
+                        <strong className="red-text">{this.state.message}</strong>
                     }
 
                     <div className="input-field">
-                        <button className="btn blue lighten-1">Create</button>
+                        <button className="btn grey darken-4">Create</button>
                     </div>
 
                 </form>

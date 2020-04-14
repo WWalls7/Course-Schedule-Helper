@@ -26,7 +26,7 @@ class RemoveTrainer extends Component {
     }
     handleSubmit = (e) => {
         e.preventDefault();
-        this.props.addNotification("You have been removed from a course", this.state)
+        this.props.addNotification("You have been removed from a course", {...this.state, trainerToNotify: this.state.trainer})
         this.props.removeTrainer(this.state)
         this.props.history.push('/')
     }
@@ -49,7 +49,6 @@ class RemoveTrainer extends Component {
         return assigned
     }
     getRemovable(currentTrainers){
-        console.log(currentTrainers.length)
         if(currentTrainers.length === 1 || currentTrainers.length === 0){
             return 'You must have at least two trainers to remove'
         }
@@ -58,7 +57,6 @@ class RemoveTrainer extends Component {
         }
     }
     redirect = () =>{
-        console.log(this.props)
         this.props.history.push({
             pathname: '/addtrainer',
             state: {
@@ -67,7 +65,7 @@ class RemoveTrainer extends Component {
           })
     }
     render() {
-        const {auth, users, courses, profile} = this.props;
+        const {auth, users, profile} = this.props;
         const trainers = this.getTrainers(users) 
         const currentTrainers = this.getAssignedTrainers(trainers, this.state.trainers)
         const removable = this.getRemovable(currentTrainers)
@@ -129,8 +127,7 @@ class RemoveTrainer extends Component {
 const mapStateToProps = (state) => {
     return{
         auth: state.firebase.auth,
-        users: state.firestore.ordered.users, 
-        courses: state.firestore.ordered.courses,
+        users: state.firestore.ordered.users,
         profile: state.firebase.profile
     }
 }

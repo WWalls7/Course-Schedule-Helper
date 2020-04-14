@@ -2,6 +2,7 @@ import React, { Component } from 'react'
 import {connect} from 'react-redux'
 import {signIn} from '../store/authActions'
 import {Redirect} from 'react-router-dom'
+import '../styles/form.css'
 
 class SignIn extends Component {
     state = {
@@ -19,24 +20,23 @@ class SignIn extends Component {
     }
     render() {
         const {authError, auth, profile} = this.props;
-        console.log(profile)
         if (auth.uid && profile.userType === "scheduler") return <Redirect to='/'/>
         if (auth.uid && profile.userType === "trainer") return <Redirect to='/trainer'/>
         if (auth.uid && profile.userType === "admin") return <Redirect to='/'/>
         return (
             <div className="container">
-                <form onSubmit={this.handleSubmit} className="white">
+                <form onSubmit={this.handleSubmit} className="template white">
                     <h5 className="grey-text text-darken-3">Sign In</h5>
                     <div className="input-field">
                         <label htmlFor="email">Email</label>
-                        <input type="email" id="email" onChange={this.handleChange}/>
+                        <input type="email" id="email" onChange={this.handleChange} required/>
                     </div>
                     <div className="input-field">
                         <label htmlFor="password">Password</label>
-                        <input type="password" id="password" onChange={this.handleChange}/>
+                        <input type="password" id="password" onChange={this.handleChange} required/>
                     </div>
                     <div className="input-field">
-                        <button className="btn blue lighten-1">Login</button>
+                        <button className="btn grey darken-4">Login</button>
                         <div className="center">
                             {authError ? <p>{authError}</p> : null}
                         </div>
@@ -51,7 +51,6 @@ class SignIn extends Component {
 }
 
 const mapStateToProps = (state) => {
-    console.log(state)
     return{
         authError: state.auth.authError,
         auth: state.firebase.auth,

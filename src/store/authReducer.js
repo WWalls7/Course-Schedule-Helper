@@ -33,12 +33,16 @@ const authReducer = (state = initState, action) => {
             }
         case 'UPDATE_PROFILE':
             console.log('update success');
+            return state;
         case 'UPDATE_PROFILE_ERROR': 
             console.log('update error');
+            return state;
         case 'REMOVE_USER':
             console.log('remove success');
+            return state;
         case 'REMOVE_USER_ERROR': 
             console.log('remove error');
+            return state;
         default:
             return state;
     }

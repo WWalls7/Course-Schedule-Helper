@@ -19,7 +19,7 @@ class AddTrainer extends Component {
         skills: '',
         trainers: this.props.location.state.course.trainers,
         selected: false,
-        message: false
+        message: ''
     }
     handleChange = (e) => {
         this.setState({
@@ -42,13 +42,13 @@ class AddTrainer extends Component {
             var blockedEnd = Date.parse(course.endDate+" "+course.endTime)
             if((start >= blockedStart && start <= blockedEnd)||(end >= blockedStart && end <= blockedEnd)){
                 this.setState({
-                    message: true
+                    message: "The trainer you have selected is unavailable at this time. Select a new trainer."
                 })
                 set = true
             }
         })
         if(!set){
-            this.props.addNotification("You have been added to an existing course", this.state)
+            this.props.addNotification("You have been added to an existing course", {...this.state, trainerToNotify: this.state.newTrainer})
             this.props.addTrainer(this.state)
             this.props.history.push('/')
         }
@@ -120,9 +120,8 @@ class AddTrainer extends Component {
         return trainersWithSkill
     }
     render() {
-        const {auth, users, courses, profile} = this.props;
-        const trainers = this.getTrainers(users) 
-        const course = this.props.location.state.course
+        const {auth, users, profile} = this.props;
+        const trainers = this.getTrainers(users)
         const currentTrainers = this.getAssignedTrainers(trainers, this.state.trainers) 
         const notAssignedTrainers = this.getNotAssignedTrainers(trainers, currentTrainers)
         
@@ -177,8 +176,8 @@ class AddTrainer extends Component {
                         </div>
                     }
 
-                    {this.state.message === true &&
-                        <strong className="red-text">The selected trainer is unavailable during this time. Try again.</strong>
+                    {this.state.message !== '' &&
+                        <strong className="red-text">{this.state.message}</strong>
                     }
                        
                     <div className="input-field">
@@ -194,7 +193,7 @@ class AddTrainer extends Component {
 const mapStateToProps = (state) => {
     return{
         auth: state.firebase.auth,
-        users: state.firestore.ordered.users, 
+        users: state.firestore.ordered.users,
         courses: state.firestore.ordered.courses,
         profile: state.firebase.profile
     }

@@ -14,8 +14,7 @@ class Requests extends Component {
             trainers: course.trainers,
             trainer: notification.request.trainerId
         }
-        console.log(course)
-        this.props.addNotification("You have been removed from a course after requesting a change", course)
+        this.props.addNotification("You have been removed from a course after requesting a change", {...course, trainerRequesting: notification.request.trainerId})
         this.props.removeTrainer(newCourse)
     }
     reject = (notification) => {
@@ -35,7 +34,9 @@ class Requests extends Component {
         var openRequests = []
         notifications && notifications.forEach(notification => {
             if(notification.status === this.props.type){
-                openRequests.push(notification)
+                if(this.getCourse(notification.request.id) !== undefined){
+                    openRequests.push(notification)
+                }
             }
         })
         return openRequests
