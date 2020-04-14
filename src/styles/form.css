@@ -64,6 +64,7 @@ input[type="date"] {
   border: 5px solid rgba(192, 192, 192, 0.699);
   border-radius: 10px;
   color: black;
+  padding: 10px;
 }
 
 .card{
@@ -91,5 +92,7 @@ input[type="date"] {
   color: white;
 }
 
-
+.unavailable {
+  padding: 24px;
+}
 
