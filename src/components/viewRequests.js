@@ -1,3 +1,4 @@
+//Show the requests made by the trainer
 import React, { Component } from 'react'
 import {connect} from 'react-redux'
 import {Redirect} from 'react-router-dom'
@@ -5,6 +6,7 @@ import {firestoreConnect} from 'react-redux-firebase'
 import {compose} from 'redux'
 
 class viewRequests extends Component {
+  //Requests not yet processed
     openRequests = (notifications) => {
         var openRequests = []
         notifications && notifications.forEach(notification => {
@@ -14,6 +16,7 @@ class viewRequests extends Component {
         })
         return openRequests
     }
+    //Approved requests
     approvedRequests = (notifications) => {
         var openRequests = []
         notifications && notifications.forEach(notification => {
@@ -23,6 +26,7 @@ class viewRequests extends Component {
         })
         return openRequests
     }
+    //Rejected requests
     rejectedRequests = (notifications) => {
         var openRequests = []
         notifications && notifications.forEach(notification => {
@@ -32,6 +36,7 @@ class viewRequests extends Component {
         })
         return openRequests
     }
+    //Get trainers
     getTrainers = (users) =>{
         var trainers = []
         users && users.forEach(user => {
@@ -41,6 +46,7 @@ class viewRequests extends Component {
         })
         return trainers
     }
+    //Get assigned trainers
     getAssignedTrainers(trainers, courseId){
         var course = this.getCourse(courseId)
         var assigned = []
@@ -51,6 +57,7 @@ class viewRequests extends Component {
         });
         return assigned
     }
+    //Get the trainer's courses
     getCourse = (id) => {
         var courses = this.props.courses
         for(var i=0; i<courses.length; i++){
@@ -59,6 +66,7 @@ class viewRequests extends Component {
             }
         }
     }
+    //Get the notifications
     getNotifications = (notifications, id) => {
         var trainerNotifications = []
         notifications && notifications.forEach(notification => {
@@ -77,7 +85,9 @@ class viewRequests extends Component {
         var approvedRequests = this.approvedRequests(trainerNotifications)
         var rejectedRequests = this.rejectedRequests(trainerNotifications)
         const trainers = this.getTrainers(users)
+        //If not signed in redirect to signin page
         if (!auth.uid) return <Redirect to='/signin' />
+        //If the logged in user is a trainer redirect to the appropiate trainer page
         if (profile.userType === 'scheduler') return <Redirect to='/' />
         return (
             <div className="container">
@@ -107,7 +117,7 @@ class viewRequests extends Component {
                                     </li>
                                 )
                             })}
-                            {openRequests.length === 0 && 
+                            {openRequests.length === 0 &&
                                 <p>You have no open requests</p>
                             }
                         </ul>
@@ -140,7 +150,7 @@ class viewRequests extends Component {
                                     </li>
                                 )
                             })}
-                            {approvedRequests.length === 0 && 
+                            {approvedRequests.length === 0 &&
                                 <p>You have no approved requests</p>
                             }
                         </ul>
@@ -173,7 +183,7 @@ class viewRequests extends Component {
                                     </li>
                                 )
                             })}
-                            {rejectedRequests.length === 0 && 
+                            {rejectedRequests.length === 0 &&
                                 <p>You have no rejected requests</p>
                             }
                         </ul>
@@ -202,4 +212,3 @@ export default compose(
         {collection: 'users'}
     ])
 )(viewRequests)
-

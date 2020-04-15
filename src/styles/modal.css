@@ -5,20 +5,25 @@ position: absolute;
 z-index: 100;
 top: 10%
 }
+
 .footer{
     width: 100%
 }
+
 .button{
     margin-right: 0.5em;
     margin-left: 0.5em;
     background-color: #80deea;
 }
+
 .button:hover{
   background-color: #4fc3f7;
 }
+
 .card{
     margin-top: 2em;
 }
+
 .close{
     margin-bottom: .5em;
     position: absolute;
@@ -26,13 +31,16 @@ top: 10%
     top: .75em;
     background-color:  #80deea;
 }
+
 .close:hover{
     background-color:  #4fc3f7;
 }
+
 .Cal{
     color: white;
     background-color: rgb(255, 255, 255);
 }
+
 div.Cal{
     border: 5px solid rgba(192, 192, 192, 0.699);
     border-radius: 10px;

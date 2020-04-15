@@ -1,3 +1,4 @@
+//Signup page
 import React, { Component } from 'react'
 import {Redirect} from 'react-router-dom'
 import {connect} from 'react-redux'
@@ -23,11 +24,13 @@ class SignUp extends Component {
         this.setState({
           [e.target.id]: e.target.value
         })
+        //If trainer is selected as user type
         if(e.target.id === "userType" && e.target.value === "trainer"){
             this.setState({
                 isTrainer: true
             })
         }
+        //If trainer is not selected as user type
         else if(e.target.id === "userType" && e.target.value !== "trainer"){
             this.setState({
                 isTrainer: false
@@ -36,18 +39,21 @@ class SignUp extends Component {
     }
     handleSubmit = (e) => {
         e.preventDefault();
+        //Check name
         if(!this.state.firstName.replace(/\s/g, '').length || !this.state.lastName.replace(/\s/g, '').length){
             this.setState({
                 successMessage: "You must enter a valid name to create a new user"
             })
             return
         }
+        //Check password
         if(!this.state.password.replace(/\s/g, '').length || this.state.password.length < 6){
             this.setState({
                 successMessage: "You must enter a valid password to create a new user"
             })
             return
         }
+        //If the user type selected is a trainer then atleast a skill needs to be entered/selected
         if(this.state.userType === "trainer"){
             if(this.state.skills.length === 0){
                 this.setState({
@@ -77,17 +83,20 @@ class SignUp extends Component {
             }
             this.props.signUp(schedulerState)
         }
+        //Account creation confirmation
         this.setState({
             successMessage: "You have successfully created a new user. Make sure to save the login details."
         })
     }
     addSkill = (e) => {
+      //If skill field is empty or the level is zero
         if(this.state.skill === '' || this.state.skillLvl === 0 || this.state.skillLvl === ''){
             this.setState({
                 message: "You must enter a skill type and skill level to add a skill"
             })
             return
         }
+        //If the skill level is lesser than 1 or greater than 4
         else if(this.state.skillLvl < 1 || this.state.skillLvl > 4){
             this.setState({
                 message: "You must enter a skill level from 1 to 4"

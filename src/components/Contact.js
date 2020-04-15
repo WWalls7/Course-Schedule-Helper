@@ -1,8 +1,10 @@
+//Check the details of all the trainers and schedulers
 import React, { Component } from 'react'
 import {Redirect} from 'react-router-dom'
 import {connect} from 'react-redux'
 
 class Contact extends Component {
+    //Gets all the trainers
     getTrainers = (users) =>{
         var trainers = []
         users && users.forEach(user => {
@@ -12,6 +14,7 @@ class Contact extends Component {
         })
         return trainers
     }
+    //Gets all the schedulers
     getSchedulers = (users) =>{
         var schedulers = []
         users && users.forEach(user => {
@@ -25,6 +28,7 @@ class Contact extends Component {
         const {auth, users} = this.props;
         const trainers = this.getTrainers(users)
         const schedulers = this.getSchedulers(users)
+        //If not signed in redirect to signin page
         if (!auth.uid) return <Redirect to='/signin' />
         return (
             <div className="container">

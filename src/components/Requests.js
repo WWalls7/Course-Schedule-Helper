@@ -1,3 +1,4 @@
+//Manage the request made and check the outcome
 import moment from 'moment'
 import React, { Component } from 'react'
 import {connect} from 'react-redux'
@@ -6,6 +7,7 @@ import {withRouter} from 'react-router-dom';
 import {updateRequest, removeTrainer, addNotification} from '../store/courseActions'
 
 class Requests extends Component {
+  //In case a request is approved
     remove = (notification) => {
         this.props.updateRequest("approved", notification.id)
         var course = this.getCourse(notification.request.id)
@@ -17,6 +19,7 @@ class Requests extends Component {
         this.props.addNotification("You have been removed from a course after requesting a change", {...course, trainerRequesting: notification.request.trainerId})
         this.props.removeTrainer(newCourse)
     }
+    //In case a request is rejected
     reject = (notification) => {
         var course = this.getCourse(notification.request.id)
         this.props.addNotification("Your change request has been rejected", course)
@@ -41,6 +44,7 @@ class Requests extends Component {
         })
         return openRequests
     }
+    //Get the trainers
     getTrainers = (users) =>{
         var trainers = []
         users && users.forEach(user => {
@@ -50,6 +54,7 @@ class Requests extends Component {
         })
         return trainers
     }
+    //Get the assigned trainers
     getAssignedTrainers(trainers, courseId){
         var course = this.getCourse(courseId)
         var assigned = []
@@ -60,6 +65,7 @@ class Requests extends Component {
         });
         return assigned
     }
+    //Get the course of the trainer
     getCourse = (id) => {
         var courses = this.props.courses
         for(var i=0; i<courses.length; i++){

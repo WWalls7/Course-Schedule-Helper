@@ -1,3 +1,4 @@
+//Update a course
 import React, { Component } from 'react'
 import {connect} from 'react-redux'
 import {updateCourse, addNotification} from '../store/courseActions'
@@ -27,12 +28,14 @@ class UpdateCourse extends Component {
     }
     handleSubmit = (e) => {
         e.preventDefault()
+        //Formatting
         var start = Date.parse(this.state.startDate+" "+this.state.startTime)
         var end = Date.parse(this.state.endDate+" "+this.state.endTime)
         const trainers = this.getTrainers(this.props.users)
         const currentTrainers = this.getAssignedTrainers(trainers, this.state.trainers)
         var assignedCourses = this.getCourses(currentTrainers, this.props.courses)
         var set = false
+        //Check if the end time is after the start time
         if(!moment(this.state.endDate+" "+this.state.endTime).isAfter(this.state.startDate+" "+this.state.startTime)){
             this.setState({
                 message: "The end time must be after the start time"
@@ -40,36 +43,42 @@ class UpdateCourse extends Component {
             set = true
             return
         }
+        //Check if the title is entered
         if(this.state.title === '' || !this.state.title.replace(/\s/g, '').length){
             this.setState({
                 message: "You must enter a valid title to update"
             })
             return
         }
+        //Check if the description is entered
         if(this.state.description === '' || !this.state.description.replace(/\s/g, '').length){
             this.setState({
                 message: "You must enter a valid description to update"
             })
             return
         }
+        //Check frequency
         if(this.state.frequency === ''){
             this.setState({
                 message: "You must enter a valid frequency to update"
             })
             return
         }
+        //Check start time
         if(this.state.startTime === '' || !this.state.startTime.replace(/\s/g, '').length){
             this.setState({
                 message: "You must enter a valid start time to update"
             })
             return
         }
+        //Check end time
         if(this.state.endTime === '' || !this.state.endTime.replace(/\s/g, '').length){
             this.setState({
                 message: "You must enter a valid end time to update"
             })
             return
         }
+        //Check availibility of the trainers
         assignedCourses.forEach(course => {
             var blockedStart = Date.parse(course.startDate+" "+course.startTime)
             var blockedEnd = Date.parse(course.endDate+" "+course.endTime)
@@ -86,12 +95,14 @@ class UpdateCourse extends Component {
                 set = true
             }
         })
+        //Succesfully updated
         if(!set){
             this.props.addNotification("A course you are assigned to has been updated", this.state)
             this.props.updateCourse(this.state)
             this.props.history.push('/')
         }
     }
+    //Get trainers
     getTrainers = (users) =>{
         var trainers = []
         users && users.forEach(user => {
@@ -101,6 +112,7 @@ class UpdateCourse extends Component {
         })
         return trainers
     }
+    //Get assigned trainers
     getAssignedTrainers(trainers, currentTrainers){
         var assigned = []
         currentTrainers.forEach(id => {
@@ -110,6 +122,7 @@ class UpdateCourse extends Component {
         });
         return assigned
     }
+    //Get the formatted date
     getDate = () => {
         var date = new Date();
 
@@ -123,6 +136,7 @@ class UpdateCourse extends Component {
         var today = year + "-" + month + "-" + day;
         return today;
     }
+    //Get the courses
     getCourses = (trainers, courses) =>{
         var trainerCourses = []
         trainers.forEach(trainer => {

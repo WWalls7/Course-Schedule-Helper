@@ -1,3 +1,4 @@
+//Sign in page
 import React, { Component } from 'react'
 import {connect} from 'react-redux'
 import {signIn} from '../store/authActions'
@@ -20,8 +21,11 @@ class SignIn extends Component {
     }
     render() {
         const {authError, auth, profile} = this.props;
+        //If the signed in user is a scheduler then is redirected to the home page
         if (auth.uid && profile.userType === "scheduler") return <Redirect to='/'/>
+        //If the signed in user is a trainer then is redirected to the trainer page
         if (auth.uid && profile.userType === "trainer") return <Redirect to='/trainer'/>
+        //If the signed in user is an admin then is redirected to the home page
         if (auth.uid && profile.userType === "admin") return <Redirect to='/'/>
         return (
             <div className="container">

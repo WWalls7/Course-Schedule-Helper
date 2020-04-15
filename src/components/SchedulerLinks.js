@@ -1,3 +1,4 @@
+//Sets the link for the user type Scheduler
 import React from 'react';
 import {NavLink} from 'react-router-dom';
 import {connect} from 'react-redux'
@@ -5,6 +6,7 @@ import { signOut } from '../store/authActions';
 import '../styles/navLink.css';
 
 const SchedulerLinks = (props) => {
+    //Links for the Scheduler page navbar
     return(
         <ul className="right">
             <li><NavLink to='/create' className='navLink'>Create Course</NavLink></li>
@@ -18,6 +20,7 @@ const SchedulerLinks = (props) => {
     )
 }
 
+//Dispatch signOut props
 const mapDispatchToProps = (dispatch) => {
     return{
         signOut: () => dispatch(signOut())

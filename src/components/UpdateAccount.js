@@ -1,3 +1,4 @@
+//Page to update personal details
 import React, { Component } from 'react'
 import {connect} from 'react-redux'
 import {updateProfile} from '../store/authActions'
@@ -26,15 +27,18 @@ class UpdateAccount extends Component {
     }
     handleSubmit = (e) => {
         e.preventDefault();
+        //PhoneNumber
         if(this.state.phoneNo === ''){
             this.state.phoneNo = this.props.profile.phoneNo
         }
+        //Check on names
         if(this.state.firstName === '' || this.state.lastName === '' || !this.state.firstName.replace(/\s/g, '').length || !this.state.lastName.replace(/\s/g, '').length){
             this.setState({
                 submitMessage: "You must enter a valid name to update"
             })
             return
         }
+        //Check if the user is a trainer or a scheduler
         if(this.state.userType === "trainer"){
             var trainerState = {
                 userType: this.state.userType,
@@ -59,12 +63,14 @@ class UpdateAccount extends Component {
         this.props.history.push('/profile')
     }
     addSkill = (e) => {
+      //Check skill and skill level
         if(this.state.skill === '' || !this.state.skill.replace(/\s/g, '').length || this.state.skillLvl === 0 || this.state.skillLvl === ''){
             this.setState({
                 message: "You must enter a valid skill type and skill level to add a skill"
             })
             return
         }
+        //Check if skill level is lesser than 1 or greater than 4
         else if(this.state.skillLvl < 1 || this.state.skillLvl > 4){
             this.setState({
                 message: "You must enter a skill level from 1 to 4"
@@ -87,6 +93,7 @@ class UpdateAccount extends Component {
             })
         }
     }
+    //Remove a skill selected
     removeSkill = (e) => {
         if(this.state.removedSkill === ''){
             this.setState({

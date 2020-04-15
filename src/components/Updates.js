@@ -1,3 +1,4 @@
+//Show th eupdates of the requests
 import React, { Component } from 'react'
 import Notifications from './Notifications'
 import Requests from './Requests'
@@ -19,7 +20,9 @@ class Updates extends Component {
     render() {
         const {auth, notifications, profile} = this.props;
         var courseNotifications = this.courseNotifications(notifications)
+        //If not signed in redirect to signin page
         if (!auth.uid) return <Redirect to='/signin' />
+        //If the logged in user is a trainer redirect to the appropiate trainer page
         if (profile.userType === 'trainer') return <Redirect to='/trainer' />
         return (
             <div className="dashboard container">

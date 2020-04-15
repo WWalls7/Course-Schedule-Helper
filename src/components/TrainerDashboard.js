@@ -1,3 +1,4 @@
+//Sets the calendar for the trainer
 import React, { Component } from 'react'
 import {connect} from 'react-redux'
 import {firestoreConnect} from 'react-redux-firebase'
@@ -6,6 +7,7 @@ import {Redirect} from 'react-router-dom'
 import Cal from './Cal'
 
 class TrainerDashboard extends Component {
+  //Gets the courses of the trainer
     getCourses = (courses, auth) =>{
         var trainerCourses = []
         courses && courses.forEach(course => {
@@ -15,6 +17,7 @@ class TrainerDashboard extends Component {
         })
         return trainerCourses
     }
+    //Gets the trainers
     getTrainers = (users) =>{
         var trainers = []
         users && users.forEach(user => {
@@ -27,7 +30,8 @@ class TrainerDashboard extends Component {
     render() {
         const {courses, auth, users} = this.props;
         var trainerCourses = this.getCourses(courses, auth)
-        const trainers = this.getTrainers(users) 
+        const trainers = this.getTrainers(users)
+        //If not signed in redirect to signin page
         if (!auth.uid) return <Redirect to='/signin' />
         return (
             <div className="dashboard container">

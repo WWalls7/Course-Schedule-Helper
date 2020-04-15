@@ -1,3 +1,4 @@
+//Add a trainer to an existing course
 import React, { Component } from 'react'
 import {connect} from 'react-redux'
 import {addTrainer, addNotification} from '../store/courseActions'
@@ -31,12 +32,14 @@ class AddTrainer extends Component {
             })
         }
     }
+    //Managing the submit of the form
     handleSubmit = (e) => {
         e.preventDefault();
         var start = Date.parse(this.state.startDate+" "+this.state.startTime)
         var end = Date.parse(this.state.endDate+" "+this.state.endTime)
         var assignedCourses = this.getCourses(this.state.newTrainer, this.props.courses)
         var set = false
+        //Check availibility of the trainer before assigning to the course
         assignedCourses.forEach(course => {
             var blockedStart = Date.parse(course.startDate+" "+course.startTime)
             var blockedEnd = Date.parse(course.endDate+" "+course.endTime)
@@ -53,12 +56,14 @@ class AddTrainer extends Component {
                 set = true
             }
         })
+        //Trainner added to the selected course
         if(!set){
             this.props.addNotification("You have been added to an existing course", {...this.state, trainerToNotify: this.state.newTrainer})
             this.props.addTrainer(this.state)
             this.props.history.push('/')
         }
     }
+    //Gets all the courses for a trainer
     getCourses = (trainer, courses) =>{
         var trainerCourses = []
         courses && courses.forEach(course => {
@@ -69,6 +74,7 @@ class AddTrainer extends Component {
 
         return trainerCourses
     }
+    //Gets all the trainers
     getTrainers = (users) =>{
         var trainers = []
         users && users.forEach(user => {
@@ -78,6 +84,7 @@ class AddTrainer extends Component {
         })
         return trainers
     }
+    //Gets already assigned trainers
     getAssignedTrainers(trainers, currentTrainers){
         var assigned = []
         currentTrainers.forEach(id => {
@@ -87,6 +94,7 @@ class AddTrainer extends Component {
         });
         return assigned
     }
+    //Gets not assigned trainers
     getNotAssignedTrainers(trainers, currentTrainers){
         var not = []
         var notFound
@@ -103,6 +111,7 @@ class AddTrainer extends Component {
         });
         return not
     }
+    //Gets the skills of a trainer
     skills = (trainers) => {
         var skills =[]
         trainers && trainers.forEach(trainer => {
@@ -114,6 +123,7 @@ class AddTrainer extends Component {
         });
         return skills
     }
+    //Gets the trainers with the selected skill
     trainersWithSkill = (skill, trainers) => {
         var trainersWithSkill =[]
         trainers.forEach(trainer => {
@@ -130,8 +140,9 @@ class AddTrainer extends Component {
         const trainers = this.getTrainers(users)
         const currentTrainers = this.getAssignedTrainers(trainers, this.state.trainers)
         const notAssignedTrainers = this.getNotAssignedTrainers(trainers, currentTrainers)
-
+        //If not signed in redirect to signin page
         if (!auth.uid) return <Redirect to='/signin' />
+        //If the logged in user is a trainer redirect to the appropiate trainer page
         if (profile.userType === 'trainer') return <Redirect to='/trainer' />
         return (
             <div className="container">

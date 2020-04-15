@@ -1,3 +1,4 @@
+//Pop up windows to manage a selected course
 import React from "react";
 import "react-big-calendar/lib/css/react-big-calendar.css";
 import {Calendar,momentLocalizer} from 'react-big-calendar';
@@ -16,6 +17,7 @@ const Cal =(props)=>{
     setEvent(event)
   }
 
+  //Gets the trainers already assigned
   const getAssignedTrainers = (currentTrainers) => {
     var assigned = []
     var trainers = props.trainers
@@ -27,6 +29,7 @@ const Cal =(props)=>{
     return assigned
   }
 
+  //Update the course
   function update (course) {
     props.history.push({
       pathname: '/updatecourse',
@@ -35,6 +38,8 @@ const Cal =(props)=>{
       }
     })
   }
+
+  //Add a trainer
   function add (course) {
     props.history.push({
       pathname: '/addtrainer',
@@ -43,6 +48,8 @@ const Cal =(props)=>{
       }
     })
   }
+
+  //Remove a trainer
   function remove (course) {
     props.history.push({
       pathname: '/removetrainer',
@@ -51,6 +58,8 @@ const Cal =(props)=>{
       }
     })
   }
+
+  //Delete the selected course
   function deleteCourse (course) {
     props.history.push({
       pathname: '/deleteCourse',
@@ -59,6 +68,8 @@ const Cal =(props)=>{
       }
     })
   }
+
+  //Request
   function request (course) {
     props.history.push({
       pathname: '/request',
@@ -68,6 +79,7 @@ const Cal =(props)=>{
     })
   }
 
+  //Display all the details of the selected course
   function courseFormat () {
     var courses = props.courses
     var formattedCourses = []
@@ -102,9 +114,11 @@ const Cal =(props)=>{
       <React.Fragment>
       <div className = "Cal">
       <Calendar
+        //Background color of the course on the calendar
         eventPropGetter={event => ({
           style: {
             backgroundColor: "#80deea",
+            color: "black"
           }
         })}
         localizer={localizer}

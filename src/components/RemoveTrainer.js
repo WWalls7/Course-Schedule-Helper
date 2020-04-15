@@ -1,3 +1,4 @@
+//Remove a selected trainer from a course
 import React, { Component } from 'react'
 import {connect} from 'react-redux'
 import {removeTrainer, addNotification} from '../store/courseActions'
@@ -24,12 +25,14 @@ class RemoveTrainer extends Component {
           removable: true
         })
     }
+    //Add to the notifications in case of the trainer was succesfully removed from a course
     handleSubmit = (e) => {
         e.preventDefault();
         this.props.addNotification("You have been removed from a course", {...this.state, trainerToNotify: this.state.trainer})
         this.props.removeTrainer(this.state)
         this.props.history.push('/')
     }
+    //Gets the trainers
     getTrainers = (users) =>{
         var trainers = []
         users && users.forEach(user => {
@@ -48,6 +51,7 @@ class RemoveTrainer extends Component {
         });
         return assigned
     }
+    //In case the course has only one or 0 trainers assigned then show error message
     getRemovable(currentTrainers){
         if(currentTrainers.length === 1 || currentTrainers.length === 0){
             return 'You must have at least two trainers to remove'
@@ -56,6 +60,7 @@ class RemoveTrainer extends Component {
             return ''
         }
     }
+    //Redirect to the page to add a new trainer
     redirect = () =>{
         this.props.history.push({
             pathname: '/addtrainer',
@@ -69,7 +74,9 @@ class RemoveTrainer extends Component {
         const trainers = this.getTrainers(users)
         const currentTrainers = this.getAssignedTrainers(trainers, this.state.trainers)
         const removable = this.getRemovable(currentTrainers)
+        //If not signed in redirect to signin page
         if (!auth.uid) return <Redirect to='/signin' />
+        //If the logged in user is a trainer redirect to the appropiate trainer page
         if (profile.userType === 'trainer') return <Redirect to='/trainer' />
         return (
             <div className="container">

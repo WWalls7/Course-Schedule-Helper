@@ -1,3 +1,4 @@
+//Sets the link for the user type Admin
 import React from 'react';
 import {NavLink} from 'react-router-dom';
 import {connect} from 'react-redux'
@@ -5,6 +6,7 @@ import { signOut } from '../store/authActions';
 import '../styles/navLink.css';
 
 const AdminLinks = (props) => {
+    //Links for the Admin page navbar
     return(
         <ul className="right">
             <li><NavLink to='/signup' className='navLink'>Add New User</NavLink></li>
@@ -17,6 +19,7 @@ const AdminLinks = (props) => {
     )
 }
 
+//Dispatch signOut props
 const mapDispatchToProps = (dispatch) => {
     return{
         signOut: () => dispatch(signOut())

@@ -1,3 +1,4 @@
+//Request by a trainer about schedule changing
 import React, { Component } from 'react'
 import {connect} from 'react-redux'
 import {addRequest} from '../store/courseActions'
@@ -25,6 +26,7 @@ class Request extends Component {
         e.preventDefault();
         this.props.addRequest(this.state)
     }
+    //Get the trainers
     getTrainers = (users) =>{
         var trainers = []
         users && users.forEach(user => {
@@ -34,6 +36,7 @@ class Request extends Component {
         })
         return trainers
     }
+    //Get the assigned trainers
     getAssignedTrainers(trainers, currentTrainers){
         var assigned = []
         currentTrainers.forEach(id => {

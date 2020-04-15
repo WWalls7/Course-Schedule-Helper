@@ -1,3 +1,4 @@
+//Creates course with details given by the user
 import React, { Component } from 'react'
 import {connect} from 'react-redux'
 import {createCourse, addNotification} from '../store/courseActions'
@@ -25,23 +26,27 @@ class CreateCourse extends Component {
         this.setState({
           [e.target.id]: e.target.value
         })
+        //Setting the selected skill
         if(e.target.id === "skills"){
             this.setState({
                 selected: true
             })
         }
+        //Setting the selected trainer
         if(e.target.id === "trainers"){
             this.setState({
                 trainer: true
             })
         }
     }
+    //Managing the submit of the form
     handleSubmit = (e) => {
         e.preventDefault();
         var start = Date.parse(this.state.startDate+" "+this.state.startTime)
         var end = Date.parse(this.state.endDate+" "+this.state.endTime)
         var assignedCourses = this.getCourses(this.state.trainers, this.props.courses)
         var set = false
+        //In case the end date is not after the start date
         if(!moment(this.state.endDate+" "+this.state.endTime).isAfter(this.state.startDate+" "+this.state.startTime)){
             this.setState({
                 message: "The end time must be after the start time"
@@ -49,18 +54,21 @@ class CreateCourse extends Component {
             set = true
             return
         }
+        //In case the title is not entered
         if(!this.state.title.replace(/\s/g, '').length){
             this.setState({
                 message: "You must enter a valid title to create"
             })
             return
         }
+        //In case the description is not entered
         if(!this.state.description.replace(/\s/g, '').length){
             this.setState({
                 message: "You must enter a valid description to create"
             })
             return
         }
+        //Check availibility of the trainer before creating the course
         assignedCourses.forEach(course => {
             var blockedStart = Date.parse(course.startDate+" "+course.startTime)
             var blockedEnd = Date.parse(course.endDate+" "+course.endTime)
@@ -77,12 +85,14 @@ class CreateCourse extends Component {
                 set = true
             }
         })
+        //In case the course has been created
         if(!set){
             this.props.addNotification("You have been added to a new course", this.state)
             this.props.createCourse(this.state)
             this.props.history.push('/')
         }
     }
+    //Date formatting
     getDate = () => {
         var date = new Date();
 
@@ -96,6 +106,7 @@ class CreateCourse extends Component {
         var today = year + "-" + month + "-" + day;
         return today;
     }
+    //Display all the trainers
     getTrainers = (users) =>{
         var trainers = []
         users && users.forEach(user => {
@@ -105,6 +116,7 @@ class CreateCourse extends Component {
         })
         return trainers
     }
+    //Display all the skills
     skills = (trainers) => {
         var skills =[]
         trainers && trainers.forEach(trainer => {
@@ -116,6 +128,7 @@ class CreateCourse extends Component {
         });
         return skills
     }
+    //Display all the trainers with a given skill
     trainersWithSkill = (skill, trainers) => {
         var trainersWithSkill =[]
         trainers.forEach(trainer => {
@@ -127,6 +140,7 @@ class CreateCourse extends Component {
         });
         return trainersWithSkill
     }
+    //Display all the courses
     getCourses = (trainer, courses) =>{
         var trainerCourses = []
         courses && courses.forEach(course => {
@@ -141,7 +155,9 @@ class CreateCourse extends Component {
         const {auth, users, courses, profile} = this.props;
         const trainers = this.getTrainers(users)
         const skills = this.skills(trainers)
+        //If not signed in redirect to signin page
         if (!auth.uid) return <Redirect to='/signin' />
+        //If the logged in user is a trainer redirect to the appropiate trainer page
         if (profile.userType === 'trainer') return <Redirect to='/trainer' />
         return (
             <div className="container">

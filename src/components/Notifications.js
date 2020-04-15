@@ -1,3 +1,4 @@
+//Shows the notifications (recent activities such as creation of a course)
 import React from 'react'
 import moment from 'moment'
 

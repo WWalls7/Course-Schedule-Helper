@@ -1,3 +1,4 @@
+//Page to display when signed out
 import React from 'react';
 import {NavLink} from 'react-router-dom';
 

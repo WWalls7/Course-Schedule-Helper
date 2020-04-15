@@ -1,3 +1,4 @@
+//Delete a selected course
 import React, { Component } from 'react'
 import {connect} from 'react-redux'
 import {deleteCourse,addNotification} from '../store/courseActions'
@@ -17,12 +18,14 @@ class Delete extends Component {
         trainers: this.props.location.state.course.trainers,
         author: this.props.location.state.course.authorFirstName+" "+this.props.location.state.course.authorLastName
     }
+    //Add to the notifications in case of the course was succesfully deleted
     handleSubmit = (e) => {
         e.preventDefault();
         this.props.addNotification("A course you were assigned to has been deleted", this.state)
         this.props.deleteCourse(this.state)
         this.props.history.push('/')
     }
+    //Gets the trainers
     getTrainers = (users) =>{
         var trainers = []
         users && users.forEach(user => {
@@ -45,8 +48,9 @@ class Delete extends Component {
         const {auth, users, profile} = this.props;
         const trainers = this.getTrainers(users)
         const currentTrainers = this.getAssignedTrainers(trainers, this.state.trainers)
-
+        //If not signed in redirect to signin page
         if (!auth.uid) return <Redirect to='/signin' />
+        //If the logged in user is a trainer redirect to the appropiate trainer page
         if (profile.userType === 'trainer') return <Redirect to='/trainer' />
         return (
             <div className="container">

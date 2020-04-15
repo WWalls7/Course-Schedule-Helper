@@ -1,9 +1,8 @@
+//Configuration details for Firebase
 import firebase from 'firebase/app';
 import 'firebase/firestore';
 import 'firebase/auth';
 
-
-// Your web app's Firebase configuration
 var fbConfig = {
     apiKey: "AIzaSyAgXcyHnHWhXpsxXzrFV2LQt5pOwfQH8-Q",
     authDomain: "cshapp-2b06a.firebaseapp.com",
@@ -16,7 +15,5 @@ var fbConfig = {
   };
   // Initialize Firebase
   firebase.initializeApp(fbConfig);
-  
-  //firebase.analytics();
 
   export default fbConfig;

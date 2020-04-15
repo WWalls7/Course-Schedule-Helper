@@ -1,3 +1,4 @@
+//Notifications with updates relevant for the trainer
 import React, { Component } from 'react'
 import moment from 'moment'
 import {connect} from 'react-redux'
@@ -34,6 +35,7 @@ class trainerNotifications extends Component {
         });
         return courseNotifs
     }
+    //Get trainers
     getTrainers = (users) =>{
         var trainers = []
         users && users.forEach(user => {
@@ -43,6 +45,7 @@ class trainerNotifications extends Component {
         })
         return trainers
     }
+    //Get assigned trainers
     getAssignedTrainers(trainers, currentTrainers){
         var assigned = []
         if(!Array.isArray(currentTrainers)){

@@ -1,3 +1,4 @@
+//Display the profile page of the logged in user
 import React, { Component } from 'react'
 import {Redirect} from 'react-router-dom'
 import {connect} from 'react-redux'
@@ -9,6 +10,7 @@ class Profile extends Component {
     }
     render() {
         const {auth, profile} = this.props;
+        //If not signed in redirect to signin page
         if (!auth.uid) return <Redirect to='/signin' />
         return (
             <div className="container">
