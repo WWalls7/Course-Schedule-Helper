@@ -8,7 +8,7 @@ import '../styles/navLink.css';
 const TrainerLinks = (props) => {
     //Links for the Trainer page navbar
     return(
-        <div className="right">
+        <div className="right hide-on-med-and-down">
           <ul>
               <li><NavLink to='/viewrequests' className='navLink'>View Sent Requests</NavLink></li>
               <li><NavLink to='/trainernotifications' className='navLink'>View Notifications</NavLink></li>

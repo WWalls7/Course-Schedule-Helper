@@ -8,7 +8,7 @@ import '../styles/navLink.css';
 const AdminLinks = (props) => {
     //Links for the Admin page navbar
     return(
-        <ul className="right">
+        <ul className="right hide-on-med-and-down">
             <li><NavLink to='/signup' className='navLink'>Add New User</NavLink></li>
             <li><NavLink to='/contact' className='navLink'>Contact Information</NavLink></li>
             <li><a className='navLink' onClick={props.signOut}>Log Out</a></li>
