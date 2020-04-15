@@ -22,14 +22,14 @@ class UpdateCourse extends Component {
     }
     handleChange = (e) => {
         this.setState({
-          [e.target.id]: e.target.value  
+          [e.target.id]: e.target.value
         })
     }
     handleSubmit = (e) => {
         e.preventDefault()
         var start = Date.parse(this.state.startDate+" "+this.state.startTime)
         var end = Date.parse(this.state.endDate+" "+this.state.endTime)
-        const trainers = this.getTrainers(this.props.users) 
+        const trainers = this.getTrainers(this.props.users)
         const currentTrainers = this.getAssignedTrainers(trainers, this.state.trainers)
         var assignedCourses = this.getCourses(currentTrainers, this.props.courses)
         var set = false
@@ -120,7 +120,7 @@ class UpdateCourse extends Component {
         if (month < 10) month = "0" + month;
         if (day < 10) day = "0" + day;
 
-        var today = year + "-" + month + "-" + day;       
+        var today = year + "-" + month + "-" + day;
         return today;
     }
     getCourses = (trainers, courses) =>{
@@ -137,10 +137,10 @@ class UpdateCourse extends Component {
     render() {
         const {auth, users, courses, profile} = this.props;
         const course = this.props.location.state.course
-        const trainers = this.getTrainers(users) 
+        const trainers = this.getTrainers(users)
         const currentTrainers = this.getAssignedTrainers(trainers, this.state.trainers)
         var trainerCourses = this.getCourses(currentTrainers, courses)
-        
+
 
         if (!auth.uid) return <Redirect to='/signin' />
         if (profile.userType === 'trainer') return <Redirect to='/trainer' />
@@ -178,7 +178,7 @@ class UpdateCourse extends Component {
                         <label htmlFor="frequency">Frequency</label>
                         <input type="number" id="frequency" name="quantity" min="1" max="10" onChange={this.handleChange}></input>
                     </div>
-                
+
                     <div className="input-field">
                         <h5 className="grey-text text-darken-3">Choose a Time</h5>
                         <p>The assigned trainers are not available during these times:</p>
@@ -190,7 +190,7 @@ class UpdateCourse extends Component {
                     <div className="input-field">
                     <label htmlFor="startDate">Start date</label><br/><br/>
                     <input type="date" id="startDate" min={this.getDate()}
-                        onChange={this.handleChange} ></input> 
+                        onChange={this.handleChange} ></input>
                     </div>
 
                     <div className="input-field">
@@ -208,13 +208,13 @@ class UpdateCourse extends Component {
                         <label htmlFor="endTime">End Time (after start time)</label>
                         <input type="text" id="endTime" pattern="([01]?[0-9]|2[0-3]):[0-5][0-9]" onChange={this.handleChange} ></input>
                     </div>
-                    
+
                     {this.state.message !== '' &&
                         <strong className="red-text">{this.state.message}</strong>
                     }
 
                     <div className="input-field">
-                        <button className="btn grey darken-4"  onClick={this.checkTime}>Update</button>
+                        <button className="btn cyan lighten-3"  onClick={this.checkTime}>Update</button>
                     </div>
 
                 </form>
@@ -226,7 +226,7 @@ class UpdateCourse extends Component {
 const mapStateToProps = (state) => {
     return{
         auth: state.firebase.auth,
-        users: state.firestore.ordered.users, 
+        users: state.firestore.ordered.users,
         courses: state.firestore.ordered.courses,
         profile: state.firebase.profile
     }

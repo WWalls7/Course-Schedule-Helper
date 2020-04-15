@@ -10,7 +10,7 @@ class SignUp extends Component {
         password: '',
         firstName: '',
         lastName: '',
-        userType: '', 
+        userType: '',
         skills: [],
         skill: '',
         skillLvl: 0,
@@ -21,7 +21,7 @@ class SignUp extends Component {
     }
     handleChange = (e) => {
         this.setState({
-          [e.target.id]: e.target.value  
+          [e.target.id]: e.target.value
         })
         if(e.target.id === "userType" && e.target.value === "trainer"){
             this.setState({
@@ -149,7 +149,7 @@ class SignUp extends Component {
                         </select>
                     </div>
 
-                    
+
                     {this.state.isTrainer &&
                         <div className="input-field">
                             <h5 className="grey-text text-darken-3">Add a Skill</h5>
@@ -164,23 +164,23 @@ class SignUp extends Component {
                                         })}
                                 </div>
                             </div>
-                    
+
                             <div className="input-field">
                                 <label htmlFor="skill">Skill Name</label>
                                 <input type="text" id="skill" maxlength="50" onChange={this.handleChange} />
                             </div>
-                    
+
                             <div className="input-field">
                                 <label htmlFor="skillLvl">Skill Level</label>
                                 <input type="number" id="skillLvl" onChange={this.handleChange}></input>
                             </div>
-                    
+
                             {this.state.message !== '' &&
                                 <strong className="red-text">{this.state.message}</strong>
                             }
-                            
+
                             <div className="input-field">
-                                <button type="button" className="btn grey darken-4" onClick={this.addSkill} >Add Skill</button>
+                                <button type="button" className="btn cyan lighten-3" onClick={this.addSkill} >Add Skill</button>
                             </div>
                         </div>
                     }
@@ -188,7 +188,7 @@ class SignUp extends Component {
                         <strong className="red-text">{this.state.successMessage}</strong>
                     }
                     <div className="input-field">
-                        <button className="btn grey darken-4">Create User</button>
+                        <button className="btn cyan lighten-3">Create User</button>
                         <div className="center">
                             {authError ? <p>{authError}</p> : null}
                         </div>

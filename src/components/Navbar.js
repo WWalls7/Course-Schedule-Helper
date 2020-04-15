@@ -27,7 +27,7 @@ class Navbar extends Component {
         const links = this.checkUser(auth, profile)
         return(
             <nav>
-                <div className="nav-wrapper grey darken-4">
+                <div className="nav-wrapper cyan lighten-3">
                     <Link to='/' className="brand-logo left">Course Schedule Helper</Link>
                     {auth.isLoaded && links}
                 </div>

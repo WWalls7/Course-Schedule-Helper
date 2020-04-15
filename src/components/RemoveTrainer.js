@@ -20,7 +20,7 @@ class RemoveTrainer extends Component {
     }
     handleChange = (e) => {
         this.setState({
-          [e.target.id]: e.target.value, 
+          [e.target.id]: e.target.value,
           removable: true
         })
     }
@@ -66,7 +66,7 @@ class RemoveTrainer extends Component {
     }
     render() {
         const {auth, users, profile} = this.props;
-        const trainers = this.getTrainers(users) 
+        const trainers = this.getTrainers(users)
         const currentTrainers = this.getAssignedTrainers(trainers, this.state.trainers)
         const removable = this.getRemovable(currentTrainers)
         if (!auth.uid) return <Redirect to='/signin' />
@@ -105,17 +105,17 @@ class RemoveTrainer extends Component {
                                     <option value={trainer.id}>{trainer.firstName + " " + trainer.lastName}</option>
                                 )
                             })}
-                        </select> 
+                        </select>
                     </div>}
 
                     {removable === 'You must have at least two trainers to remove' &&
                         <div className="input-field">
-                            <button type="button" onClick={this.redirect} className="btn grey darken-4">Add Trainer</button>
+                            <button type="button" onClick={this.redirect} className="btn cyan lighten-3">Add Trainer</button>
                         </div>
                     }
                     {removable === '' &&
                         <div className="input-field">
-                            <button className="btn grey darken-4">Remove Trainer</button>
+                            <button className="btn cyan lighten-3">Remove Trainer</button>
                         </div>
                     }
                 </form>

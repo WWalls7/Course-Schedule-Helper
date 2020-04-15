@@ -10,20 +10,26 @@ top: 10%
 }
 .button{
     margin-right: 0.5em;
-    margin-left: 0.5em
+    margin-left: 0.5em;
+    background-color: #80deea;
+}
+.button:hover{
+  background-color: #4fc3f7;
 }
 .card{
-    margin-top: 2em
+    margin-top: 2em;
 }
 .close{
     margin-bottom: .5em;
     position: absolute;
     right: 2em;
     top: .75em;
+    background-color:  #80deea;
 }
-
+.close:hover{
+    background-color:  #4fc3f7;
+}
 .Cal{
-
     color: white;
     background-color: rgb(255, 255, 255);
 }
@@ -33,9 +39,12 @@ div.Cal{
     color: black;
 }
 
-.close{
-    background-color:  rgb(27, 27, 27);
+.btn{
+  color: black;
+  background-color:  #81d4fa;
+  font-family: 'Century Gothic', Arial, Helvetica, sans-serif;
 }
-.button{
-    background-color:  rgb(27, 27, 27);
+
+.btn:hover{
+  font-weight: bold;
 }

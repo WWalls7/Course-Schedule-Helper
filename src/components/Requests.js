@@ -110,19 +110,19 @@ class Requests extends Component {
                                         <div class="grey-text note-date">
                                             {moment(notification.createdAt.toDate()).fromNow()}
                                         </div>
-                                        {this.props.type === "requested" && this.getAssignedTrainers(trainers, notification.request.id).length !== 1 &&     
+                                        {this.props.type === "requested" && this.getAssignedTrainers(trainers, notification.request.id).length !== 1 &&
                                             <div className="input-field">
-                                                <button type="button" onClick={() => this.remove(notification)} className="btn grey darken-4">Approve</button>
-                                                <button type="button" onClick={() => this.reject(notification)} className="btn grey darken-4 extra">Reject</button>
+                                                <button type="button" onClick={() => this.remove(notification)} className="btn cyan lighten-3">Approve</button>
+                                                <button type="button" onClick={() => this.reject(notification)} className="btn cyan lighten-3 extra">Reject</button>
                                             </div>
                                         }
-                                        {this.props.type === "requested" && this.getAssignedTrainers(trainers, notification.request.id).length === 1 &&      
+                                        {this.props.type === "requested" && this.getAssignedTrainers(trainers, notification.request.id).length === 1 &&
                                             <div className="input-field">
-                                                <button type="button" onClick={() => this.add(notification)} className="btn grey darken-4">Add</button>
-                                                <button type="button" onClick={() => this.reject(notification)} className="btn grey darken-4 extra">Reject</button>
+                                                <button type="button" onClick={() => this.add(notification)} className="btn cyan lighten-3">Add</button>
+                                                <button type="button" onClick={() => this.reject(notification)} className="btn cyan lighten-3 extra">Reject</button>
                                             </div>
                                         }
-                                        
+
                                     </li>
                                 )
                             })}
@@ -153,5 +153,3 @@ const mapDispatchToProps = (dispatch) => {
 }
 
 export default withRouter(connect(mapStateToProps, mapDispatchToProps)(Requests))
-
-

@@ -23,7 +23,7 @@ class AddTrainer extends Component {
     }
     handleChange = (e) => {
         this.setState({
-          [e.target.id]: e.target.value  
+          [e.target.id]: e.target.value
         })
         if(e.target.id === "skills"){
             this.setState({
@@ -66,7 +66,7 @@ class AddTrainer extends Component {
                 trainerCourses.push(course)
             }
         })
-        
+
         return trainerCourses
     }
     getTrainers = (users) =>{
@@ -101,7 +101,7 @@ class AddTrainer extends Component {
                 not.push(trainer)
             }
         });
-        return not 
+        return not
     }
     skills = (trainers) => {
         var skills =[]
@@ -128,15 +128,15 @@ class AddTrainer extends Component {
     render() {
         const {auth, users, profile} = this.props;
         const trainers = this.getTrainers(users)
-        const currentTrainers = this.getAssignedTrainers(trainers, this.state.trainers) 
+        const currentTrainers = this.getAssignedTrainers(trainers, this.state.trainers)
         const notAssignedTrainers = this.getNotAssignedTrainers(trainers, currentTrainers)
-        
+
         if (!auth.uid) return <Redirect to='/signin' />
         if (profile.userType === 'trainer') return <Redirect to='/trainer' />
         return (
             <div className="container">
             <div className="card">
-                
+
                 <div className="card-content">
                     <span className="card-title">Title: {this.state.title}</span>
                     <p>Description: {this.state.description}</p>
@@ -151,7 +151,7 @@ class AddTrainer extends Component {
                     })}<br/>
                     <p>Created by: {this.state.author}</p><br/>
                 </div>
-                
+
             </div>
                 <form onSubmit={this.handleSubmit} className="template white">
                     <h5 className="grey-text text-darken-3">Add Trainer</h5>
@@ -167,7 +167,7 @@ class AddTrainer extends Component {
                             })}
                         </select>
                     </div>
-                    
+
                     {this.state.selected &&
                         <div className="input-field">
                             <label>Choose a Trainer</label><br/><br/>
@@ -185,9 +185,9 @@ class AddTrainer extends Component {
                     {this.state.message !== '' &&
                         <strong className="red-text">{this.state.message}</strong>
                     }
-                       
+
                     <div className="input-field">
-                        <button className="btn grey darken-4">Add Trainer</button>
+                        <button className="btn cyan lighten-3">Add Trainer</button>
                     </div>
 
                 </form>

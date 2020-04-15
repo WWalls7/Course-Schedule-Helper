@@ -101,7 +101,12 @@ const Cal =(props)=>{
     return(
       <React.Fragment>
       <div className = "Cal">
-      <Calendar                
+      <Calendar
+        eventPropGetter={event => ({
+          style: {
+            backgroundColor: "#80deea",
+          }
+        })}
         localizer={localizer}
         events={courseFormat(props)}
         startAccessor="start"
@@ -122,7 +127,7 @@ const Cal =(props)=>{
       />
       </div>
     </React.Fragment>
-      
+
     )
 
     function MyVerticallyCenteredModal (props) {
@@ -153,7 +158,7 @@ const Cal =(props)=>{
                       })}
                     </ul>
                     <p>Created by: {course.author}</p><br/>
-                </div>  
+                </div>
             </div>
           </Modal.Body>
           {props.type === "trainer" &&
@@ -175,7 +180,7 @@ const Cal =(props)=>{
             </div>
           }
         </Modal>
-      );   
+      );
     }
 }
 

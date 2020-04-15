@@ -61,9 +61,9 @@ class Request extends Component {
     }
     render() {
         const {auth, users, profile, notifications} = this.props;
-        const trainers = this.getTrainers(users) 
+        const trainers = this.getTrainers(users)
         const course = this.props.location.state.course
-        const currentTrainers = this.getAssignedTrainers(trainers, this.state.trainers) 
+        const currentTrainers = this.getAssignedTrainers(trainers, this.state.trainers)
         var trainerNotifications = this.getNotifications(notifications, auth.uid)
         var notification = this.checkNotification(course.id, trainerNotifications)
         if (!auth.uid) return <Redirect to='/signin' />
@@ -86,19 +86,19 @@ class Request extends Component {
                         <p>Created by: {course.author}</p><br/>
                     </div>
                 </div>
-                
+
                 <form onSubmit={this.handleSubmit} className="template white">
                     <h5 className="grey-text text-darken-3">Request Change</h5>
-                    
+
                     <div className="input-field">
-                        <p>Schedule change requests are to be approved or rejected 
-                            by the scheduler responsible for creating this course 
-                            and any queries should be made to them directly. 
+                        <p>Schedule change requests are to be approved or rejected
+                            by the scheduler responsible for creating this course
+                            and any queries should be made to them directly.
                             You are not guaranteed to be removed from this course.
                             <br/><strong>Would you like to continue?</strong></p><br/>
-                        
+
                         {notification === undefined &&
-                            <button className="btn grey darken-4">Confirm Request</button>
+                            <button className="btn cyan lighten-3">Confirm Request</button>
                         }
                     </div>
                     <div>

@@ -8,7 +8,7 @@ class UpdateAccount extends Component {
     state = {
         firstName: this.props.profile.firstName,
         lastName: this.props.profile.lastName,
-        userType: this.props.profile.userType, 
+        userType: this.props.profile.userType,
         skills: this.props.profile.skills,
         skill: '',
         removedSkill: '',
@@ -21,7 +21,7 @@ class UpdateAccount extends Component {
     }
     handleChange = (e) => {
         this.setState({
-          [e.target.id]: e.target.value  
+          [e.target.id]: e.target.value
         })
     }
     handleSubmit = (e) => {
@@ -114,7 +114,7 @@ class UpdateAccount extends Component {
                 removeMessage: "Select another skill to remove."
             })
         }
-            
+
     }
     render() {
         const {auth, profile} = this.props;
@@ -154,8 +154,8 @@ class UpdateAccount extends Component {
                         <label htmlFor="phoneNo">Phone Number (ex: 12345 123456)</label>
                         <input type="text" id="phoneNo" pattern="[0-9]{5} [0-9]{6}" onChange={this.handleChange}/>
                     </div>
-                 
-                    
+
+
                     {this.state.userType === "trainer" &&
                         <div className="input-field">
                             <h5 className="grey-text text-darken-3">Add a Skill</h5>
@@ -171,9 +171,9 @@ class UpdateAccount extends Component {
                                 <strong className="red-text">{this.state.message}</strong>
                             }
                             <div className="input-field">
-                                <button type="button" className="btn grey darken-4" onClick={this.addSkill} >Add Skill</button>
+                                <button type="button" className="btn cyan lighten-3" onClick={this.addSkill} >Add Skill</button>
                             </div>
-                            
+
                             <h5 className="grey-text text-darken-3">Remove a Skill</h5>
                             <div className="input-field">
                                 <label>Skill Name</label><br/>
@@ -190,7 +190,7 @@ class UpdateAccount extends Component {
                                 <strong className="red-text">{this.state.removeMessage}</strong>
                             }
                             <div className="input-field">
-                                <button type="button" className="btn grey darken-4" onClick={this.removeSkill} >Remove Skill</button>
+                                <button type="button" className="btn cyan lighten-3" onClick={this.removeSkill} >Remove Skill</button>
                             </div>
                         </div>
                     }
@@ -199,7 +199,7 @@ class UpdateAccount extends Component {
                         <strong className="red-text">{this.state.submitMessage}</strong>
                     }
                     <div className="input-field">
-                        <button className="btn grey darken-4">Update</button>
+                        <button className="btn cyan lighten-3">Update</button>
                     </div>
                 </form>
             </div>

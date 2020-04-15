@@ -45,13 +45,13 @@ class Delete extends Component {
         const {auth, users, profile} = this.props;
         const trainers = this.getTrainers(users)
         const currentTrainers = this.getAssignedTrainers(trainers, this.state.trainers)
-        
+
         if (!auth.uid) return <Redirect to='/signin' />
         if (profile.userType === 'trainer') return <Redirect to='/trainer' />
         return (
             <div className="container">
             <div className="card">
-                
+
                 <div className="card-content">
                     <span className="card-title">Title: {this.state.title}</span>
                     <p>Description: {this.state.description}</p>
@@ -66,12 +66,12 @@ class Delete extends Component {
                     })}<br/>
                     <p>Created by: {this.state.author}</p><br/>
                 </div>
-                
+
             </div>
                 <form onSubmit={this.handleSubmit} className="template white">
                     <h5 className="grey-text text-darken-3">Delete Course</h5>
                     <div className="input-field">
-                        <button className="btn grey darken-4">Confirm Delete</button>
+                        <button className="btn cyan lighten-3">Confirm Delete</button>
                     </div>
 
                 </form>
@@ -85,7 +85,7 @@ const mapStateToProps = (state) => {
         auth: state.firebase.auth,
         users: state.firestore.ordered.users,
         profile: state.firebase.profile
-        
+
     }
 }
 

@@ -23,7 +23,7 @@ class CreateCourse extends Component {
     }
     handleChange = (e) => {
         this.setState({
-          [e.target.id]: e.target.value  
+          [e.target.id]: e.target.value
         })
         if(e.target.id === "skills"){
             this.setState({
@@ -93,7 +93,7 @@ class CreateCourse extends Component {
         if (month < 10) month = "0" + month;
         if (day < 10) day = "0" + day;
 
-        var today = year + "-" + month + "-" + day;       
+        var today = year + "-" + month + "-" + day;
         return today;
     }
     getTrainers = (users) =>{
@@ -134,13 +134,13 @@ class CreateCourse extends Component {
                 trainerCourses.push(course)
             }
         })
-        
+
         return trainerCourses
     }
     render() {
         const {auth, users, courses, profile} = this.props;
         const trainers = this.getTrainers(users)
-        const skills = this.skills(trainers)  
+        const skills = this.skills(trainers)
         if (!auth.uid) return <Redirect to='/signin' />
         if (profile.userType === 'trainer') return <Redirect to='/trainer' />
         return (
@@ -201,7 +201,7 @@ class CreateCourse extends Component {
                         <div className="input-field">
                         <label htmlFor="startDate">Start date</label><br/><br/>
                         <input type="date" id="startDate" min={this.getDate()}
-                            onChange={this.handleChange} required></input> 
+                            onChange={this.handleChange} required></input>
                         </div>
 
                         <div className="input-field">
@@ -227,7 +227,7 @@ class CreateCourse extends Component {
                     }
 
                     <div className="input-field">
-                        <button className="btn grey darken-4">Create</button>
+                        <button className="btn cyan lighten-3">Create</button>
                     </div>
 
                 </form>
@@ -239,7 +239,7 @@ class CreateCourse extends Component {
 const mapStateToProps = (state) => {
     return{
         auth: state.firebase.auth,
-        users: state.firestore.ordered.users, 
+        users: state.firestore.ordered.users,
         courses: state.firestore.ordered.courses,
         profile: state.firebase.profile
     }

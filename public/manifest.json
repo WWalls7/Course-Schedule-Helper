@@ -1,6 +1,6 @@
 {
-  "short_name": "React App",
-  "name": "Create React App Sample",
+  "short_name": "Course Schedule Helper",
+  "name": "Course Schedule Helper",
   "icons": [
     {
       "src": "favicon.ico",

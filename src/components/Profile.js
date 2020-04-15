@@ -8,7 +8,7 @@ class Profile extends Component {
         this.props.history.push('/updateaccount')
     }
     render() {
-        const {auth, profile} = this.props; 
+        const {auth, profile} = this.props;
         if (!auth.uid) return <Redirect to='/signin' />
         return (
             <div className="container">
@@ -29,7 +29,7 @@ class Profile extends Component {
                             </div>}
                         <br/>
                         <form onSubmit={this.update} className="white">
-                            <button className="btn grey darken-4">Update Account Information</button>
+                            <button className="btn cyan lighten-3">Update Account Information</button>
                         </form>
                     </div>
                 </div>
