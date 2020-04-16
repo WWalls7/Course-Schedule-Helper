@@ -178,6 +178,7 @@ class UpdateCourse extends Component {
                 </div>
                 <form onSubmit={this.handleSubmit} className="template white">
                     <h5 className="grey-text text-darken-3">Update Course</h5>
+                    <p>Edit as necessary</p>
                     <div className="input-field">
                         <label htmlFor="title">Title</label>
                         <input type="text" id="title" maxlength="50" onChange={this.handleChange}/>

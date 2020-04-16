@@ -100,7 +100,7 @@ class Request extends Component {
                             You are not guaranteed to be removed from this course.
                             <br/><strong>Would you like to continue?</strong></p><br/>
 
-                        {notification === undefined &&
+                        {notification === undefined && 
                             <button className="btn cyan lighten-3">Confirm Request</button>
                         }
                     </div>
@@ -110,6 +110,9 @@ class Request extends Component {
                         }
                         {notification !== undefined && notification.status === "rejected" &&
                             <label>You have successfully submitted a change request. The current status is: <strong className="red-text">{notification.status}</strong></label>
+                        }
+                        {notification !== undefined && notification.status === "approved" &&
+                            <label>You have already been <strong className="green-text">{notification.status}</strong> for this request but have been added back on by the scheduler. To request another change, contact the scheduler directly.</label>
                         }
                     </div>
 

@@ -15,7 +15,8 @@ class AddTrainer extends Component {
         endDate: this.props.location.state.course.endDate,
         endTime: this.props.location.state.course.endTime,
         frequency: this.props.location.state.course.frequency,
-        author: this.props.location.state.course.authorFirstName+" "+this.props.location.state.course.authorLastName,
+        author: this.props.location.state.course.author ? this.props.location.state.course.author 
+        : this.props.location.state.course.authorFirstName+" "+this.props.location.state.course.authorLastName,
         newTrainer: "",
         skills: '',
         trainers: this.props.location.state.course.trainers,

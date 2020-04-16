@@ -149,6 +149,7 @@ class UpdateAccount extends Component {
 
                 <form onSubmit={this.handleSubmit} className="template white">
                     <h5 className="grey-text text-darken-3">Update Account</h5>
+                    <p>Edit as necessary</p>
                     <div className="input-field">
                         <label htmlFor="firstName">First Name</label>
                         <input type="text" id="firstName" maxlength="50" onChange={this.handleChange}/>
@@ -180,7 +181,7 @@ class UpdateAccount extends Component {
                             <div className="input-field">
                                 <button type="button" className="btn cyan lighten-3" onClick={this.addSkill} >Add Skill</button>
                             </div>
-
+                            
                             <h5 className="grey-text text-darken-3">Remove a Skill</h5>
                             <div className="input-field">
                                 <label>Skill Name</label><br/>
@@ -199,9 +200,9 @@ class UpdateAccount extends Component {
                             <div className="input-field">
                                 <button type="button" className="btn cyan lighten-3" onClick={this.removeSkill} >Remove Skill</button>
                             </div>
+                            <hr></hr>
                         </div>
                     }
-
                     {this.state.submitMessage !== '' &&
                         <strong className="red-text">{this.state.submitMessage}</strong>
                     }

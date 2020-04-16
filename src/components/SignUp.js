@@ -191,6 +191,7 @@ class SignUp extends Component {
                             <div className="input-field">
                                 <button type="button" className="btn cyan lighten-3" onClick={this.addSkill} >Add Skill</button>
                             </div>
+                            <hr></hr>
                         </div>
                     }
                     {this.state.successMessage !== '' &&
