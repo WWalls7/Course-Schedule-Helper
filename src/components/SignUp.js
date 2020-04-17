@@ -42,14 +42,14 @@ class SignUp extends Component {
         //Check name
         if(!this.state.firstName.replace(/\s/g, '').length || !this.state.lastName.replace(/\s/g, '').length){
             this.setState({
-                successMessage: "You must enter a valid name to create a new user"
+                successMessage: "You must enter a valid name"
             })
             return
         }
         //Check password
         if(!this.state.password.replace(/\s/g, '').length || this.state.password.length < 6){
             this.setState({
-                successMessage: "You must enter a valid password to create a new user"
+                successMessage: "You must enter a password with at least 6 characters"
             })
             return
         }
@@ -83,10 +83,6 @@ class SignUp extends Component {
             }
             this.props.signUp(schedulerState)
         }
-        //Account creation confirmation
-        this.setState({
-            successMessage: "You have successfully created a new user. Make sure to save the login details."
-        })
     }
     addSkill = (e) => {
       //If skill field is empty or the level is zero

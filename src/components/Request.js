@@ -95,8 +95,7 @@ class Request extends Component {
 
                     <div className="input-field">
                         <p>Schedule change requests are to be approved or rejected
-                            by the scheduler responsible for creating this course
-                            and any queries should be made to them directly.
+                            by schedulers so any queries should be made to them directly.
                             You are not guaranteed to be removed from this course.
                             <br/><strong>Would you like to continue?</strong></p><br/>
 

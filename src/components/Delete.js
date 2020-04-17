@@ -75,6 +75,8 @@ class Delete extends Component {
                 <form onSubmit={this.handleSubmit} className="template white">
                     <h5 className="grey-text text-darken-3">Delete Course</h5>
                     <div className="input-field">
+                        <p>Deleting a course is permanent and can not be undone. would
+                        <br/><p>Are you sure you would like to continue?</p></p><br/>
                         <button className="btn cyan lighten-3">Confirm Delete</button>
                     </div>
 

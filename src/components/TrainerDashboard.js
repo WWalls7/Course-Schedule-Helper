@@ -31,6 +31,7 @@ class TrainerDashboard extends Component {
         const {courses, auth, users} = this.props;
         var trainerCourses = this.getCourses(courses, auth)
         const trainers = this.getTrainers(users)
+        
         //If not signed in redirect to signin page
         if (!auth.uid) return <Redirect to='/signin' />
         return (
@@ -52,6 +53,7 @@ const mapStateToProps = (state) => {
 export default compose(
     connect(mapStateToProps),
     firestoreConnect([
-        {collection: 'courses', orderBy: ['createdAt', 'desc']}
+        {collection: 'courses', orderBy: ['createdAt', 'desc']},
+        {collection: 'users'}
     ])
 )(TrainerDashboard)
