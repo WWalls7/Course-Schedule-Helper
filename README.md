@@ -1,68 +1,19 @@
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+## Course Schedule Helper
 
-## Available Scripts
+This project is a web application designed to improve the training course scheduling process for employees of FDM. 
 
-In the project directory, you can run:
+The application is designed to be primarily used by course scheduling employees to create courses and allocate training staff. Training staff use the application to review their upcoming schedules and make schedule change requests. Separate web interfaces have been used for the two types of employees. 
 
-### `npm start`
+## Schedulers
 
-Runs the app in the development mode.<br />
-Open [http://localhost:3000](http://localhost:3000) to view it in the browser.
+The dashboard for schedulers contains a central calendar containing all of the courses that have been scheduled. Schedulers use the system to create and manage courses, approve/reject trainer schedule change requests, view employee contact information, and update their personal profile. Each event on the central calendar is clickable and opens a descriptive modal allowing users to review and edit courses. Course operations include: add/remove trainers from course, update course details, and delete course. 
 
-The page will reload if you make edits.<br />
-You will also see any lint errors in the console.
+## Trainers
 
-### `npm test`
+The dashboard for trainers consists of a personal calendar containing all of the courses that have been assigned to that particular trainer. Trainers use the system to review their schedule, make reschedule requests,  view all schedule requests, view update notifications for courses they have been assigned to, view employee contact information, and update their personal profile. Each event on the personal calendar is clickable and opens a descriptive modal allowing users to review course descriptions and request reschedule changes.
 
-Launches the test runner in the interactive watch mode.<br />
-See the section about [running tests](https://facebook.github.io/create-react-app/docs/running-tests) for more information.
+## Implementation
 
-### `npm run build`
+The web application was developed using React, Javascript, CSS, HTML, and Firebase. 
 
-Builds the app for production to the `build` folder.<br />
-It correctly bundles React in production mode and optimizes the build for the best performance.
-
-The build is minified and the filenames include the hashes.<br />
-Your app is ready to be deployed!
-
-See the section about [deployment](https://facebook.github.io/create-react-app/docs/deployment) for more information.
-
-### `npm run eject`
-
-**Note: this is a one-way operation. Once you `eject`, you can’t go back!**
-
-If you aren’t satisfied with the build tool and configuration choices, you can `eject` at any time. This command will remove the single build dependency from your project.
-
-Instead, it will copy all the configuration files and the transitive dependencies (webpack, Babel, ESLint, etc) right into your project so you have full control over them. All of the commands except `eject` will still work, but they will point to the copied scripts so you can tweak them. At this point you’re on your own.
-
-You don’t have to ever use `eject`. The curated feature set is suitable for small and middle deployments, and you shouldn’t feel obligated to use this feature. However we understand that this tool wouldn’t be useful if you couldn’t customize it when you are ready for it.
-
-## Learn More
-
-You can learn more in the [Create React App documentation](https://facebook.github.io/create-react-app/docs/getting-started).
-
-To learn React, check out the [React documentation](https://reactjs.org/).
-
-### Code Splitting
-
-This section has moved here: https://facebook.github.io/create-react-app/docs/code-splitting
-
-### Analyzing the Bundle Size
-
-This section has moved here: https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size
-
-### Making a Progressive Web App
-
-This section has moved here: https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app
-
-### Advanced Configuration
-
-This section has moved here: https://facebook.github.io/create-react-app/docs/advanced-configuration
-
-### Deployment
-
-This section has moved here: https://facebook.github.io/create-react-app/docs/deployment
-
-### `npm run build` fails to minify
-
-This section has moved here: https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify
+Development was completed by myself (Wendy Walls) with background image styling and font adjustments made by two other group members.  
